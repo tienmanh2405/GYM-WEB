@@ -11,6 +11,16 @@
     };
     spinner();
     
+    // Lấy phần đầu tiên của đường dẫn URL
+    var currentPath = window.location.pathname.split('/').filter(Boolean)[0];
+    console.log("Phần đầu tiên của URL:", currentPath);
+
+    // Đánh dấu mục active trong sidebar dựa trên URL
+    $('#sidebar-menu a').each(function () {
+        if ($(this).attr('href').includes(currentPath)) {
+            $(this).addClass('active');
+        }
+    });
     
     // Back to top button
     $(window).scroll(function () {

@@ -1,0 +1,125 @@
+<div class="container-fluid pt-4 px-4">
+    <!-- Dòng chứa Tìm kiếm và Bảng danh sách thành viên -->
+    <div class="row">
+        <!-- Tìm kiếm thành viên -->
+        <div class="col-md-4 mb-3">
+            <div class="input-group rounded">
+                <input type="search" class="form-control rounded" placeholder="Tìm kiếm thành viên" aria-label="Search" aria-describedby="search-addon" />
+                <span class="input-group-text border-0" id="search-addon">
+                  <i class="fas fa-search"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+        <!-- Bảng danh sách thành viên -->
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID Thẻ</th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Ngày đăng ký</th>
+                        <th scope="col">Gói tập</th>
+                        <th scope="col">Trạng thái thanh toán</th>
+                        <th scope="col">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Thành viên 1 -->
+                    <tr>
+                        <td>123456</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>01/01/2023</td>
+                        <td>Gói cơ bản</td>
+                        <td><span class="badge bg-success">Đã thanh toán</span></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">Chỉnh sửa</button>
+                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#extendModal">Gia hạn</button>
+                        </td>
+                    </tr>
+                    <!-- Thành viên 2 -->
+                    <tr>
+                        <td>789012</td>
+                        <td>Trần Thị B</td>
+                        <td>15/02/2023</td>
+                        <td>Gói nâng cao</td>
+                        <td><span class="badge bg-danger">Chưa thanh toán</span></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">Chỉnh sửa</button>
+                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#extendModal">Gia hạn</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+</div>
+
+<!-- Modal Chỉnh sửa thông tin -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Chỉnh sửa thông tin thành viên</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="memberName" class="form-label">Tên</label>
+                        <input type="text" class="form-control" id="memberName" value="Nguyễn Văn A">
+                    </div>
+                    <div class="mb-3">
+                        <label for="memberPackage" class="form-label">Gói tập</label>
+                        <select class="form-select" id="memberPackage">
+                            <option value="basic">Gói cơ bản</option>
+                            <option value="advanced">Gói nâng cao</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="paymentStatus" class="form-label">Trạng thái thanh toán</label>
+                        <select class="form-select" id="paymentStatus">
+                            <option value="paid">Đã thanh toán</option>
+                            <option value="unpaid">Chưa thanh toán</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Gia hạn gói tập -->
+<div class="modal fade" id="extendModal" tabindex="-1" aria-labelledby="extendModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="extendModalLabel">Gia hạn gói tập</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="extendPackage" class="form-label">Chọn gói tập gia hạn</label>
+                        <select class="form-select" id="extendPackage">
+                            <option value="basic">Gói cơ bản</option>
+                            <option value="advanced">Gói nâng cao</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="extendDate" class="form-label">Chọn ngày gia hạn</label>
+                        <input type="date" class="form-control" id="extendDate">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Gia hạn</button>
+            </div>
+        </div>
+    </div>
+</div>
