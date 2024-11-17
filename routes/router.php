@@ -16,7 +16,7 @@ class Router {
 
     // Xử lý yêu cầu
     public function handleRequest() {
-        $basePath = '/GYM-Web/public';
+        $basePath = '/GYM-WEB/public';
         $path = str_replace($basePath, '', $_SERVER['REQUEST_URI']);
         $path = trim($path, '/');
         $path = parse_url($path, PHP_URL_PATH);
