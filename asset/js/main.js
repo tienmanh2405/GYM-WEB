@@ -1,6 +1,21 @@
 (function ($) {
     "use strict";
 
+    // Lấy đường dẫn hiện tại
+    var currentPath = window.location.pathname.replace(/\/$/, ''); // Loại bỏ dấu '/' thừa ở cuối currentPath
+    $('#sidebar-menu a').each(function () {
+        var href = $(this).attr('href').replace(/\/$/, ''); // Loại bỏ dấu '/' thừa ở cuối href
+        console.log('Href:', href);
+        console.log('Current Path:', currentPath);
+        
+        if (href === currentPath) {
+            $(this).addClass('active');
+        } else {
+            $(this).removeClass('active');
+        }
+    });
+
+
     // Spinner
     var spinner = function () {
         setTimeout(function () {
@@ -10,17 +25,6 @@
         }, 1);
     };
     spinner();
-    
-    // Lấy phần đầu tiên của đường dẫn URL
-    var currentPath = window.location.pathname.split('/').filter(Boolean)[0];
-    console.log("Phần đầu tiên của URL:", currentPath);
-
-    // Đánh dấu mục active trong sidebar dựa trên URL
-    $('#sidebar-menu a').each(function () {
-        if ($(this).attr('href').includes(currentPath)) {
-            $(this).addClass('active');
-        }
-    });
     
     // Back to top button
     $(window).scroll(function () {

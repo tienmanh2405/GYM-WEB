@@ -6,3 +6,6 @@ return [
     // 'password' => '',
 ];
 ?>
+<?php
+define('BASE_URL', '/GYM-WEB/public'); // Đảm bảo đường dẫn này chính xác với cấu trúc thư mục của bạn.
+?>
