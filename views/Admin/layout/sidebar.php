@@ -5,7 +5,7 @@
             <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>DarkPan</h3>
         </a>
         <div class="navbar-nav w-100" id="sidebar-menu">
-            <a href="/GYM-WEB/public" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Trang chủ</a>
+            <a href="/GYM-WEB/public" class="nav-item nav-link"><i class="fas fa-home me-2"></i>Trang chủ</a>
             <!-- <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
                 <div class="dropdown-menu bg-transparent border-0">
@@ -14,9 +14,12 @@
                     <a href="element.html" class="dropdown-item">Other Elements</a>
                 </div>
             </div> -->
-            <a href="/GYM-WEB/public/Admin/nhanVien" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Nhân viên</a>
-            <a href="/GYM-WEB/public/Admin/thietBi" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Thiết bị</a>
-            <a href="/GYM-WEB/public/Admin/goiTap" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Gói Tập</a>
+            <a href="/GYM-WEB/public/Admin/nhanVien" class="nav-item nav-link"><i class="fas fa-user me-2"></i>Nhân viên</a>
+            <a href="/GYM-WEB/public/Admin/thietBi" class="nav-item nav-link"><i class="fas fa-dumbbell me-2"></i>Thiết bị</a>
+            <a href="/GYM-WEB/public/Admin/goiTap" class="nav-item nav-link"><i class="fas fa-id-card me-2"></i>Gói tập</a>
+            <a href="/GYM-WEB/public/Admin/baoCaoDoanhThu" class="nav-item nav-link"><i class="fas fa-dollar-sign me-2"></i>Báo cáo Doanh Thu</a>
+            <a href="/GYM-WEB/public/Admin/baoCaoThanhVien" class="nav-item nav-link"><i class="fas fa-star me-2"></i>Báo cáo Thành Viên</a>
+            <a href="/GYM-WEB/public/Admin/baoCaoThietBi" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Báo cáo Thiết Bị</a>
             <!-- 
             <a href="" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
             <a href="" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
