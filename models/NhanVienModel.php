@@ -10,7 +10,7 @@ class Employees {
     }
     //Đếm số lượng nhân viên hiện tại
     public function getCurrentEmployees() {
-        $sql = "SELECT COUNT(*) as count FROM nguoidung WHERE vaiTro = 'NVQuay' or vaiTro = 'NVBaoTri'";
+        $sql = "SELECT COUNT(*) as count FROM nguoidung WHERE vaiTro = 'NVQuay' or vaiTro = 'NVBaoTri' or vaiTro = 'NVHuongDanVien'";
         $result = $this->conn->query($sql);
         $row = $result->fetch_assoc();
         return $row['count'];
@@ -18,7 +18,7 @@ class Employees {
     // hàm lấy danh sách thành viên
     public function getEmployees($page, $limit) {
         $offset = ($page - 1) * $limit;
-        $query = "SELECT * FROM nguoidung WHERE vaiTro = 'NVQuay' or vaiTro = 'NVBaoTri' LIMIT $limit OFFSET $offset";
+        $query = "SELECT * FROM nguoidung WHERE vaiTro = 'NVQuay' or vaiTro = 'NVBaoTri' or vaiTro = 'NVHuongDanVien' LIMIT $limit OFFSET $offset";
         $result = $this->conn->query($query);
         return $result->fetch_all(MYSQLI_ASSOC); 
     }
