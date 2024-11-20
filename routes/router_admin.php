@@ -12,7 +12,8 @@ class Router {
         $this->routes = [
             '' => ['controller' => 'HomeController_Admin', 'action' => 'admin_dash'],   
             'Admin/nhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'nhanVien'],     
-            // 'Admin/nhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'thanhVien'],     
+            'Admin/thietBi' => ['controller' => 'HomeController_Admin', 'action' => 'thietBi'],     
+            'Admin/goiTap' => ['controller' => 'HomeController_Admin', 'action' => 'goiTap'],     
             // 'NV_Quay/thanhVien/chiTietThanhVien' => ['controller' => 'HomeController_NV', 'action' => 'chiTietThanhVien'],     
         ];
     }

@@ -15,7 +15,8 @@
                 </div>
             </div> -->
             <a href="/GYM-WEB/public/Admin/nhanVien" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Nhân viên</a>
-            <a href="" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Gói Tập</a>
+            <a href="/GYM-WEB/public/Admin/thietBi" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Thiết bị</a>
+            <a href="/GYM-WEB/public/Admin/goiTap" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Gói Tập</a>
             <!-- 
             <a href="" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
             <a href="" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>

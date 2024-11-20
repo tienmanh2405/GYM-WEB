@@ -37,33 +37,32 @@
 
     <?php require_once('../views/Admin/layout/spinner.php'); ?>
     <div class="container-fluid pt-4 px-4 my-1">
-        <h2 class="mb-4">Quản Lý Thiết Bị</h2>
+        <h2 class="mb-4">Quản Lý Gói Tập</h2>
 
         <!-- Tìm kiếm khách hàng -->
         <div class="mb-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm thiết bị theo tên hoặc mã thiết bị">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm gói tập theo tên hoặc mã gói tập">
         </div>
 
         <!-- Bảng danh sách khách hàng -->
         <table class="table table-striped text-center">
             <thead>
                 <tr>
-                    <th>Mã Thiết Bị</th>
-                    <th>Tên Thiết Bị</th>
-                    <th>Ngày Mua</th>
-                    <th>Trạng Thái</th>
-                    <th>Hình Ảnh</th>
-                    <th>Thao Tác</th>
+                    <th>Mã Gói Tập</th>
+                    <th>Tên Gói Tập</th>
+                    <th>Thời Hạn</th>
+                    <th>Giá</th>
+                    <th>Mô Tả</th>
                 </tr>
             </thead>
             <tbody id="customerTable">
                 <?php foreach ($members as $member): ?>
-                    <tr data-id="<?= $member['maThietBi'] ?>">
-                        <td><?= $member['maThietBi'] ?></td>
-                        <td><?= $member['tenThietBi'] ?></td>
-                        <td><?= $member['ngayMua'] ?></td>
-                        <td><?= $member['trangthai'] ?></td>
-                        <!-- <td><?= $member['ngaySinh'] ?></td> -->
+                    <tr data-id="<?= $member['maGoiTap'] ?>">
+                        <td><?= $member['maGoiTap'] ?></td>
+                        <td><?= $member['tenGoiTap'] ?></td>
+                        <td><?= $member['thoiHan'] ?></td>
+                        <td><?= $member['gia'] ?></td>
+                        <td><?= $member['moTa'] ?></td>
                         <!-- <td class="status"><?= $member['vaiTro'] ?></td> -->
                         <td class="text-center">
                         <!-- <a href="/GYM-WEB/public/NV_Quay/thanhVien/chiTietThanhVien?userID=<?= $member['userID'] ?>" class="btn btn-info">Xem Thông Tin</a> -->
@@ -75,9 +74,9 @@
 
         <!-- Phân trang -->
         <div id="pagination" class="d-flex justify-content-center">
-            <a href="/GYM-WEB/public/Admin/thietBi?page=<?= max(1, $currentPage - 1) ?>" class="btn btn-secondary">Trang Trước</a>
+            <a href="/GYM-WEB/public/Admin/goiTap?page=<?= max(1, $currentPage - 1) ?>" class="btn btn-secondary">Trang Trước</a>
             <span class="mx-3">Trang <?= $currentPage ?> / <?= $totalPages ?></span>
-            <a href="/GYM-WEB/public/Admin/thietBi?page=<?= min($totalPages, $currentPage + 1) ?>" class="btn btn-secondary">Trang Tiếp</a>
+            <a href="/GYM-WEB/public/Admin/goiTap?page=<?= min($totalPages, $currentPage + 1) ?>" class="btn btn-secondary">Trang Tiếp</a>
         </div>
     </div>
 

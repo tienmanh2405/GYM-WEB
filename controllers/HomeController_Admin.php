@@ -2,6 +2,8 @@
 require_once BASE_PATH . '/models/DoanhThuModel.php';
 require_once BASE_PATH . '/models/ThanhVienModel.php';
 require_once BASE_PATH . '/models/NhanVienModel.php';
+require_once BASE_PATH . '/models/ThietBiModel.php';
+require_once BASE_PATH . '/models/GoiTapModel.php';
 
 class HomeController_Admin {
     public function admin_dash() {
@@ -64,6 +66,39 @@ class HomeController_Admin {
         ];
         $this->render('Admin/nhanVien/QuanLyNhanVien',$data);
     }
+
+public function thietBi(){
+    $equipmentModel = new Equipment();
+    $currentEquipment = $equipmentModel->getCurrentEquipment();
+    $limit = 8;
+    $page = isset($_GET['page'])? $_GET['page'] : 1;
+    $members = $equipmentModel->getEquipment($page, $limit);
+    $totalPages = ceil($currentEquipment / $limit);
+    $data = [
+        'currentEquipment' => $currentEquipment,
+        'members' => $members,
+        'totalPages' => $totalPages,
+        'currentPage' => $page,
+    ];
+    $this->render('Admin/thietBi/QuanLyThietBi',$data);
+}
+
+public function goiTap(){
+    $goiTapModel = new GoiTapModel();
+    $currentGoiTap = $goiTapModel->getCurrentGoiTap();
+    $limit = 8;
+    $page = isset($_GET['page'])? $_GET['page'] : 1;
+    $members = $goiTapModel->getGoiTap($page, $limit);
+    $totalPages = ceil($currentGoiTap / $limit);
+    $data = [
+        'currentGoiTap' => $currentGoiTap,
+        'members' => $members,
+        'totalPages' => $totalPages,
+        'currentPage' => $page,
+    ];
+    $this->render('Admin/goiTap/QuanLyGoiTap',$data);
+}
+
     protected function render($view, $data = []) {
         extract($data); // Truyền biến vào view
         require_once BASE_PATH . "/views/$view.php";

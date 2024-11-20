@@ -41,7 +41,7 @@
 
         <!-- Tìm kiếm khách hàng -->
         <div class="mb-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm khách hàng theo tên hoặc số điện thoại">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm nhân viên theo tên hoặc số điện thoại">
         </div>
 
         <!-- Bảng danh sách khách hàng -->
@@ -67,7 +67,7 @@
                         <td><?= $member['ngaySinh'] ?></td>
                         <td class="status"><?= $member['vaiTro'] ?></td>
                         <td class="text-center">
-                        <a href="/GYM-WEB/public/NV_Quay/thanhVien/chiTietThanhVien?userID=<?= $member['userID'] ?>" class="btn btn-info">Xem Thông Tin</a>
+                        <!-- <a href="/GYM-WEB/public/Admin/nhanVien/ChiTietNhanhVien?userID=<?= $member['userID'] ?>" class="btn btn-info">Xem Thông Tin</a> -->
                         </td>
                     </tr>
                 <?php endforeach; ?>
