@@ -99,6 +99,10 @@ public function goiTap(){
     $this->render('Admin/goiTap/QuanLyGoiTap',$data);
 }
 
+public function themNhanVien(){
+    $this->render('Admin/nhanVien/ThemNhanVien');
+}
+
     protected function render($view, $data = []) {
         extract($data); // Truyền biến vào view
         require_once BASE_PATH . "/views/$view.php";

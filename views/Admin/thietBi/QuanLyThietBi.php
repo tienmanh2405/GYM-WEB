@@ -39,12 +39,18 @@
     <div class="container-fluid pt-4 px-4 my-1">
         <h2 class="mb-4">Quản Lý Thiết Bị</h2>
 
-        <!-- Tìm kiếm khách hàng -->
-        <div class="mb-3">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <!-- Tìm kiếm thiết bị -->
+        <div class="mb-3" style="flex-grow: 1; max-width: 600px; padding-left: 10px;">
             <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm thiết bị theo tên hoặc mã thiết bị">
         </div>
+        <!-- Button chuyển sang trang thêm thiết bị mới-->
+        <a href="/GYM-WEB/public/Admin/thietBi/ThemThietBi" class="btn btn-info m-2">Thêm Thiết Bị</a>
+    </div>
 
-        <!-- Bảng danh sách khách hàng -->
+        
+
+        <!-- Bảng danh sách thiết bị -->
         <table class="table table-striped text-center">
             <thead>
                 <tr>

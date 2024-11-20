@@ -39,10 +39,14 @@
     <div class="container-fluid pt-4 px-4 my-1">
         <h2 class="mb-4">Quản Lý Gói Tập</h2>
 
-        <!-- Tìm kiếm khách hàng -->
-        <div class="mb-3">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <!-- Tìm kiếm thiết bị -->
+        <div class="mb-3" style="flex-grow: 1; max-width: 600px; padding-left: 10px;">
             <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm gói tập theo tên hoặc mã gói tập">
         </div>
+        <!-- Button chuyển sang trang thêm thiết bị mới-->
+        <a href="/GYM-WEB/public/Admin/goiTap/ThemGoiTap" class="btn btn-info m-2">Thêm Gói Tập</a>
+    </div>
 
         <!-- Bảng danh sách khách hàng -->
         <table class="table table-striped text-center">
@@ -50,9 +54,10 @@
                 <tr>
                     <th>Mã Gói Tập</th>
                     <th>Tên Gói Tập</th>
-                    <th>Thời Hạn</th>
-                    <th>Giá</th>
+                    <th>Thời Hạn (Ngày)</th>
+                    <th>Giá (VND)</th>
                     <th>Mô Tả</th>
+                    <th>Thao Tác</th>
                 </tr>
             </thead>
             <tbody id="customerTable">
@@ -61,7 +66,7 @@
                         <td><?= $member['maGoiTap'] ?></td>
                         <td><?= $member['tenGoiTap'] ?></td>
                         <td><?= $member['thoiHan'] ?></td>
-                        <td><?= $member['gia'] ?></td>
+                        <td><?= number_format($member['gia'], 0, '.', '.')?></td>
                         <td><?= $member['moTa'] ?></td>
                         <!-- <td class="status"><?= $member['vaiTro'] ?></td> -->
                         <td class="text-center">
