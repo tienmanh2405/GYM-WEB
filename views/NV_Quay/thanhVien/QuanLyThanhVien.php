@@ -37,50 +37,96 @@
 
     <?php require_once('../views/NV_Quay/layout/spinner.php'); ?>
     <div class="container-fluid pt-4 px-4 my-1">
-        <h2 class="mb-4">Quản Lý Thành Viên</h2>
+    <h2 class="mb-4">Quản Lý Thành Viên</h2>
 
-        <!-- Tìm kiếm khách hàng -->
-        <div class="mb-3">
+    <!-- Tìm kiếm khách hàng -->
+    <div class="row mb-3">
+        <div class="col-sm-12 col-xl-10">
             <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm khách hàng theo tên hoặc số điện thoại">
         </div>
-
-        <!-- Bảng danh sách khách hàng -->
-        <table class="table table-striped text-center">
-            <thead>
-                <tr>
-                    <th>Mã Khách Hàng</th>
-                    <th>Tên Khách Hàng</th>
-                    <th>Email</th>
-                    <th>Số Điện Thoại</th>
-                    <th>Ngày Sinh</th>
-                    <th>Vai Trò</th>
-                    <th>Thao Tác</th>
-                </tr>
-            </thead>
-            <tbody id="customerTable">
-                <?php foreach ($members as $member): ?>
-                    <tr data-id="<?= $member['userID'] ?>">
-                        <td><?= $member['userID'] ?></td>
-                        <td><?= $member['hoTen'] ?></td>
-                        <td><?= $member['email'] ?></td>
-                        <td><?= $member['sdt'] ?></td>
-                        <td><?= $member['ngaySinh'] ?></td>
-                        <td class="status"><?= $member['vaiTro'] ?></td>
-                        <td class="text-center">
-                        <a href="/GYM-WEB/public/NV_Quay/thanhVien/chiTietThanhVien?userID=<?= $member['userID'] ?>" class="btn btn-info">Xem Thông Tin</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
-        <!-- Phân trang -->
-        <div id="pagination" class="d-flex justify-content-center">
-            <a href="/GYM-WEB/public/NV_Quay/thanhVien?page=<?= max(1, $currentPage - 1) ?>" class="btn btn-secondary">Trang Trước</a>
-            <span class="mx-3">Trang <?= $currentPage ?> / <?= $totalPages ?></span>
-            <a href="/GYM-WEB/public/NV_Quay/thanhVien?page=<?= min($totalPages, $currentPage + 1) ?>" class="btn btn-secondary">Trang Tiếp</a>
+        <div class="col-sm-3 col-xl-2">
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addMemberModal">Thêm Thành Viên Mới</button>
         </div>
     </div>
+
+    <!-- Bảng danh sách khách hàng -->
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <th>Mã Khách Hàng</th>
+                <th>Tên Khách Hàng</th>
+                <th>Email</th>
+                <th>Số Điện Thoại</th>
+                <th>Ngày Sinh</th>
+                <th>Vai Trò</th>
+                <th>Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody id="customerTable">
+            <?php foreach ($members as $member): ?>
+                <tr data-id="<?= $member['userID'] ?>">
+                    <td><?= $member['userID'] ?></td>
+                    <td><?= $member['hoTen'] ?></td>
+                    <td><?= $member['email'] ?></td>
+                    <td><?= $member['sdt'] ?></td>
+                    <td><?= $member['ngaySinh'] ?></td>
+                    <td class="status"><?= $member['vaiTro'] ?></td>
+                    <td class="text-center">
+                        <a href="/GYM-WEB/public/NV_Quay/thanhVien/chiTietThanhVien?userID=<?= $member['userID'] ?>" class="btn btn-info">Xem Thông Tin</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <div id="pagination" class="d-flex justify-content-center align-items-center mt-4 mb-4">
+        <a href="/GYM-WEB/public/NV_Quay/thanhVien?page=<?= max(1, $currentPage - 1) ?>" class="btn btn-secondary">Trang Trước</a>
+        <span class="mx-3">Trang <?= $currentPage ?> / <?= $totalPages ?></span>
+        <a href="/GYM-WEB/public/NV_Quay/thanhVien?page=<?= min($totalPages, $currentPage + 1) ?>" class="btn btn-secondary">Trang Tiếp</a>
+    </div>
+</div>
+
+<!-- Modal Thêm Thành Viên -->
+<div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMemberModalLabel">Thêm Thành Viên Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addMemberForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="hoTen" class="form-label">Họ Tên</label>
+                        <input type="text" class="form-control" style="color: white;" id="hoTen" name="hoTen" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" style="color: white;" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sdt" class="form-label">Số Điện Thoại</label>
+                        <input type="text" class="form-control" style="color: white;" id="sdt" name="sdt" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ngaySinh" class="form-label">Ngày Sinh</label>
+                        <input type="date" class="form-control" style="color: white;" id="ngaySinh" name="ngaySinh" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="matKhau" class="form-label">Mật Khẩu</label>
+                        <input type="password" class="form-control" style="color: white;" id="matKhau" name="matKhau" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-success">Thêm Thành Viên</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -123,4 +169,59 @@
             });
         });
     </script>
+    <script>
+        document.getElementById('addMemberForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Lấy giá trị từ form
+            const hoTen = document.getElementById('hoTen').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const sdt = document.getElementById('sdt').value.trim();
+            const ngaySinh = document.getElementById('ngaySinh').value;
+            const matKhau = document.getElementById('matKhau').value.trim();
+
+            // Kiểm tra dữ liệu nhập
+            if (!hoTen) {
+                alert('Vui lòng nhập họ tên.');
+                return;
+            }
+        
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Email không hợp lệ.');
+                return;
+            }
+        
+            if (!sdt || !/^\d{10}$/.test(sdt)) {
+                alert('Số điện thoại phải bao gồm 10 chữ số.');
+                return;
+            }
+        
+            if (!ngaySinh) {
+                alert('Vui lòng chọn ngày sinh.');
+                return;
+            }
+        
+            if (!matKhau || matKhau.length < 6) {
+                alert('Mật khẩu phải có ít nhất 6 ký tự.');
+                return;
+            }
+        
+            const formData = new FormData(this);
+            fetch('models/add_member_handler.php', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Thành viên đã được thêm thành công!');
+                    location.reload(); // Tải lại trang để cập nhật danh sách
+                } else {
+                    alert('Có lỗi xảy ra, vui lòng thử lại.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+
 </html>

@@ -12,7 +12,9 @@ class Router {
         $this->routes = [
             '' => ['controller' => 'HomeController_NV', 'action' => 'dashboard'],   
             'NV_Quay/thanhVien' => ['controller' => 'HomeController_NV', 'action' => 'thanhVien'],     
-            'NV_Quay/thanhVien/chiTietThanhVien' => ['controller' => 'HomeController_NV', 'action' => 'chiTietThanhVien'],     
+            'NV_Quay/thanhVien/chiTietThanhVien' => ['controller' => 'HomeController_NV', 'action' => 'chiTietThanhVien'], 
+            'NV_Quay/goitap' => ['controller' => 'HomeController_NV','action' => 'DSGoiTap'],    
+            'NV_Quay/lichlamviec' => ['controller' => 'HomeController_NV','action' => 'DSLichLamViec'],    
         ];
     }
 
