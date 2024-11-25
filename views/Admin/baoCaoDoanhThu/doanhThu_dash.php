@@ -37,25 +37,49 @@
 
     <?php require_once('../views/Admin/layout/spinner.php'); ?>
     <div class="container-fluid pt-4 px-4 my-1">
-        <h2 class="mb-4">Thêm Nhân viên mới</h2>
+        <h2 class="mb-4">Báo Cáo Doanh Thu</h2>
 
-        <form id="addMemberForm" action="/GYM-WEB/public/Admin/nhanVien/ThemNhanVien" method="POST">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="hoTen" class="form-label">Họ và Tên</label>
-                        <input type="text" class="form-control" id="hoTen" name="hoTen" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="sdt" class="form-label">Số Điện Thoại</label>
-                        <input type="text" class="form-control" id="sdt" name="sdt" required>
-                    </div>
-        </form>
-        
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <!-- Tìm kiếm gói tập -->
+        <div class="mb-3" style="flex-grow: 1; max-width: 600px; padding-left: 10px;">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm gói tập theo tên hoặc mã gói tập">
+        </div>
+        <!-- Button chuyển sang trang thêm gói tập mới-->
+        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addGoiTapModal">Thêm Gói Tập Mới</button>
+        </div>
+
+        <!-- Bảng doanh thu -->
+        <table class="table table-striped text-center">
+    <thead>
+        <tr>
+            <th>Ngày thanh toán</th>
+            <th>Tên Khách hàng</th>
+            <th>Gói đăng ký</th>
+            <th>Đơn giá</th>
+            <th>Tổng tiền</th>
+        </tr>
+    </thead>
+    <tbody id="customerTable">
+        <?php foreach ($members as $member): ?>
+            <tr data-id="<?= $member['maHoaDon'] ?>">
+                <td><?= date('d/m/Y', strtotime($member['ngayThanhToan'])) ?></td>
+                <td><?= htmlspecialchars($member['tenKhachHang']) ?></td>
+                <td><?= htmlspecialchars($member['tenGoiTap']) ?></td>
+                <td><?= number_format($member['donGia'], 0, '.', '.') ?>₫</td>
+                <td><?= number_format($member['tongTien'], 0, '.', '.') ?>₫</td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+        <!-- Phân trang -->
+        <div id="pagination" class="d-flex justify-content-center">
+            <a href="/GYM-WEB/public/Admin/goiTap?page=<?= max(1, $currentPage - 1) ?>" class="btn btn-secondary">Trang Trước</a>
+            <span class="mx-3">Trang <?= $currentPage ?> / <?= $totalPages ?></span>
+            <a href="/GYM-WEB/public/Admin/goiTap?page=<?= min($totalPages, $currentPage + 1) ?>" class="btn btn-secondary">Trang Tiếp</a>
+        </div>
+    </div>
+
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -70,7 +94,7 @@
 </body>
 <!-- Template Javascript -->
 <script src="asset/js/main.js"></script>
-<!-- JavaScript cho tìm kiếm nhân viên -->
+<!-- JavaScript cho tìm kiếm gói tập -->
     <script>
         // Lấy các phần tử từ HTML
         const searchInput = document.getElementById("searchInput");
@@ -98,4 +122,9 @@
             });
         });
     </script>
+
+
+<script>
+
+</script>
 </html>

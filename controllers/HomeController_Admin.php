@@ -99,9 +99,14 @@ public function goiTap(){
     $this->render('Admin/goiTap/QuanLyGoiTap',$data);
 }
 
-public function themNhanVien(){
-    $this->render('Admin/nhanVien/ThemNhanVien');
+public function baoCaoDoanhThu(){
+    $revenueModel = new Revenue();
+    $revenueDetails = $revenueModel->getRevenueDetails();
+    // $totalRevenue = $revenueModel->getTotalRevenue();
+    $this->render('Admin/baoCaoDoanhThu/doanhThu_dash');
+    // $this->render('Admin/baoCaoDoanhThu/BaoCaoDoanhThu');
 }
+
 
     protected function render($view, $data = []) {
         extract($data); // Truyền biến vào view

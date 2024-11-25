@@ -22,6 +22,69 @@ class GoiTapModel {
         $result = $this->conn->query($query);
         return $result->fetch_all(MYSQLI_ASSOC); 
     }
+
+    public function addGoiTap($tenGoiTap, $thoiHan, $gia, $moTa) {
+        // Kiểm tra nếu giá trị các tham số quan trọng khác rỗng
+        if (empty($tenGoiTap) || empty($thoiHan) || empty($gia) || empty($moTa)) {
+            return false;
+        }
+        
+        // Câu truy vấn thêm gói tập
+        $query = "INSERT INTO goitap (tenGoiTap, thoiHan, gia, moTa) VALUES (?,?,?,?)";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Kiểm tra nếu prepare() thành công
+        if (!$stmt) {
+            return false; // Trả về false nếu chuẩn bị câu lệnh thất bại
+        }
+
+        // Sử dụng bind_param và truyền đúng số lượng tham số
+        $stmt->bind_param("ssss", $tenGoiTap, $thoiHan, $gia, $moTa);
+
+        // Thực thi câu lệnh
+        if ($stmt->execute()) {
+            return true; // Thêm thành công
+        } else {
+            return false; // Thêm thất bại, có thể thêm $stmt->error để lấy thông báo chi tiết
+        }
+    }
+
+    public function deleteGoiTap($idGoiTap) {
+        // Kiểm tra nếu giá trị $idGoiTap rỗng
+        if (empty($idGoiTap)) {
+            return false; // Nếu idGoiTap rỗng, trả về false
+        }
+        
+        // Câu truy vấn xóa nhân viên
+        $query = "DELETE FROM goitap WHERE maGoiTap = ?";
+        
+        $stmt = $this->conn->prepare($query);
+        
+        // Kiểm tra nếu prepare() thành công
+        if (!$stmt) {
+            return false; // Trả về false nếu chuẩn bị câu lệnh thất bại
+        }
+        
+        // Sử dụng bind_param và truyền đúng số lượng tham số
+        $stmt->bind_param("i", $idGoiTap);
+        
+        // Thực thi câu lệnh
+        if ($stmt->execute()) {
+            return true; // Xóa thành công
+        } else {
+            return false; // Xóa thất bại, có thể thêm $stmt->error để lấy thông báo chi tiết
+        }
+    }
+//thêm gói tập Tên Gói Tập	Thời Hạn (Tháng)	Giá (VND)	Mô Tả
+    // public function addGoiTap($tenGoiTap, $thoiHan, $gia, $moTa) {
+    //     $sql = "INSERT INTO goitap (tenGoiTap, thoiHan, gia, moTa) VALUES (?,?,?,?)";
+    //     $stmt = $this->conn->prepare($sql);
+    //     $stmt->bind_param("ssss", $tenGoiTap, $thoiHan, $gia, $moTa);
+    //     $stmt->execute();
+    //     return $this->conn->insert_id;
+    // }
+
     // public function getGoiDangKyByUserID($userID) {
     //     // Truy vấn lấy thông tin gói đăng ký của thành viên theo userID
     //     $query = "SELECT idDangKy, userID, maGoiTap, ngayHetHan, trangThai, ngayMua 

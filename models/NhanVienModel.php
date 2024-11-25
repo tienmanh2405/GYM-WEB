@@ -22,6 +22,119 @@ class Employees {
         $result = $this->conn->query($query);
         return $result->fetch_all(MYSQLI_ASSOC); 
     }
+
+    public function addNhanVien($hoTen, $email, $sdt, $ngaySinh, $vaiTro, $matKhau) {
+        // Kiểm tra nếu giá trị $hoTen và các tham số quan trọng khác rỗng
+        if (empty($hoTen) || empty($email) || empty($sdt) || empty($ngaySinh) || empty($vaiTro) || empty($matKhau)) {
+            return false; // Nếu có tham số rỗng, trả về false
+        }
+
+        $hashedPassword = password_hash($matKhau, PASSWORD_BCRYPT); // Mã hóa mật khẩu
+
+        // Câu truy vấn thêm nhân viên
+        $query = "INSERT INTO nguoidung (hoTen, email, sdt, ngaySinh, vaiTro, matKhau) VALUES (?,?,?,?,?,?)";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Kiểm tra nếu prepare() thành công
+        if (!$stmt) {
+            return false; // Trả về false nếu chuẩn bị câu lệnh thất bại
+        }
+
+        // Sử dụng bind_param và truyền đúng số lượng tham số
+        $stmt->bind_param("ssssss", $hoTen, $email, $sdt, $ngaySinh, $vaiTro, $hashedPassword);
+
+        // Thực thi câu lệnh
+        if ($stmt->execute()) {
+            return true; // Thêm thành công
+        } else {
+            return false; // Thêm thất bại, có thể thêm $stmt->error để lấy thông báo chi tiết
+        }
+    }
+
+    //update nhân viên
+    public function updateNhanVien( $idNhanVien, $hoTen, $email, $sdt, $ngaySinh, $vaiTro) {
+        // Kiểm tra nếu giá trị $idNhanVien và các tham số quan trọng khác 
+        if (empty($idNhanVien) || empty($hoTen) || empty($email) || empty($sdt) || empty($ngaySinh) || empty($vaiTro)) {
+            return false; // Nếu có tham số rỗng, trả về false
+        }
+        
+        // Câu truy vấn cập nhật thông tin nhân viên
+        $query = "UPDATE nguoidung SET hoTen =?, email =?, sdt =?, ngaySinh =?, vaiTro =? WHERE userID =?";
+        
+        $stmt = $this->conn->prepare($query);
+        
+        // Kiểm tra nếu prepare() thành công
+        if (!$stmt) {
+            return false; // Trả về false nếu chuẩn bị câu lệnh thất bại
+        }
+        
+        // Sử dụng bind_param và truyền đúng số lượng tham số
+        $stmt->bind_param("sssssi", $hoTen, $email, $sdt, $ngaySinh, $vaiTro, $idNhanVien);
+        
+        // Thực thi câu lệnh
+        if ($stmt->execute()) {
+            return true; // Cập nhật thành công
+        } else {
+            return false; // Cập nhật thất bại, có thể thêm $stmt->error để lấy thông báo chi tiết
+        }
+    }
+
+    // Xóa nhân viên
+    public function deleteNhanVien($idNhanVien) {
+        // Kiểm tra nếu giá trị $idNhanVien rỗng
+        if (empty($idNhanVien)) {
+            return false; // Nếu idNhanVien rỗng, trả về false
+        }
+        
+        // Câu truy vấn xóa nhân viên
+        $query = "DELETE FROM nguoidung WHERE userID = ?";
+        
+        $stmt = $this->conn->prepare($query);
+        
+        // Kiểm tra nếu prepare() thành công
+        if (!$stmt) {
+            return false; // Trả về false nếu chuẩn bị câu lệnh thất bại
+        }
+        
+        // Sử dụng bind_param và truyền đúng số lượng tham số
+        $stmt->bind_param("i", $idNhanVien);
+        
+        // Thực thi câu lệnh
+        if ($stmt->execute()) {
+            return true; // Xóa thành công
+        } else {
+            return false; // Xóa thất bại, có thể thêm $stmt->error để lấy thông báo chi tiết
+        }
+    }
+
+    public function getNhanVienById($idNhanVien) {
+        // Kiểm tra nếu giá trị $idNhanVien rỗng
+        if (empty($idNhanVien)) {
+            return null; // Nếu idNhanVien rỗng, trả về null
+        }
+        
+        // Câu truy vấn lấy thông tin nhân viên
+        $query = "SELECT * FROM nguoidung WHERE idNhanVien = ?";
+        
+        $stmt = $this->conn->prepare($query);
+        
+        // Kiểm tra nếu prepare() thành công
+        if (!$stmt) {
+            return null; // Trả về null nếu chuẩn bị câu lệnh thất bại
+        }
+        
+        // Sử dụng bind_param và truyền đúng số lượng tham số
+        $stmt->bind_param("i", $idNhanVien);
+        
+        // Thực thi câu lệnh
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            return $result->fetch_assoc(); // Trả về thông tin nhân viên dưới dạng mảng kết hợp
+        } else {
+            return null; // Trả về null nếu thực thi thất bại
+        }
+    }
     // public function getGoiDangKyByUserID($userID) {
     //     // Truy vấn lấy thông tin gói đăng ký của thành viên theo userID
     //     $query = "SELECT idDangKy, userID, maGoiTap, ngayHetHan, trangThai, ngayMua 

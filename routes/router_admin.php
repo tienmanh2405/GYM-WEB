@@ -14,9 +14,10 @@ class Router {
             'Admin/nhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'nhanVien'],     
             'Admin/thietBi' => ['controller' => 'HomeController_Admin', 'action' => 'thietBi'],     
             'Admin/goiTap' => ['controller' => 'HomeController_Admin', 'action' => 'goiTap'],
-            'Admin/themNhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'themNhanVien'],
-            'Admin/themThietBi' => ['controller' => 'HomeController_Admin', 'action' => 'themThietBi'],
-            'Admin/themGoiTap' => ['controller' => 'HomeController_Admin', 'action' => 'themGoiTap'],
+            'Admin/baoCaoDoanhThu' => ['controller' => 'HomeController_Admin', 'action' =>'baoCaoDoanhThu'],
+            // 'Admin/nhanVien/themNhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'themNhanVien'],
+            // 'Admin/themThietBi' => ['controller' => 'HomeController_Admin', 'action' => 'themThietBi'],
+            // 'Admin/themGoiTap' => ['controller' => 'HomeController_Admin', 'action' => 'themGoiTap'],
             // 'Admin/xoaNhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'xoaNhanVien'],    
             // 'NV_Quay/thanhVien/chiTietThanhVien' => ['controller' => 'HomeController_NV', 'action' => 'chiTietThanhVien'],     
         ];

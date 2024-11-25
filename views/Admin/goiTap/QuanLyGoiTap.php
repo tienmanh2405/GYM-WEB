@@ -40,13 +40,13 @@
         <h2 class="mb-4">Quản Lý Gói Tập</h2>
 
         <div style="display: flex; justify-content: space-between; align-items: center;">
-        <!-- Tìm kiếm thiết bị -->
+        <!-- Tìm kiếm gói tập -->
         <div class="mb-3" style="flex-grow: 1; max-width: 600px; padding-left: 10px;">
             <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm gói tập theo tên hoặc mã gói tập">
         </div>
-        <!-- Button chuyển sang trang thêm thiết bị mới-->
-        <a href="/GYM-WEB/public/Admin/goiTap/ThemGoiTap" class="btn btn-info m-2">Thêm Gói Tập</a>
-    </div>
+        <!-- Button chuyển sang trang thêm gói tập mới-->
+        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addGoiTapModal">Thêm Gói Tập Mới</button>
+        </div>
 
         <!-- Bảng danh sách khách hàng -->
         <table class="table table-striped text-center">
@@ -54,7 +54,7 @@
                 <tr>
                     <th>Mã Gói Tập</th>
                     <th>Tên Gói Tập</th>
-                    <th>Thời Hạn (Ngày)</th>
+                    <th>Thời Hạn (Tháng)</th>
                     <th>Giá (VND)</th>
                     <th>Mô Tả</th>
                     <th>Thao Tác</th>
@@ -70,7 +70,10 @@
                         <td><?= $member['moTa'] ?></td>
                         <!-- <td class="status"><?= $member['vaiTro'] ?></td> -->
                         <td class="text-center">
-                        <!-- <a href="/GYM-WEB/public/NV_Quay/thanhVien/chiTietThanhVien?userID=<?= $member['userID'] ?>" class="btn btn-info">Xem Thông Tin</a> -->
+                            <!-- button mở modal sửa thông tin gói tập -->
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateEquipmentModal" data-id="<?= $member['maGoiTap']?>">Sửa</button>
+                            <!-- nút xóa gói tập -->
+                            <button type="button" class="btn btn-danger"  onclick="deleteGoiTap(<?= $member['maGoiTap']?>)">Xóa</button>                         
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -85,6 +88,41 @@
         </div>
     </div>
 
+<!-- Modal Thêm gói tập -->
+<div class="modal fade" id="addGoiTapModal" tabindex="-1" aria-labelledby="addGoiTapModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGoiTapModalLabel">Thêm Gói Tập Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addGoiTapForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="tenGoiTap" class="form-label">Tên Gói Tập</label>
+                        <input type="text" class="form-control" style="color: white;" id="tenGoiTap" name="tenGoiTap" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="thoiHan" class="form-label">Thời Hạn (Tháng)</label>
+                        <input type="number" class="form-control" style="color: white;" id="thoiHan" name="thoiHan" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="gia" class="form-label">Giá (VND)</label>
+                        <input type="number" class="form-control" style="color: white;" id="gia" name="gia" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="moTa" class="form-label">Mô Tả</label>
+                        <textarea class="form-control" style="color: white;" id="moTa" name="moTa" required></textarea>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-success">Thêm Gói Tập</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -98,7 +136,7 @@
 </body>
 <!-- Template Javascript -->
 <script src="asset/js/main.js"></script>
-<!-- JavaScript cho tìm kiếm nhân viên -->
+<!-- JavaScript cho tìm kiếm gói tập -->
     <script>
         // Lấy các phần tử từ HTML
         const searchInput = document.getElementById("searchInput");
@@ -126,4 +164,70 @@
             });
         });
     </script>
+
+<script>
+        document.getElementById('addGoiTapForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Lấy giá trị từ form
+            const tenGoiTap = document.getElementById('tenGoiTap').value;
+            const thoiHan = document.getElementById('thoiHan').value;
+            const gia = document.getElementById('gia').value;
+            const mota = document.getElementById('moTa').value;
+            
+
+            // Kiểm tra dữ liệu nhập
+            if (tenGoiTap === '' || thoiHan === '' || gia === '' || mota === '') {
+                alert('Vui lòng nhập đầy đủ thông tin gói tập.');
+                return;
+            }
+            
+        
+            const formData = new FormData(this);
+            fetch('models/handle_GoiTap_add.php', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Gói tập đã được thêm thành công!');
+                    location.reload(); // Tải lại trang để cập nhật danh sách
+                } else {
+                    alert('Có lỗi xảy ra, vui lòng thử lại.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+
+    <!-- xóa gói tập -->
+<script>
+    function deleteGoiTap(maGoiTap) {
+        // Xác nhận xóa gói tập
+        if (confirm('Bạn có chắc chắn muốn xóa gói tập này?')) {
+            // Gọi đến file xóa gói tập (thay đổi đường dẫn theo yêu cầu của bạn)
+            fetch('models/handle_GoiTap_delete.php',{
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'idGoiTap=' + maGoiTap,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Nếu xóa thành công, ẩn dòng của gói tập trong bảng
+                    document.querySelector(`tr[data-id="${maGoiTap}"]`).style.display = 'none';
+                    alert('Đã xóa thành công gói tập');
+                } else {
+                    // Nếu xóa không thành công, hiển thị thông báo lỗi
+                    alert('Đã xảy ra lỗi khi xóa gói tập.');
+                }
+            })
+            .catch(error => {
+                // Nếu có lỗi khi gọi API, hiển thị thông báo lỗi
+                alert('Đã xảy ra lỗi khi xóa gói tập.');
+            });
+        }
+    }
+</script>
 </html>
