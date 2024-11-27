@@ -41,7 +41,7 @@
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <!-- Tìm kiếm nhân viên -->
         <div class="mb-3" style="flex-grow: 1; max-width: 600px; padding-left: 10px;">
-            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm nhân viên theo tên hoặc số điện thoại">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm nhân viên theo tên hoặc mã nhân viên">
         </div>
         <!-- Button hiển thị modal thêm nhân viên-->
             <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addEmployeesModal">Thêm Nhân Viên Mới</button>
@@ -278,13 +278,17 @@
 
             // Lặp qua từng dòng và kiểm tra nội dung
             Array.from(rows).forEach(row => {
-                const phoneCell = row.getElementsByTagName("td")[3];  // Cột Số Điện Thoại
+                const idCell = row.getElementsByTagName("td")[0];  // Cột mã nhân viên
+                const nameCell = row.getElementsByTagName("td")[1];  // Cột tên nhân viên
+                // const phoneCell = row.getElementsByTagName("td")[3];  // Cột Số Điện Thoại
 
-                if (phoneCell) {
-                    const phone = phoneCell.textContent.toLowerCase();  // Lấy số điện thoại và chuyển thành chữ thường
+                if (idCell || nameCell || phoneCell) {
+                    const id = idCell.textContent.toLowerCase();  // Lấy mã nhân viên và chuyển thành chữ thường
+                    const name = nameCell.textContent.toLowerCase();  // Lấy tên nhân viên và chuyển thành chữ thường
+                    // const phone = phoneCell.textContent.toLowerCase();  // Lấy số điện thoại và chuyển thành chữ thường
 
                     // Kiểm tra nếu từ khóa tìm kiếm có trong số điện thoại
-                    if (phone.includes(searchValue)) {
+                    if (id.includes(searchValue) || name.includes(searchValue)) {
                         row.style.display = "";  // Hiển thị dòng
                     } else {
                         row.style.display = "none";  // Ẩn dòng nếu không khớp
@@ -368,8 +372,8 @@
             .then(data => {
                 if (data.success) {
                     // Nếu xóa thành công, ẩn dòng của nhân viên trong bảng
-                    document.querySelector(`tr[data-id="${userID}"]`).style.display = 'none';
                     alert('Đã xóa thành công nhân viên');
+                    location.reload(); // Tải lại trang để cập nhật danh sách
                 } else {
                     // Nếu xóa không thành công, hiển thị thông báo lỗi
                     alert('Đã xảy ra lỗi khi xóa nhân viên.');

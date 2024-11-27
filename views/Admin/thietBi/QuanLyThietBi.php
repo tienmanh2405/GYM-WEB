@@ -42,7 +42,7 @@
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <!-- Tìm kiếm thiết bị -->
         <div class="mb-3" style="flex-grow: 1; max-width: 600px; padding-left: 10px;">
-            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm thiết bị theo tên hoặc mã thiết bị">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm thiết bị theo tên/mã thiết bị/trạng thái sử dụng">
         </div>
         <!-- Button hiển thị modal thêm thiết bị-->
             <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addEquipmentModal">Thêm Thiết Bị Mới</button>
@@ -143,7 +143,7 @@
 <!-- Template Javascript -->
 <script src="asset/js/main.js"></script>
 <!-- JavaScript cho tìm kiếm thiết bị -->
-    <script>
+<script>
         // Lấy các phần tử từ HTML
         const searchInput = document.getElementById("searchInput");
         const customerTable = document.getElementById("customerTable");
@@ -155,13 +155,17 @@
 
             // Lặp qua từng dòng và kiểm tra nội dung
             Array.from(rows).forEach(row => {
-                const phoneCell = row.getElementsByTagName("td")[3];  // Cột Số Điện Thoại
+                const idEquip = row.getElementsByTagName("td")[0];  // Cột ID thiết bị
+                const nameCell = row.getElementsByTagName("td")[1];  // Cột tên thiết bị
+                const statusCell = row.getElementsByTagName("td")[3];  // Cột trạng thái sử dụng
 
-                if (phoneCell) {
-                    const phone = phoneCell.textContent.toLowerCase();  // Lấy số điện thoại và chuyển thành chữ thường
+                if (idEquip || nameCell || statusCell) {
+                    const id = idEquip.textContent.toLowerCase();  // Lấy mã thiết bị và chuyển thành chữ thường
+                    const name = nameCell.textContent.toLowerCase();  // Lấy tên thiết bị và chuyển thành chữ thường
+                    const status = statusCell.textContent.toLowerCase();  // Lấy trạng thái sử dụng và chuyển thành chữ thường
 
-                    // Kiểm tra nếu từ khóa tìm kiếm có trong số điện thoại
-                    if (phone.includes(searchValue)) {
+                    // Kiểm tra nếu từ khóa tìm kiếm có trong ID và Tên thiết bị/Trạng thái bảo trì
+                    if (id.includes(searchValue) || name.includes(searchValue) || status.includes(searchValue)) {
                         row.style.display = "";  // Hiển thị dòng
                     } else {
                         row.style.display = "none";  // Ẩn dòng nếu không khớp
@@ -248,8 +252,8 @@
             .then(data => {
                 if (data.success) {
                     // Nếu xóa thành công, ẩn dòng của thiết bị trong bảng
-                    document.querySelector(`tr[data-id="${maThietBi}"]`).style.display = 'none';
                     alert('Đã xóa thành công thiết bị');
+                    location.reload(); // Tải lại trang để cập nhật danh sách
                 } else {
                     // Nếu xóa không thành công, hiển thị thông báo lỗi
                     alert('Đã xảy ra lỗi khi xóa thiết bị.');

@@ -44,7 +44,7 @@
         <div class="mb-3" style="flex-grow: 1; max-width: 600px; padding-left: 10px;">
             <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm gói tập theo tên hoặc mã gói tập">
         </div>
-        <!-- Button chuyển sang trang thêm gói tập mới-->
+        <!-- Button mở modal thêm gói tập mới-->
         <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addGoiTapModal">Thêm Gói Tập Mới</button>
         </div>
 
@@ -149,13 +149,15 @@
 
             // Lặp qua từng dòng và kiểm tra nội dung
             Array.from(rows).forEach(row => {
-                const phoneCell = row.getElementsByTagName("td")[3];  // Cột Số Điện Thoại
+                const idCell = row.getElementsByTagName("td")[0];  // Cột ID
+                const nameCell = row.getElementsByTagName("td")[1];  // Cột Tên gói tập
 
-                if (phoneCell) {
-                    const phone = phoneCell.textContent.toLowerCase();  // Lấy số điện thoại và chuyển thành chữ thường
+                if (idCell || nameCell) {
+                    const id = idCell.textContent.toLowerCase();  // Lấy ID và chuyển thành chữ thường
+                    const name = nameCell.textContent.toLowerCase();  // Lấy tên gói tập và chuyển thành chữ thường
 
                     // Kiểm tra nếu từ khóa tìm kiếm có trong số điện thoại
-                    if (phone.includes(searchValue)) {
+                    if (id.includes(searchValue) || name.includes(searchValue)) {
                         row.style.display = "";  // Hiển thị dòng
                     } else {
                         row.style.display = "none";  // Ẩn dòng nếu không khớp
@@ -216,8 +218,8 @@
             .then(data => {
                 if (data.success) {
                     // Nếu xóa thành công, ẩn dòng của gói tập trong bảng
-                    document.querySelector(`tr[data-id="${maGoiTap}"]`).style.display = 'none';
                     alert('Đã xóa thành công gói tập');
+                    location.reload(); // Tải lại trang để cập nhật danh sách
                 } else {
                     // Nếu xóa không thành công, hiển thị thông báo lỗi
                     alert('Đã xảy ra lỗi khi xóa gói tập.');
