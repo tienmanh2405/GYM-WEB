@@ -7,13 +7,18 @@ class Router {
         $this->loadRoutes();
     }
 
-    // Định nghĩa các route
     private function loadRoutes() {
         $this->routes = [
             '' => ['controller' => 'HomeController_NV', 'action' => 'dashboard'],   
             'NV_Quay/thanhVien' => ['controller' => 'HomeController_NV', 'action' => 'thanhVien'],     
             'NV_Quay/thanhVien/chiTietThanhVien' => ['controller' => 'HomeController_NV', 'action' => 'chiTietThanhVien'],     
-        ];
+        
+             // Routes mới cho chức năng đăng ký
+            // 'register' => ['controller' => 'AuthController', 'action' => 'showRegisterForm'],
+            'register-process' => ['controller' => 'AuthController', 'action' => 'register'],
+            // 'verify-email' => ['controller' => 'AuthController', 'action' => 'verifyEmail'],
+            'verify-email' => ['controller' => 'AuthController', 'action' => 'verifyOTP']
+            ];
     }
 
     // Xử lý yêu cầu
