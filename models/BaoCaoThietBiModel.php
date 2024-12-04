@@ -31,7 +31,7 @@ class BaoCaoThietBiModel {
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        return $row['trangThaiBaoTri'] ?? 'N/A';
+        return $row['trangThaiBaoTri'] ?? 'Chưa bảo trì lần nào';
     }
 
     //Hàm tính số lần bảo trì của thiết bị

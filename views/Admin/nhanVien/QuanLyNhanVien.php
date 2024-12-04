@@ -71,7 +71,8 @@
                         <td class="status"><?= $member['vaiTro'] ?></td>
                         <td class="text-center">
                             <!-- button mở modal sửa thông tin nhân viên -->
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateEmployeesModal" data-id="<?= $member['userID']?>">Sửa</button>
+                            <!-- <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editEmployeesModal" data-id="<?= $member['userID']?>">Sửa</button> -->
+                            <button class="btn btn-info btn-editNhanVien" data-id="<?= $member['userID'] ?>" data-hoTen="<?= $member['hoTen'] ?>" data-email="<?= $member['email'] ?>" data-sdt="<?= $member['sdt'] ?>" data-ngaySinh="<?= $member['ngaySinh'] ?>" data-vaiTro="<?= $member['vaiTro'] ?>">Sửa</button>
                             <!-- nút xóa nhân viên -->
                              <button type="button" class="btn btn-danger"  onclick="deleteNhanVien(<?= $member['userID']?>)">Xóa</button>
                         </td>
@@ -139,39 +140,36 @@
     </div>
 </div>
 
-<!-- test -->
 <!-- Modal Sửa Thông Tin Nhân Viên -->
-<div class="modal fade" id="updateEmployeesModal" tabindex="-1" aria-labelledby="updateEmployeesModalLabel" aria-hidden="true">
+<div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateEmployeesModalLabel">Sửa Thông Tin Nhân Viên</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="updateEmployeesForm">
-                <input type="hidden" name="form_type" value="update" />
-                <input type="hidden" id="updateUserID" name="userID" />
+            <form id="editEmployeeForm" method="post">
+                <input type="hidden" id="edit-idNhanVien" name="idNhanVien">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEmployeeModalLabel" style="color: black;">Sửa Thông Tin Nhân Viên</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="updateHoTen" class="form-label">Họ Tên</label>
-                        <input type="text" class="form-control" style="color: white;" id="updateHoTen" name="hoTen" required>
+                        <label for="edit-hoTen" class="form-label">Họ Tên</label>
+                        <input type="text" class="form-control" style="color: white;" id="edit-hoTen" name="hoTen" required>
                     </div>
                     <div class="mb-3">
-                        <label for="updateEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" style="color: white;" id="updateEmail" name="email" required>
+                        <label for="edit-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" style="color: white;" id="edit-email" name="email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="updateSdt" class="form-label">Số Điện Thoại</label>
-                        <input type="text" class="form-control" style="color: white;" id="updateSdt" name="sdt" required>
+                        <label for="edit-sdt" class="form-label">Số Điện Thoại</label>
+                        <input type="text" class="form-control" style="color: white;" id="edit-sdt" name="sdt" required>
                     </div>
                     <div class="mb-3">
-                        <label for="updateNgaySinh" class="form-label">Ngày Sinh</label>
-                        <input type="date" class="form-control" style="color: white;" id="updateNgaySinh" name="ngaySinh" required>
+                        <label for="edit-ngaySinh" class="form-label">Ngày Sinh</label>
+                        <input type="date" class="form-control" style="color: white;" id="edit-ngaySinh" name="ngaySinh" required>
                     </div>
                     <div class="mb-3">
-                        <label for="updateVaiTro" class="form-label">Vai Trò</label>
-                        <select class="form-select" style="color: white;" id="updateVaiTro" name="vaiTro" required>
-                            <option value="">-- Chọn Vai Trò --</option>
+                        <label for="edit-vaiTro" class="form-label">Vai Trò</label>
+                        <select class="form-select" style="color: white;" id="edit-vaiTro" name="vaiTro" required>
                             <option value="NVQuay">Nhân viên Quầy</option>
                             <option value="NVHuongDanVien">Hướng dẫn viên</option>
                             <option value="NVBaoTri">Nhân viên Bảo trì</option>
@@ -186,71 +184,8 @@
         </div>
     </div>
 </div>
-<!-- Modal update Thông Tin Nhân Viên
-<div class="modal fade" id="updateEmployeesModal" tabindex="-1" aria-labelledby="updateEmployeesModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateEmployeesModalLabel">Sửa thông tin Nhân Viên</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="updateEmployeesForm">
-                <input type="hidden" name="form_type" value="update" />
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="suaHoTen" class="form-label">Họ Tên</label>
-                        <input type="text" class="form-control" style="color: white;" id="suaHoTen" name="hoTen" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="suaEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" style="color: white;" id="suaEmail" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="suaSdt" class="form-label" >Số Điện Thoại</label>
-                        <input type="text" class="form-control" style="color: white;" id="suaSdt" name="sdt" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="suaNgaySinh" class="form-label">Ngày Sinh</label>
-                        <input type="date" class="form-control" style="color: white;" id="suaNgaySinh" name="ngaySinh" required>
-                    </div>
-                    note
-                     <div class="mb-3">
-                        <label for="suaVaiTro" class="form-label">Vai Trò</label>
-                        <select class="form-select" style="color: white;" id="suaVaiTro" name="vaiTro" required>
-                            <option value="">-- Chọn Vai Trò --</option>
-                            <option value="NVQuay">Nhân viên Quầy</option>
-                            <option value="NVHuongDanVien">Hướng dẫn viên</option>
-                            <option value="NVBaoTri">Nhân viên Bảo trì</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="submit" class="btn btn-success">Sửa</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> -->
 
-<!-- Modal Xóa Nhân Viên -->
-<!-- <div class="modal fade" id="deleteEmployeesModal" tabindex="-1" aria-labelledby="deleteEmployeesModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteEmployeesModalLabel">Xóa Nhân Viên</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Bạn có chắc chắn muốn xóa nhân viên này không?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Xóa</button>
-            </div>
-        </div>
-    </div>
-</div> --> 
+
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -356,7 +291,48 @@
         });
     </script>
 
+<!-- Sửa thông tin nhân viên -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.btn-editNhanVien');
+    const editForm = document.getElementById('editEmployeeForm');
 
+    editButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            document.getElementById('edit-idNhanVien').value = this.dataset.id;
+            document.getElementById('edit-hoTen').value = this.dataset.hoten;
+            document.getElementById('edit-email').value = this.dataset.email;
+            document.getElementById('edit-sdt').value = this.dataset.sdt;
+            document.getElementById('edit-ngaySinh').value = this.dataset.ngaysinh;
+            document.getElementById('edit-vaiTro').value = this.dataset.vaitro;
+
+            const modal = new bootstrap.Modal(document.getElementById('editEmployeeModal'));
+            modal.show();
+        });
+    });
+
+    editForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(editForm);
+
+        fetch('models/handle_NhanVien_edit.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Cập nhật thành công!');
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+
+</script>
 <!-- xóa nhân viên -->
 <script>
     function deleteNhanVien(userID) {

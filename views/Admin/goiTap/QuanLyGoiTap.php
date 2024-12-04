@@ -68,10 +68,14 @@
                         <td><?= $member['thoiHan'] ?></td>
                         <td><?= number_format($member['gia'], 0, '.', '.')?></td>
                         <td><?= $member['moTa'] ?></td>
-                        <!-- <td class="status"><?= $member['vaiTro'] ?></td> -->
                         <td class="text-center">
                             <!-- button mở modal sửa thông tin gói tập -->
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateEquipmentModal" data-id="<?= $member['maGoiTap']?>">Sửa</button>
+                            <button class="btn btn-info btn-editGoiTap" 
+        data-id="<?= $member['maGoiTap'] ?>" 
+        data-tenGoiTap="<?= $member['tenGoiTap'] ?>" 
+        data-thoiHan="<?= $member['thoiHan'] ?>" 
+        data-gia="<?= $member['gia'] ?>" 
+        data-moTa="<?= $member['moTa'] ?>">Sửa</button>                            
                             <!-- nút xóa gói tập -->
                             <button type="button" class="btn btn-danger"  onclick="deleteGoiTap(<?= $member['maGoiTap']?>)">Xóa</button>                         
                         </td>
@@ -89,7 +93,7 @@
     </div>
 
 <!-- Modal Thêm gói tập -->
-<div class="modal fade" id="addGoiTapModal" tabindex="-1" aria-labelledby="addGoiTapModalLabel" aria-hidden="true">
+ <div class="modal fade" id="addGoiTapModal" tabindex="-1" aria-labelledby="addGoiTapModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -114,9 +118,49 @@
                         <label for="moTa" class="form-label">Mô Tả</label>
                         <textarea class="form-control" style="color: white;" id="moTa" name="moTa" required></textarea>
                     </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                     <button type="submit" class="btn btn-success">Thêm Gói Tập</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- modal sửa gói tập -->
+<div class="modal fade" id="editGoiTapModal" tabindex="-1" aria-labelledby="editGoiTapModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editGoiTapForm" method="post">
+                <input type="hidden" id="edit-idGoiTap" name="idGoiTap">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editGoiTapModalLabel">Sửa Thông Tin Gói Tập</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit-tenGoiTap" class="form-label">Tên Gói Tập</label>
+                        <input type="text" class="form-control" id="edit-tenGoiTap" style="color: white;" name="tenGoiTap" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-thoiHan" class="form-label">Thời Hạn (Tháng)</label>
+                        <input type="number" class="form-control" id="edit-thoiHan" style="color: white;" name="thoiHan" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-gia" class="form-label">Giá (VND)</label>
+                        <input type="number" class="form-control" id="edit-gia" style="color: white;" name="gia" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-moTa" class="form-label">Mô Tả</label>
+                        <textarea class="form-control" id="edit-moTa" name="moTa" style="color: white;" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Cập Nhật</button>
                 </div>
             </form>
         </div>
@@ -202,6 +246,50 @@
             .catch(error => console.error('Error:', error));
         });
     </script>
+
+
+<!-- Sửa thông tin gói tập -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.btn-editGoiTap');
+    const editForm = document.getElementById('editGoiTapForm');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            document.getElementById('edit-idGoiTap').value = this.dataset.id;
+            document.getElementById('edit-tenGoiTap').value = this.dataset.tengoitap;
+            document.getElementById('edit-thoiHan').value = this.dataset.thoihan;
+            document.getElementById('edit-gia').value = this.dataset.gia;
+            document.getElementById('edit-moTa').value = this.dataset.mota;
+
+            const modal = new bootstrap.Modal(document.getElementById('editGoiTapModal'));
+            modal.show();
+        });
+    });
+
+    editForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(editForm);
+
+        fetch('models/handle_GoiTap_edit.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Cập nhật thành công!');
+                location.reload(); // Tải lại trang để cập nhật danh sách
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+
+
+</script>
 
     <!-- xóa gói tập -->
 <script>

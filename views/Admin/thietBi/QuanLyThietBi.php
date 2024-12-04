@@ -29,6 +29,12 @@
 
     <!-- Template Stylesheet -->
     <link href="asset/css/style.css" rel="stylesheet">
+    <!-- css -->
+    <style>
+        table.table td {
+        vertical-align: middle; /* Căn giữa theo chiều dọc */
+        }    
+    </style>
 </head>
 <body>
     <?php require_once('../views/Admin/layout/header.php'); ?>
@@ -71,7 +77,11 @@
                         </td>
                         <td class="text-center">
                             <!-- button mở modal sửa thông tin nhân viên -->
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateEquipmentModal" data-id="<?= $member['maThietBi']?>">Sửa</button>
+                            <button class="btn btn-info btn-edit" 
+                                data-id="<?= $member['maThietBi'] ?>" 
+                                data-tenThietBi="<?= $member['tenThietBi'] ?>" 
+                                data-ngayMua="<?= $member['ngayMua'] ?>" 
+                                data-trangThai="<?= $member['trangthai'] ?>">Sửa</button>
                             <!-- nút xóa nhân viên -->
                              <button type="button" class="btn btn-danger"  onclick="deleteThietBi(<?= $member['maThietBi']?>)">Xóa</button>                        
                         </td>
@@ -128,6 +138,49 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Sửa Thông Tin Thiết Bị -->
+<div class="modal fade" id="editEquipmentModal" tabindex="-1" aria-labelledby="editEquipmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editEquipmentForm" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="edit-idThietBi" name="idThietBi">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEquipmentModalLabel" style="color: black;">Sửa Thông Tin Thiết Bị</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit-tenThietBi" class="form-label">Tên Thiết Bị</label>
+                        <input type="text" class="form-control" style="color: black;" id="edit-tenThietBi" name="tenThietBi" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-ngayMua" class="form-label">Ngày Mua</label>
+                        <input type="date" class="form-control" style="color: black;" id="edit-ngayMua" name="ngayMua" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-trangThai" class="form-label">Trạng Thái</label>
+                        <select class="form-select" style="color: black;" id="edit-trangThai" name="trangthai" required>
+                            <option value="Đang sử dụng">Đang sử dụng</option>
+                            <option value="Hỏng">Hỏng</option>
+                            <option value="Bảo trì">Bảo trì</option>
+                            <option value="Không sử dụng">Không sử dụng</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-hinhAnh" class="form-label">Hình Ảnh</label>
+                        <input type="file" class="form-control" id="edit-hinhAnh" name="hinhAnh">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Cập Nhật</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -236,6 +289,47 @@
             .catch(error => console.error('Error:', error));
         });
     </script>
+
+<!-- Sửa thông tin thiết bị -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editButtons = document.querySelectorAll('.btn-edit');
+        const editForm = document.getElementById('editEquipmentForm');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                document.getElementById('edit-idThietBi').value = this.dataset.id;
+                document.getElementById('edit-tenThietBi').value = this.dataset.tenthietbi;
+                document.getElementById('edit-ngayMua').value = this.dataset.ngaymua;
+                document.getElementById('edit-trangThai').value = this.dataset.trangthai;
+
+                const modal = new bootstrap.Modal(document.getElementById('editEquipmentModal'));
+                modal.show();
+            });
+        });
+
+        editForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(editForm);
+
+            fetch('models/handle_ThietBi_edit.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Cập nhật thành công!');
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+
 
     <!-- xóa thiết bị -->
 <script>

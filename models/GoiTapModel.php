@@ -8,7 +8,7 @@ class GoiTapModel {
         $database = new Database();
         $this->conn = $database->connect();
     }
-    //Đếm số lượng nhân viên hiện tại
+    //Đếm số lượng gói tập hiện tại
     public function getCurrentGoiTap() {
         $sql = "SELECT COUNT(*) as count FROM goitap ";
         $result = $this->conn->query($sql);
@@ -50,13 +50,37 @@ class GoiTapModel {
         }
     }
 
+
+    // edit gói tập
+    public function editGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $idGoiTap) {
+        // Câu truy vấn cập nhật thông tin gói tập
+        $query = "UPDATE goitap SET tenGoiTap = ?, thoiHan = ?, gia = ?, moTa = ? WHERE maGoiTap = ?";
+        
+        $stmt = $this->conn->prepare($query);
+        
+        // Kiểm tra nếu prepare() thành công
+        if (!$stmt) {
+            return false; // Trả về false nếu chuẩn bị câu lệnh thất bại
+        }
+        
+        // Sử dụng bind_param và truyền đúng số lượng tham số
+        $stmt->bind_param("ssssi", $tenGoiTap, $thoiHan, $gia, $moTa, $idGoiTap);
+        
+        // Thực thi câu lệnh
+        if ($stmt->execute()) {
+            return true; // Cập nhật thành công
+        } else {
+            return false; // Cập nhật thất bại
+        }
+    }
+
     public function deleteGoiTap($idGoiTap) {
         // Kiểm tra nếu giá trị $idGoiTap rỗng
         if (empty($idGoiTap)) {
             return false; // Nếu idGoiTap rỗng, trả về false
         }
         
-        // Câu truy vấn xóa nhân viên
+        // Câu truy vấn xóa gói tập
         $query = "DELETE FROM goitap WHERE maGoiTap = ?";
         
         $stmt = $this->conn->prepare($query);

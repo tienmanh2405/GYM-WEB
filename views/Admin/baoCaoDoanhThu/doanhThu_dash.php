@@ -92,6 +92,7 @@
 </div>
         <?php
 $totalAmount = 0;  // Biến tổng tiền
+
 ?>
 <!-- Bảng doanh thu -->
 <table class="table table-striped text-center">
@@ -120,7 +121,7 @@ $totalAmount = 0;  // Biến tổng tiền
             <td><?php echo $item['tenGoiTap']; ?></td>
             <td><?php echo number_format($item['donGia'], 0, '', '.'); ?></td>
         </tr>
-        <?php $totalAmount += $item['donGia']; ?>  <!-- Cập nhật biến tổng tiền -->
+        <?php $totalAmount += $item['donGia']; ?> <!--  Cập nhật biến tổng tiền -->
     <?php endforeach; ?>
 <?php endif; ?>
     </tbody>
