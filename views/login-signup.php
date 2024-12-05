@@ -7,18 +7,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Double Slider Login / Registration Form</title>
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../asset/css/login.css">
+  <link rel="stylesheet" href="../asset/css/login1.css">
 </head>
 
 <body>
   <div class="container" id="container">
 
     <div class="form-container register-container">
-      <form id="registerForm" action="../register/post" method="POST" autocomplete="off">
-        <h1>ĐĂNG KÝ</h1>
+      <form id="registerForm" action="../register/post" method="POST">
+        <h1>ĐĂNG KÝ</h1>  
         <input type="text" name="name" placeholder="Họ Tên" id="name" required>
-        <input type="text" name="phone" placeholder="Số Điện Thoại" required>
-        <input type="date" name="dob" min="1999-01-01" max="2009-12-31" required />
+        <input type="text" name="phone" placeholder="Số Điện Thoại" id="phone"  required>
+        <span id="phoneError" style="color: red; display: none;"></span>
+        <input type="date" name="dob" min="1924-12-12" max="2024-12-12" id="dob" required>
+        <span id="dobError" style="color: red; display: none;"></span>
         <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="pass" id="password" placeholder="Mật Khẩu" required>
         <span id="passwordError" style="color: red; display: none;">Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm cả chữ và số.</span>
@@ -27,7 +29,7 @@
     </div>
 
     <div class="form-container login-container">
-      <form action="../login/post" method="POST" autocomplete="off">
+      <form action="../login/post" method="POST">
         <h1>ĐĂNG NHẶP</h1>
         <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Mật Khẩu" required>
@@ -65,22 +67,7 @@
 
   </div>
 
-  <script src="../asset/js/login.js"></script>
-
-  <script>
-    document.getElementById("registerForm").addEventListener("submit", function(event) {
-      const password = document.getElementById("password").value;
-      const passwordError = document.getElementById("passwordError");
-      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; 
-
-      if (!passwordRegex.test(password)) {
-        passwordError.style.display = "block";
-        event.preventDefault(); 
-      } else {
-        passwordError.style.display = "none"; 
-      }
-    });
-  </script>
+<script src="../asset/js/login.js"></script>
 
 </body>
 

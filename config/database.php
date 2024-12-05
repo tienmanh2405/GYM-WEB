@@ -1,7 +1,7 @@
 <?php
 
 
-define('BASE_URL', 'http://localhost/gym/'); // thay đổi đường dẫn
+define('BASE_URL', 'http://localhost/GYM-WEB/'); // thay đổi đường dẫn
 
 class Database
 {

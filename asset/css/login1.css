@@ -70,7 +70,7 @@ a:hover {
 }
 
 .content input {
-  accent-color: rgb(109, 140, 151);
+  accent-color: red;
   width: 12px;
   height: 12px;
 }
@@ -97,7 +97,7 @@ button {
 }
 
 button:hover {
-  letter-spacing: 3px;
+  letter-spacing: 2px;
 }
 
 button:active {
@@ -148,16 +148,15 @@ form {
   height: 100%;
   text-align: center;
 }
-
 input {
-  background-color: #ffffffda;
-  border-radius: 10px;
-  border: none;
-  padding: 12px 15px;
-  margin: 8px 0;
-  width: 100%;
-}
-
+    background-color: #c3eff5da;
+    border-color: #333;
+    border-radius: 10px;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+  }
 .container {
   background-color: #ffffff;
   border-radius: 25px;
