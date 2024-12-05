@@ -57,6 +57,15 @@ class Member {
         // Trả về tất cả các kết quả dưới dạng mảng
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    
+
+    public function insert($id) {
+        $stmt = $this->conn->prepare('INSERT INTO thanhvien (userID, ngayDangKy) VALUES (?, NOW())'); // Sử dụng NOW() để lấy thời gian thực
+        $stmt->bind_param('i', $id); // Chỉ truyền userID
+        if ($stmt->execute()) {
+            return true; 
+        } else {
+            throw new Exception("Lỗi: " . $stmt->error); // Ném lỗi nếu có vấn đề
+        }
+    }
 }
 ?>
