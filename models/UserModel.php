@@ -261,11 +261,26 @@ class UserModel
     {
 
         $stmt = $this->conn->prepare("UPDATE nguoidung SET email = ?, hoTen = ?, sdt = ? WHERE userID = ?");
-        $stmt->bind_param("ssii", $email, $name, $phone, $id);
+        $stmt->bind_param("sssi", $email, $name, $phone, $id);
+
         if ($stmt->execute()) {
             return true;
         } else {
             throw new Exception("Lỗi: " . $stmt->error);
         }
     }
+    
+    public function updateAvatar($newFileName, $id) {
+        // Cập nhật đường dẫn ảnh vào cơ sở dữ liệu
+
+        $sql = "UPDATE nguoidung SET hinhAnh = ? WHERE userID = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("si", $newFileName, $id);
+        if($stmt->execute()){
+            return true;
+        }else {
+            throw new Exception("Lỗi: " . $stmt->error);
+        }
+    }
+    
 }

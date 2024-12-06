@@ -1,7 +1,15 @@
+<!--  -->
 <?php
-session_start(); // Bắt đầu session, cần thiết để sử dụng $_SESSION
-if (!isset($_SESSION['user'])) {
-    header('Location: ./index.php');
+require_once __DIR__ . '/../controllers/AuthController.php';
+$authController = new AuthController(); 
+
+$userId = $authController->checkLoginStatus(); 
+if ($userId) {
+    // Lấy thông tin user từ AuthController
+    $user = $authController->getUser($userId);
+} else {
+    echo "<script>alert('Hãy đăng nhập');</script>";
+    header('Location: ./login-signup.php');
     exit();
 }
 ?>
@@ -11,7 +19,13 @@ if (!isset($_SESSION['user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Đánh Giá Dịch Vụ</title>
-    <style>
+    <?php
+    require_once __DIR__ . '/../includes/head.php';
+    ?>
+<link rel="stylesheet" href="../asset/css/style2.css">
+<head>
+</head>
+    <!-- <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -76,11 +90,16 @@ if (!isset($_SESSION['user'])) {
         .rating-form button:hover {
             background-color: #45a049;
         }
-    </style>
+    </style> -->
 </head>
 
 <body>
-    <div class="rating-form">
+    <!-- Header Section Begin -->
+    <?php
+    require_once __DIR__ . '/../includes/header.php';
+    ?>
+    <!-- Header End -->
+    <!-- <div class="rating-form">
         <h2>Đánh Giá Dịch Vụ</h2>
         <form action="../ratingform/post" method="post">
             <label for="content">Nội dung đánh giá:</label>
@@ -96,7 +115,43 @@ if (!isset($_SESSION['user'])) {
 
             <button type="submit">Gửi Đánh Giá</button>
         </form>
-    </div>
+    </div> -->
+    <div class="container">
+        <!-- Sidebar begin -->
+        <?php
+        require_once __DIR__ . '/../includes/sidebar.php';
+        ?>
+        <!-- Sidebar ènd -->
+        <div class="content">
+                <h1>Đánh Giá Dịch Vụ</h1>
+                    <form action="../ratingform/post" method="post" onsubmit="return validateForm()">
+                        <div class="form-group">
+                            <label for="content">Nội dung đánh giá</label>
+                            <textarea id="content" name="content" class="form-control" placeholder="Nhập nội dung đánh giá của bạn..." required></textarea>
+                            <!-- <input type="text" name="rating-content" class="form-control" id="rating-content" required> -->
+                        </div>
+                        <div class="form-group">
+                        <label for="rating">Điểm đánh giá:</label>
+                            <select id="rating" name="rating" class="form-control" required>
+                                <option value="5">5 - Rất tốt</option>
+                                <option value="4">4 - Tốt</option>
+                                <option value="3">3 - Trung bình</option>
+                                <option value="2">2 - Kém</option>
+                                <option value="1">1 - Rất kém</option>
+                            </select>
+</div>
+                        <button type="submit">Ô KÊ</button>
+                        <?php
+                        if (isset($_SESSION['error'])) {
+                            echo "<p style='color: red;'>" . $_SESSION['error'] . "</p>";
+                            unset($_SESSION['error']);
+                        }
+                        ?>
+                    </form>
+         </div>
+            
+
+        </div>
 </body>
 
 </html>

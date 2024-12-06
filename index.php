@@ -43,10 +43,12 @@ switch ($request) {
         $authController->updateProfile($id);
         break;
 
-    case '/views/logout.php':
-        session_destroy();
-        header('Location: ' . BASE_URL . 'views/index.php');
-        break;
+    // case '/logout/post':
+    //     session_start();
+    //     session_destroy();
+    //     header('Location: ' . BASE_URL . 'views/index.php');
+    //     exit(); 
+    //     break;
 
     case '/change/post':
         $authController->updatePassword($id);

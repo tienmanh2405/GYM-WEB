@@ -15,11 +15,17 @@
                 </a>
             </li>
             <li>
+                <a href="ratingform.php"
+               <?php echo basename($_SERVER['PHP_SELF']) == 'ratingform.php' ? 'class="active"' : ''; ?>>
+                Đánh giá dịch vụ
+                </a>
+            </li>
+            <li>
                 <a href="trackpack.php"
                <?php echo basename($_SERVER['PHP_SELF']) == 'trackpack.php' ? 'class="active"' : ''; ?>>
                 Theo dõi gói tập
                 </a>
             </li>
-            <li><a href="#">Đăng xuất</a></li>
+            <li><a href="logout.php">Đăng xuất</a></li>
         </ul>
 </aside>
