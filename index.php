@@ -1,10 +1,14 @@
 
 <?php
 require_once __DIR__ . '/controllers/AuthController.php';
+require_once __DIR__ . '/controllers/OrderController.php';
+require_once __DIR__ . '/controllers/HoaDonController.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 $authController = new AuthController();
+$orderController = new OrderController();
+$hoaDonController = new hoaDonController();
 if (isset($_SESSION['user'])) {
     $id = $_SESSION['user'];
 }
@@ -38,7 +42,7 @@ switch ($request) {
     case '/profile':
         // Handle profile logic
         break;
-    
+
     case '/update-profile':
         $authController->updateProfile($id);
         break;
@@ -68,8 +72,30 @@ switch ($request) {
         $authController->newPassword();
         break;
 
+    // case '/add-order':
+
+    //     $orderID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    //     if ($orderID > 0) {
+    //         $id = $_SESSION['user'] ?? 0;
+    //         if ($id > 0) {
+    //             $result = $orderController->add($id, $orderID);
+    //             $idGoiDangKy = $result['id'];
+    //             $hoaDonController->add($idGoiDangKy);
+    //             header('Location: ' . BASE_URL . 'views/trackpack.php');
+    //         } else {
+    //             echo "<script>alert('Vui lòng đăng nhập trước khi đặt hàng!');</script>";
+    //         }
+    //     }
+
+
+
+        // case '/vnpay_php/vnpay_return.php':
+        //     $orderID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        //     echo "<script>alert('thanh toan thanh cong');</script>";
+        //     break;
+
+
     default:
-        // For all other requests, if no match is found, redirect to index.php
         include 'views/index.php';
         break;
 }

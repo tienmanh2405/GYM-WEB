@@ -1,86 +1,43 @@
-<?php
+<?php 
 require_once __DIR__ . '/../controllers/AuthController.php';
 $authController = new AuthController(); // Tạo đối tượng từ lớp AuthController
 
 $userId = $authController->checkLoginStatus(); // Gọi phương thức checkLoginStatus
-if ($userId) {
+if ($userId)
     // Lấy thông tin user từ AuthController
-    $user = $authController->getUser($userId);
-} 
-//else {
-//     echo "<script>alert('Hãy đăng nhập');</script>";
-//     header('Location: ./login-signup.php');
-//     exit();
-// }
+$user = $authController->getUser($userId);
+require_once __DIR__ . '../../controllers/GoiTapController.php';
+$goiTapController = new GoiTapController();
+$data = $goiTapController->getAllGoiTap(null);
 ?>
+
 <!DOCTYPE html>
 <html lang="zxx">
-    <?php
+
+<head>
+<?php
     require_once __DIR__ . '/../includes/head.php';
-    ?>
+?>
+</head>
+
 <body>
+    
     <!-- Header Section Begin -->
     <?php
-    require_once  __DIR__ .'/../includes/header.php';
+    require_once __DIR__ . '/../includes/header.php';
     ?>
-    <!-- Header End -->
-
-    <!-- Hero Section Begin -->
-    <section class="hero-section">
-        <div class="hero-items owl-carousel">
-            <div class="single-hero-item " style="background-image:url('../asset/img/hero-slider/hero-7.jpg')" >
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="hero-text">
-                                <h2>Tập Luyện Ngay Thôi Nào</h2>
-                                <h1>NO FIT, NO MEAT</h1>
-                                <a href="#" class="primary-btn">Mua Gói Ngay</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="single-hero-item" style="background-image:url('../asset/img/hero-slider/hero-5.jpg')" >
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="hero-text">
-                                <h2>Tập Luyện Ngay Thôi Nào</h2>
-                                <h1>NO FIT, NO MEAT</h1>
-                                <a href="#" class="primary-btn">Mua Gói Ngay</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="single-hero-item" style="background-image:url('../asset/img/hero-slider/hero-4.jpg')" >
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="hero-text">
-                                <h2>Tập Luyện Ngay Thôi Nào</h2>
-                                <h1>NO FIT, NO MEAT</h1>
-                                <a href="#" class="primary-btn">Mua Gói Ngay</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Hero End -->
-      <!-- This is for About Section Begin -->
-      <section id="home-about" class="home-about spad">
+    <!-- Header Section End -->
+    <!-- This is for About Section Begin -->
+    <section id="home-about" class="home-about spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="about-text">
                         <h2>CHÚNG TÔI LÀ THIENTAI CENTER GYM</h2>
-                        <p class="short-details"> Là thương hiệu về sức khỏe lớn nhất Đại học Công Nghiệp TpHCM, được 
-                            xây dựng để mang lại hạnh phúc và tạo ra những khoảnh khắc viên mãn 
+                        <p class="short-details"> Là thương hiệu về sức khỏe lớn nhất Đại học Công Nghiệp TpHCM, được
+                            xây dựng để mang lại hạnh phúc và tạo ra những khoảnh khắc viên mãn
                             cho bạn trong cuộc sống bằng việc cung cấp các dịch vụ phát triển sức khỏe thể chất, và tinh thần toàn diện.</p>
-                        <a href="#" class="primary-btn about-btn">Learn More</a>
+                        <a href="#" class="primary-btn about-btn">Tìm hiểu thêm</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -96,11 +53,11 @@ if ($userId) {
     <section id="home-about" class="home-about spad">
         <div class="container">
             <div class="aboutus-page-text">
-                    <div class="row">
-                        <div class="col-xl-9 col-lg-10 m-auto">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-10 m-auto">
                         <div class="section-title">
                             <h2>Mọi thứ bạn cần đều ở đây</h2>
-                            <p>Chúng tôi tự hào mang đến một hệ thống gym hiện đại, nơi bạn không 
+                            <p>Chúng tôi tự hào mang đến một hệ thống gym hiện đại, nơi bạn không
                                 chỉ rèn luyện sức khỏe mà còn tìm thấy động lực và cảm hứng mỗi ngày</p>
                         </div>
                     </div>
@@ -110,10 +67,10 @@ if ($userId) {
                     <div class="col-lg-6">
                         <div class="about-us">
                             <h4>ĐÔI LÉT</h4>
-                            <p>Chúng tôi là một đội ngũ tận tâm, luôn hướng đến việc mang lại giá trị thực sự cho cộng đồng. 
-                                Với sứ mệnh không ngừng cải tiến và đổi mới, chúng tôi cung cấp những dịch vụ và sản phẩm chất lượng cao, 
+                            <p>Chúng tôi là một đội ngũ tận tâm, luôn hướng đến việc mang lại giá trị thực sự cho cộng đồng.
+                                Với sứ mệnh không ngừng cải tiến và đổi mới, chúng tôi cung cấp những dịch vụ và sản phẩm chất lượng cao,
                                 được thiết kế để đáp ứng nhu cầu và kỳ vọng của khách hàng.</p>
-                            <p>Từ sự chuyên nghiệp trong công việc đến mối quan hệ chân thành với khách hàng, chúng tôi cam kết đem lại những 
+                            <p>Từ sự chuyên nghiệp trong công việc đến mối quan hệ chân thành với khách hàng, chúng tôi cam kết đem lại những
                                 trải nghiệm tuyệt vời và góp phần xây dựng một tương lai tươi sáng hơn.
                             </p>
                         </div>
@@ -123,9 +80,9 @@ if ($userId) {
                             <h4>CHẤT LƯỢNG</h4>
                             <p>Hãy đến và trải nghiệm sự khác biệt, nơi chất lượng là ưu tiên hàng đầu của chúng tôi!</p>
                             <ul>
-                                <li><i class="fa fa-check-circle-o"></i>Chúng tôi tự hào mang đến cho bạn một gói tập toàn diện, kết hợp phòng tập hiện đại với trang thiết bị tối tân, 
+                                <li><i class="fa fa-check-circle-o"></i>Chúng tôi tự hào mang đến cho bạn một gói tập toàn diện, kết hợp phòng tập hiện đại với trang thiết bị tối tân,
                                     tạo không gian lý tưởng để bạn đạt được mục tiêu sức khỏe.</li>
-                                <li><i class="fa fa-check-circle-o"></i>Đội ngũ huấn luyện viên chuyên nghiệp và giàu kinh nghiệm sẽ đồng hành cùng bạn, 
+                                <li><i class="fa fa-check-circle-o"></i>Đội ngũ huấn luyện viên chuyên nghiệp và giàu kinh nghiệm sẽ đồng hành cùng bạn,
                                     đảm bảo mỗi buổi tập không chỉ hiệu quả mà còn đầy cảm hứng.</li>
                                 <li><i class="fa fa-check-circle-o"></i>Chúng tôi cam kết cung cấp dịch vụ với giá cả hợp lý, luôn mang lại giá trị vượt trội cho mỗi khách hàng.</li>
                             </ul>
@@ -164,7 +121,7 @@ if ($userId) {
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-3 col-sm-6">
                     <div class="trainer-item">
                         <div class="ti-pic">
@@ -215,9 +172,9 @@ if ($userId) {
     </section>
     <!-- Trainer Section End -->
 
-<!-- Testimonial Section start -->
- 
-    <section class="testimonial-section set-bg spad" data-setbg="../asset/img/testimonial1-bg.jpg">
+    <!-- Testimonial Section start -->
+
+    <!-- <section class="testimonial-section set-bg spad" data-setbg="../asset/img/testimonial1-bg.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">
@@ -280,7 +237,7 @@ if ($userId) {
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <!--Testimonial Section end -->
 
     <!-- Price Plan Section Begin -->
@@ -289,89 +246,45 @@ if ($userId) {
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>CHOOSE YOUR PRICING PLAN</h2>
-                        <p>These reports started to surface when Congress was having hearings about the<br />
-                            painkiller, Vioxx. A Food and Drug Administration staff member.</p>
+                        <h2>CÁC GÓI TẬP THỊNH HÀNH</h2>
+                        <p>Mua gói tập từ 1 năm trở lên sẽ nhận được nhiều ưu đãi hấp dẫn</p>
                     </div>
                     <div class="toggle-option">
                         <ul>
-                            <li>Monthly</li>
+                            <li>Gói Tháng</li>
                             <li>
                                 <label class="switch">
-                                    <input type="checkbox" checked>
+                                    <input type="checkbox" id="billingToggle" checked>
                                     <span class="slider"></span>
                                 </label>
                             </li>
-                            <li>Years</li>
+                            <li>Gói Năm</li>
                         </ul>
                     </div>
+
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="single-price-plan">
-                        <h4>Normal</h4>
-                        <div class="price-plan">
-                            <h2>55 <span>$</span></h2>
-                            <p>Monthly</p>
-                        </div>
-                        <ul>
-                            <li>Unlimited access to the gym</li>
-                            <li>1 classes per week</li>
-                            <li>FREE drinking package</li>
-                            <li>1 Free personal training</li>
-                        </ul>
-                        <a href="#" class="primary-btn price-btn">Get Started</a>
-                    </div>
+
+                <div class="price-carousel owl-carousel owl-theme "> 
                 </div>
-                <div class="col-lg-4">
-                    <div class="single-price-plan">
-                        <h4>Professional</h4>
-                        <div class="price-plan">
-                            <h2>95 <span>$</span></h2>
-                            <p>Monthly</p>
-                        </div>
-                        <ul>
-                            <li>Unlimited access to the gym</li>
-                            <li>2 classes per week</li>
-                            <li>FREE drinking package</li>
-                            <li>2 Free personal training</li>
-                        </ul>
-                        <a href="#" class="primary-btn price-btn">Get Started</a>
-                        <div class="tic-text">
-                            <i class="fa fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="single-price-plan">
-                        <h4>Advanced</h4>
-                        <div class="price-plan">
-                            <h2>165 <span>$</span></h2>
-                            <p>Monthly</p>
-                        </div>
-                        <ul>
-                            <li>Unlimited access to the gym</li>
-                            <li>6 classes per week</li>
-                            <li>FREE drinking package</li>
-                            <li>5 Free personal training</li>
-                        </ul>
-                        <a href="#" class="primary-btn price-btn">Get Started</a>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
+    <!-- Price Plan Section END -->
+
+
     <!-- Cta Section Begin -->
-    <section id='contact'class="cta-section">
+    <section id='contact' class="cta-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="cta-text">
-                        <h3>GeT Started Today</h3>
-                        <p>New student special! $30 unlimited Gym for the first week anh 50% of our member!</p>
+                        <h3>Hãy tham gia tập luyện ngay hôm nay</h3>
+                        <p>Có rất nhiều ưu đãi hấp dẫn đang chờ bạn đó!</p>
                     </div>
-                    <a href="#" class="primary-btn cta-btn">book now</a>
+                    <a href="login-signup.php" class="primary-btn cta-btn">Đăng ký ngay!!</a>
                 </div>
             </div>
         </div>
@@ -381,23 +294,27 @@ if ($userId) {
     <!-- Map Section Begin -->
     <div class="map">
         <iframe
-            src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d188618.51311104256!2d-71.236572!3d42.381647!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1576756626784!5m2!1sen!2sbd" height="590" style="border: 0" allowfullscreen=""></iframe>
-            <div class="map-contact-detalis">
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.
+                858237982643!2d106.68427047480563!3d10.822158889329419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1
+                !3m3!1m2!1s0x3174deb3ef536f31%3A0x8b7bb8b7c956157b!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBDw7RuZyBuZ
+                2hp4buHcCBUUC5IQ00!5e0!3m2!1svi!2s!4v1733595051538!5m2!1svi!2s" height="590" 
+            style="border: 0" allowfullscreen=""></iframe>
+        <div class="map-contact-detalis">
             <div class="open-time">
-                <h5>Weekday:</h5>
+                <h5>Lịch làm việc:</h5>
                 <ul>
-                    <li>Weekday: <span>06:30 - 11:00</span></li>
-                    <li>Saturday: <span>07:00 - 22:00</span></li>
-                    <li>Sunday: <span>09:00 - 18:00</span></li>
+                    <li>Hàng ngày: <span>06:30 - 11:00</span></li>
+                    <li>Thứ bảy: <span>07:00 - 22:00</span></li>
+                    <li>Chủ Nhật: <span>09:00 - 18:00</span></li>
                 </ul>
             </div>
             <div class="map-contact-form">
-                <h5>Contact Us</h5>
+                <h5>Nếu có thắc mắc hãy liên hệ với chúng tôi</h5>
                 <form action="#">
                     <input type="text" placeholder="Name">
                     <input type="text" class="phone" placeholder="Phone">
                     <textarea placeholder="Message"></textarea>
-                    <button type="submit" class="site-btn">Submit Now</button>
+                    <button type="submit" class="site-btn">Gửi Ngay</button>
                 </form>
             </div>
         </div>
@@ -405,14 +322,91 @@ if ($userId) {
     <!-- Map Section End -->
 
     <!-- Footer Section Begin -->
-    <?php
-    require_once  __DIR__ .'/../includes/footer.php';
-    ?>
+    <footer class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer-logo-item">
+                        <div class="f-logo">
+                            <a href="#"><img src="../asset/img/logo.png" alt=""></a>
+                        </div>
+                        <p>Despite growth of the Internet over the past seven years, the use of toll-free phone numbers
+                            in television advertising continues.</p>
+                        <div class="social-links">
+                            <h6>Follow us</h6>
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-google-plus"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1">
+                    <div class="footer-widget">
+                        <h5>Our Blog</h5>
+                        <div class="footer-blog">
+                            <a href="#" class="fb-item">
+                                <h6>Most people who work</h6>
+                                <span class="blog-time"><i class="fa fa-clock-o"></i> Jan 02, 2019</span>
+                            </a>
+                            <a href="#" class="fb-item">
+                                <h6>Freelance Design Tricks How </h6>
+                                <span class="blog-time"><i class="fa fa-clock-o"></i> Jan 02, 2019</span>
+                            </a>
+                            <a href="#" class="fb-item">
+                                <h6>have a computer at home have had </h6>
+                                <span class="blog-time"><i class="fa fa-clock-o"></i> Jan 02, 2019</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="footer-widget">
+                        <h5>Program</h5>
+                        <ul class="workout-program">
+                            <li><a href="#">Bodybuilding</a></li>
+                            <li><a href="#">Running</a></li>
+                            <li><a href="#">Streching</a></li>
+                            <li><a href="#">Weight Loss</a></li>
+                            <li><a href="#">Gym Fitness</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="footer-widget">
+                        <h5>Get Info</h5>
+                        <ul class="footer-info">
+                            <li>
+                                <i class="fa fa-phone"></i>
+                                <span>Phone:</span>
+                                (12) 345 6789
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope-o"></i>
+                                <span>Email:</span>
+                                Colorlib.info@gmail.com
+                            </li>
+                            <li>
+                                <i class="fa fa-map-marker"></i>
+                                <span>Address</span>
+                                Iris Watson, Box 283 8562, NY
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+
     <!-- Footer Section End -->
 
     <!-- Js Plugiasset/ns -->
-    <?php
-    require_once  __DIR__ .'/../includes/idexjs.php';
-    ?>
+<?php
+    require_once __DIR__ . '/../includes/idexjs.php';
+?>
+
 </body>
+
 </html>

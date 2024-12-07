@@ -331,17 +331,19 @@ ol {
 
 /* Giữ header cố định khi cuộn trang */
 /* Giữ header cố định khi cuộn trang */
+
+.container-menu{
+    background-color:#e34400 ;
+}
 .header-section {
     position: fixed; /* Cố định header */
     top: 0;          /* Đặt nó ở trên cùng */
     left: 0;         /* Căn lề trái */
     width: 100%;     /* Đảm bảo chiều rộng 100% */
     z-index: 99;     /* Đảm bảo header luôn ở trên */
-    padding-left: 60px;
-    padding-right: 60px;
-    background-color: #ff560ec1; /* Màu nền để dễ nhìn */
+    padding: 0;
+    background-color: #e34400; /* Màu nền để dễ nhìn */
 }
-
 .header-section.header-normal {
 	position: relative;
 	display: -webkit-box;
@@ -353,7 +355,7 @@ ol {
     transition: background-color 0.3s ease; /* Thêm hiệu ứng chuyển màu mượt mà */
 }
 .header-section.header-normal.sticky {
-    background-color: #e4381C; /* Màu cam */
+    background-color: #ffffff; /* Màu cam */
 }
 .header-section.header-normal .logo {
 	padding: 40px 0;
@@ -391,6 +393,7 @@ ol {
 }
 
 .nav-menu {
+    padding-top: 15px;
 	text-align: center;
 }
 
@@ -410,7 +413,7 @@ ol {
 }
 
 .nav-menu .mainmenu ul li.active a {
-	color: #e4381C;
+	color: #ffffff;
 }
 
 .nav-menu .mainmenu ul li.active a:after {
@@ -439,7 +442,7 @@ ol {
 	bottom: -5px;
 	width: 100%;
 	height: 2px;
-	background: #e4381C;
+	background: #ffffff;
 	content: "";
 	opacity: 0;
 	-webkit-transition: all 0.3s;
@@ -454,7 +457,7 @@ ol {
 }
 
 .nav-menu .mainmenu ul li:hover>a {
-	color: #e4381C;
+	color: #ffffff;
 }
 
 .nav-menu .mainmenu ul li:hover>a:after {
@@ -466,7 +469,7 @@ ol {
 	left: 0;
 	top: 70px;
 	width: 180px;
-	background: #e4381C;
+	background: #ffffff;
 	opacity: 0;
 	visibility: hidden;
 	-webkit-transition: all 0.3s;
@@ -488,7 +491,7 @@ ol {
 }
 
 .nav-menu .mainmenu ul li .dropdown li a:hover {
-	color: #151515;
+	color: #ffffff;
 }
 
 .nav-menu .mainmenu ul li .dropdown li a:hover:after {
@@ -543,7 +546,7 @@ ol {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     min-width: 160px; /* Độ rộng tối thiểu của menu */
-    z-index: 1000; /* Đảm bảo dropdown luôn hiển thị trên các phần tử khác */
+    z-index: 10; /* Đảm bảo dropdown luôn hiển thị trên các phần tử khác */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -1103,7 +1106,7 @@ ol {
 	transform: translateX(-35px);
 }
 
-.single-price-plan {
+/* .single-price-plan {
 	background: #ffffff;
 	text-align: center;
 	padding: 45px 0 50px;
@@ -1117,14 +1120,39 @@ ol {
 	font-weight: 600;
 	text-transform: uppercase;
 	margin-bottom: 34px;
+} */
+.single-price-plan {
+    background: #ffffff;  /* Nền trắng */
+    text-align: center;
+    padding: 0px;  /* Padding thêm vào để căn chỉnh các phần tử */
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+    background-size: cover;  /* Đảm bảo hình ảnh nền phủ hết */
+    background-position: center;
 }
 
+/* Hình ảnh bên trong mỗi gói tập */
+.single-price-plan img {
+    width: 50px;  /* Chiều rộng hình ảnh */
+    height: 250px;  /* Chiều cao hình ảnh */
+    object-fit: cover;  /* Đảm bảo hình ảnh không bị méo */
+    margin-bottom: 20px;  /* Tạo khoảng cách giữa ảnh và nội dung bên dưới */
+}
+
+/* Tùy chỉnh thông tin về gói tập */
+.single-price-plan h4 {
+    color: #272727;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
 .single-price-plan .price-plan {
-	margin-bottom: 35px;
+	margin-bottom: 25px;
 }
 
 .single-price-plan .price-plan h2 {
-	color: #272727;
+	color: #ea1c1c;
 	font-size: 48px;
 	font-weight: 700;
 	position: relative;
@@ -1145,14 +1173,14 @@ ol {
 .single-price-plan .price-plan p {
 	font-size: 16px;
 	line-height: 20px;
-	color: #272727;
+	color: #b87209;
 	font-family: "Oswald", sans-serif;
 	text-transform: uppercase;
 	letter-spacing: 2px;
 }
 
 .single-price-plan ul {
-	margin-bottom: 35px;
+	margin-bottom: 20px;
 }
 
 .single-price-plan ul li {
@@ -1164,6 +1192,7 @@ ol {
 }
 
 .single-price-plan .primary-btn.price-btn {
+	margin-bottom: 20px;
 	background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #e16521), color-stop(0%, #e4381C)), -webkit-gradient(linear, left top, right top, color-stop(100%, #e4381C), color-stop(0%, #e16521));
 	background-image: -o-linear-gradient(left, #e16521 100%, #e4381C 0%), -o-linear-gradient(left, #e4381C 100%, #e16521 0%);
 	background-image: linear-gradient(to right, #e16521 100%, #e4381C 0%), linear-gradient(to right, #e4381C 100%, #e16521 0%);

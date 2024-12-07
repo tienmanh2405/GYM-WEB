@@ -60,10 +60,8 @@
                     <div class="account-dropdown">
                         <?php if (isset($user) && $user !== null && isset($user['hoTen'])): ?>
                             <!-- Nếu đã đăng nhập, hiển thị tên người dùng -->
-                            <div class="account-toggle">
-                                <p class="account-name">Chào, <?= htmlspecialchars($user['hoTen']); ?></p>
-                            </div>
-                            <div class="dropdown-menu hidden">
+                            <p class="account-name">Chào, <?= htmlspecialchars($user['hoTen']); ?></p>
+                            <div class="dropdown-menu">
                                 <a href="profile.php">Quản lý thông tin</a>
                                 <a href="logout.php">Đăng xuất</a>
                             </div>
@@ -80,7 +78,7 @@
                     <nav class="mainmenu mobile-menu">
                         <ul>
                             <li ><a href="./index.php">Trang Chủ</a></li>
-                            <li><a href="./index.html#home-about">Giới Thiệu NE
+                            <li><a href="./index.html#home-about">Giới Thiệu
                             </a></li>
                             <!-- <li><a href="./schedule.html">Schedule</a></li>
                             <li><a href="./gallery.html">Gallery</a></li>

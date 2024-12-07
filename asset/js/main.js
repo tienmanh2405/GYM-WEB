@@ -131,5 +131,90 @@
             }
         });
     });
+
+//  code mới
+      $(".price-carousel").owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: true,
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        responsive: {
+            0: { items: 1 },
+            768: { items: 2 },
+            1024: { items: 3 },
+        },
+    });
+
+      // Load the default plan (monthly)
+      loadPlans('Mỗi Tháng');
+
+      // Toggle event for billing cycle (monthly/yearly)
+      $("#billingToggle").on("change", function () {
+          const billingCycle = $(this).is(":checked") ? "Mỗi Tháng" : "Mỗi Năm";
+          loadPlans(billingCycle);
+      });
+
+      function loadPlans(billingCycle) {
+          $.ajax({
+              url: "handle-toggle.php",
+              type: "POST",
+              data: { billingCycle: billingCycle },
+              success: function (response) {
+                  try {
+                      const data = response;
+                      console.log("Data received:", data);
+
+                      let carouselContent = "";
+                      data.forEach((item) => {
+                          carouselContent += `
+                              <div class="item">
+                                  <div class="single-price-plan">
+                                      <img src="../asset/img/gallery/${item["anh"]}"
+                                      <br>
+                                      <h4>${item["tenGoiTap"]}</h4>
+                                      <div class="price-plan">
+                                          <h2>${item["gia"]} <span>đ</span></h2>
+                                          <p>${billingCycle === 'Mỗi Tháng' ? "MỖI THÁNG" : "MỖI NĂM"}</p>
+                                      </div>
+                                      <ul>
+                                          <li>${item["moTa"]}</li>
+                                      </ul>
+                                      <a href="./payment.php?id=${item["maGoiTap"]}" class="primary-btn price-btn">Mua Gói</a>
+                                  </div>
+                              </div>
+                          `;
+                      });
+
+                      // Update the content
+                      const $carousel = $(".owl-carousel");
+                      $carousel.trigger("destroy.owl.carousel"); // Destroy existing instance
+                      $carousel.html(carouselContent); // Replace content
+                      $carousel.owlCarousel({
+                          loop: true,
+                          margin: 30,
+                          nav: true,
+                          dots: true,
+                          autoplay: true,
+                          autoplayTimeout: 3000,
+                          autoplayHoverPause: true,
+                          responsive: {
+                              0: { items: 1 },
+                              768: { items: 2 },
+                              1024: { items: 3 },
+                          },
+                      });
+                  } catch (error) {
+                      console.error("Error parsing response:", error);
+                  }
+              },
+              error: function (xhr, status, error) {
+                  console.error("Error:", error);
+              }
+          });
+      }
+  
 })(jQuery);
 

@@ -83,8 +83,6 @@ if ($userId) {
     ?>
     <!-- Footer Section End -->
 
-    <!-- Js Plugins -->
-
 </body>
 
 </html>

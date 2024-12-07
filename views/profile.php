@@ -16,22 +16,11 @@ if ($userId) {
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
+<link rel="stylesheet" href="../asset/css/style2.css">
+<head>
 <?php
     require_once __DIR__ . '/../includes/head.php';
 ?>
-<link rel="stylesheet" href="../asset/css/style2.css">
-<head>
-<!-- 
-<?php 
-    require_once __DIR__ . '../../controllers/AuthController.php';
-    if (!isset($_SESSION['user'])) {
-        header('Location: ./index.php');
-        exit();
-    } else {
-        $authController = new AuthController();
-        $user = $authController->getUser($_SESSION['user']);
-    }
-?>  -->
 </head>
 
 <body>

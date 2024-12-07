@@ -18,5 +18,5 @@
     <link rel="stylesheet" href="../asset/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../asset/css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="../asset/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../asset/css/main1.css" type="text/css">
+    <link rel="stylesheet" href="../asset/css/main2.css" type="text/css">
 </head>
