@@ -1,5 +1,7 @@
 <?php
-session_start();
+// session_start();
+require_once __DIR__ . '/../includes/head.php';
+require_once __DIR__ . '../../controllers/AuthController.php';
 require_once __DIR__ . '../../controllers/OrderController.php';
 $orderController = new OrderController();
 $order = $orderController->getGoiTapUser($_SESSION['user']);
@@ -10,16 +12,13 @@ $order = $orderController->getGoiTapUser($_SESSION['user']);
 
 <head>
     <?php
-    require_once __DIR__ . '/../includes/head.php';
-    require_once __DIR__ . '../../controllers/AuthController.php';
-
     // Kiểm tra phiên đăng nhập
     if (!isset($_SESSION['user'])) {
         header('Location: ./index.php');
         exit();
     }
     ?>
-    <link rel="stylesheet" href="../asset/css/style2.css">
+    <link rel="stylesheet" href="../asset/css/style3.css">
     <title>Theo Dõi Gói Tập</title>
 </head>
 
@@ -35,48 +34,56 @@ $order = $orderController->getGoiTapUser($_SESSION['user']);
         <!-- Sidebar End -->
 
         <main class="content">
-            <h2>Theo dõi gói tập</h2>
-            <?php if (!empty($order)) { ?>
-                <?php foreach ($order as $item) { ?>
-                    <div class="order">
-                        <div class="order-header" onclick="toggleDetails('order<?php echo $item['idDangKy']; ?>')">
-                            <span>Mã gói: <?php echo $item['idDangKy']; ?></span>
-                            <span>Ngày mua gói: <?php echo $item['ngaymua']; ?></span>
-                            <span style="">Ngày hết hạn: <?php echo $item['ngayhethan']; ?></span>
-                            <?php
-                            $remainingDays = (strtotime($item['ngayhethan']) - strtotime(date('Y-m-d'))) / 86400;
-                            ?>
-                            <span style="<?php echo $remainingDays < 40 ? 'color: red;' : ''; ?>">
-                                <?php echo $remainingDays > 0 ? "Còn $remainingDays ngày để sử dụng gói" : "Gói đã hết hạn"; ?>
-                            </span>
-
-                        </div>
-                        <div class="order-details" id="order<?php echo $item['idDangKy']; ?>" style="display: none;">
-                            <table>
+            <h1>Theo dõi gói tập</h1>
+    <?php if (!empty($order)) { ?>
+        <?php foreach ($order as $item) { ?>
+            <div class="order">
+                <div class="order-header" onclick="toggleDetails('orderId<?php echo $item['idDangKy']; ?>')">
+                    <span>Mã gói: <?php echo $item['idDangKy']; ?></span>
+                    <span>Ngày mua gói: <?php echo $item['ngaymua']; ?></span>
+                    <span>Ngày hết hạn: <?php echo $item['ngayhethan']; ?></span>
+                    <?php
+                    $remainingDays = (strtotime($item['ngayhethan']) - strtotime(date('Y-m-d'))) / 86400;
+                    ?>
+                    <span style="<?php echo $remainingDays < 2 ? 'color: red;' : ''; ?>">
+                        <?php echo $remainingDays > 0 ? "Còn $remainingDays ngày sử dụng" : "Gói đã hết hạn"; ?>
+                    </span>
+                    <span class="icon">+</span>
+                </div>
+                        <div class="order-details" id="orderId<?php echo $item['idDangKy']; ?>" style="display: none;">
+                        <table style="border-collapse: collapse; width: 100%; margin: 20px 0; font-family: Arial, sans-serif;">
                                 <thead>
-                                    <tr>
-                                        <th>Hình ảnh</th>
-                                        <th>Tên gói</th>
-                                        <th>Giá</th>
-                                        <th>Trạng thái</th>
-                                    </tr> 
+                                    <tr style="background-color: #f2f2f2; border: 1px solid #ddd;">
+                                        <th style="padding: 10px; border: 1px solid #ddd;">Hình ảnh</th>
+                                        <th style="padding: 10px; border: 1px solid #ddd;">Tên gói</th>
+                                        <th style="padding: 10px; border: 1px solid #ddd;">Giá</th>
+                                        <th style="padding: 10px; border: 1px solid #ddd;">Trạng thái</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><img src="weight.jpg" alt="hình cô gái tập tạ"></td>
-                                        <td><?php echo $item['tenGoiTap']; ?></td>
-                                        <td><?php echo number_format($item['gia'], 0, ',', '.'); ?> đ</td>
-                                        <td><?php echo $remainingDays > 0 ? "Đang hoạt động" : "Hết hạn"; ?></td>
+                                    <tr style="text-align: center; border: 1px solid #ddd;">
+                                        <td style="padding: 10px; border: 1px solid #ddd;">
+                                            <img src="weight.jpg" alt="hình cô gái tập tạ" style="width: 100px; height: auto; border-radius: 8px;">
+                                        </td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo $item['tenGoiTap']; ?></td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;"><?php echo number_format($item['gia'], 0, ',', '.'); ?> đ</td>
+                                        <td style="padding: 10px; border: 1px solid #ddd;">
+                                            <?php echo $remainingDays > 0 ? "<span style='color: green;'>Đang hoạt động</span>" : "<span style='color: red;'>Hết hạn</span>"; ?>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        <td colspan="4" style="text-align: center;">
-                                            <a href="./payment.php?id=<?php echo $item['maGoiTap'] ?>&id_order=<?php echo $item['idDangKy']; ?>">Gia hạn ngay</a>
+                                    <tr style="border: 1px solid #ddd;">
+                                        <td colspan="4" style="text-align: center; padding: 10px; background-color: #f9f9f9; border: 1px solid #ddd;">
+                                            <a href="./payment.php?id=<?php echo $item['maGoiTap'] ?>&id_order=<?php echo $item['idDangKy']; ?>" 
+                                            style="color: #fff; background-color: tomato; padding: 8px 12px; text-decoration: none; border-radius: 4px;">
+                                            Gia hạn gói
+                                            </a>
                                         </td>
                                     </tr>
                                 </tfoot>
                             </table>
+
                         </div>
                     </div>
                 <?php } ?>

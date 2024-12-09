@@ -33,7 +33,7 @@ $data = $goiTapController->getAllGoiTap(null);
             <div class="row">
                 <div class="col-lg-6">
                     <div class="about-text">
-                        <h2>CHÚNG TÔI LÀ THIENTAI CENTER GYM</h2>
+                    <h2>CHÚNG TÔI LÀ THIEN TAI<br> GYM CENTER</h2>
                         <p class="short-details"> Là thương hiệu về sức khỏe lớn nhất Đại học Công Nghiệp TpHCM, được
                             xây dựng để mang lại hạnh phúc và tạo ra những khoảnh khắc viên mãn
                             cho bạn trong cuộc sống bằng việc cung cấp các dịch vụ phát triển sức khỏe thể chất, và tinh thần toàn diện.</p>

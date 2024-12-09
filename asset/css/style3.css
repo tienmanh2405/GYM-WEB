@@ -109,12 +109,40 @@ body {
     background-color: #d15926;
     }
 
-    .order-header {
-        background-color: #e34400; /* Màu nền cam */
-        color: #ffffff; /* Chữ màu trắng */
-        font-weight: bold; /* Chữ in đậm */
-        cursor: pointer; /* Hiển thị tay trỏ khi hover */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
-        transition: background-color 0.3s, box-shadow 0.3s; /* Hiệu ứng hover mượt */
-    }
     
+    .order {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin: 15px auto;
+        width: 90%;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .order-header {
+        background-color: #f7f7f7;
+        padding: 15px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .order-header:hover {
+        background-color: #eaeaea;
+    }
+    .order-header span {
+        margin-right: 10px;
+    }
+    .order-header .icon {
+        font-size: 18px;
+        color: #555;
+        transition: transform 0.3s;
+    }
+    .order-details {
+        display: none;
+        padding: 15px;
+        background-color: #fff;
+        border-top: 1px solid #ddd;
+    }
+    .order-details.open {
+        display: block;
+    }

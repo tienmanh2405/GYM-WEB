@@ -187,8 +187,8 @@ class AuthController
         // Hiển thị thông báo thành công
         echo "<script>
         alert('Cập nhật mật khẩu thành công');
-        window.location.href = '" . BASE_URL . "views/profile.php';
-    </script>";
+        window.location.href = '" . BASE_URL . "views/change-pass.php';
+        </script>";
         exit;
     }
 
@@ -197,7 +197,10 @@ class AuthController
         $content = $_POST['content'];
         $point = $_POST['rating'];
         $user = $this->user->review($content, $point, $id);
-        echo "<script>alert('Đánh gía thành công');</script>";
+        echo "<script>
+        alert('Cảm ơn bạn đã quánh giá!');
+        window.location.href = '" . BASE_URL . "views/ratingform.php';
+        </script>";
     }
 
     public function resetPass()

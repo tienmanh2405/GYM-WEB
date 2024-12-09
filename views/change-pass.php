@@ -47,31 +47,51 @@ if ($userId) {
                         <div class="form-group">
                             <label for="new-password">Mật khẩu mới</label>
                             <input type="password" name="new-password" class="form-control" id="new-password" required>
+                            <span id="passwordError" style="color: red; display: none;">Mật khẩu mới phải chứa ít nhất 8 ký tự, bao gồm cả chữ và số.</span>
                         </div>
                         <div class="form-group">
                             <label for="confirm-password">Xác nhận mật khẩu mới</label>
                             <input type="password" name="confirm-password" class="form-control" id="confirm-password" required>
+                            <span id="confirmPasswordError" style="color: red; display: none;">Mật khẩu mới và xác nhận mật khẩu không khớp.</span>
                         </div>
                         <button type="submit">Ô KÊ</button>
+                        <?php
+                        if (isset($_SESSION['error'])) {
+                            echo "<p style='color: red;'>" . $_SESSION['error'] . "</p>";
+                            unset($_SESSION['error']);
+                        }
+                        ?>
                     </form>
          </div>
             
 
         </div>
 <script>
+    // dùng js để validate form, không dùng alert 
     function validateForm() {
         const newPassword = document.getElementById("new-password").value;
         const confirmPassword = document.getElementById("confirm-password").value;
+        const passwordError = document.getElementById("passwordError");
+        const confirmPasswordError = document.getElementById("confirmPasswordError");
+
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
         if (!passwordRegex.test(newPassword)) {
-            alert("Mật khẩu mới phải có ít nhất 8 ký tự, bao gồm cả chữ và số.");
+            passwordError.style.display = "block";
+            event.preventDefault(); 
             return false;
+        } else {
+            if(newPassword !== confirmPassword){
+                confirmPasswordError.style.display = "block";
+                event.preventDefault();
+                return false;
+            }
+            else {
+                passwordError.style.display = "none"; 
+                confirmPasswordError.style.display = "none";
+                return true;
+            }
         }
-        if (newPassword !== confirmPassword) {
-            alert("Mật khẩu mới và xác nhận mật khẩu không khớp.");
-            return false;
-        }
-        return true;
     }
 </script>
     </div>
@@ -82,6 +102,8 @@ if ($userId) {
     // require_once 'html/footer.php';
     ?>
     <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
 
 </body>
 

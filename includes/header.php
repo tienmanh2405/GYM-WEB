@@ -1,12 +1,22 @@
 <style>
-    /* .account-dropdown{
-        padding:auto;
-        display: flex;
-        gap: 1em;
-    }
-    .account-dropdown p{
-        color: #fff;
-    } */
+.btn-custom {
+    background-color: white; /* Màu nền */
+    color: orange;           /* Màu chữ */
+    border: 1px solid orange; /* Viền cam */
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 4px;      /* Bo góc */
+    font-size: 16px;
+    cursor: pointer;         /* Con trỏ chuột */
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: bold;
+
+}
+
+.btn-custom:hover {
+    background-color: orange; /* Màu nền khi hover */
+    color: white;             /* Màu chữ khi hover */
+}
 .account-dropdown {
     position: relative;
     display: inline-block;
@@ -55,24 +65,24 @@
                     <img src="../asset/img/logo1.png" alt="" style="width: 180px; height: 60px;">
                 </a>
             </div>
-                <div class="top-social f-right d-none d-lg-block ml-30">
-                    <!-- Icon Account -->
+            <div class="top-social f-right d-none d-lg-block ml-30">
+                <?php if (isset($user) && $user !== null && isset($user['hoTen'])): ?>
+                    <!-- Nếu đã đăng nhập, hiển thị avatar và dropdown -->
+                    <img src="../asset/img/avatar/<?php echo htmlspecialchars($user['vaiTro']) . "/" . htmlspecialchars($user['hinhAnh']); ?>" 
+                        alt="Account" 
+                        class="account-icon">
                     <div class="account-dropdown">
-                        <?php if (isset($user) && $user !== null && isset($user['hoTen'])): ?>
-                            <!-- Nếu đã đăng nhập, hiển thị tên người dùng -->
-                            <p class="account-name">Chào, <?= htmlspecialchars($user['hoTen']); ?></p>
-                            <div class="dropdown-menu">
-                                <a href="profile.php">Quản lý thông tin</a>
-                                <a href="logout.php">Đăng xuất</a>
-                            </div>
-                        <?php else: ?>
-                            <!-- Nếu chưa đăng nhập, hiển thị nút đăng nhập -->
-                            <button><a href="login-signup.php" class="login-button">Đăng nhập</a></button>
-                            
-                        <?php endif; ?>
+                        <p class="account-name">Chào, <?= htmlspecialchars($user['hoTen']); ?></p>
+                        <div class="dropdown-menu">
+                            <a href="profile.php">Quản lý thông tin</a>
+                            <a href="logout.php">Đăng xuất</a>
+                        </div>
                     </div>
+                <?php else: ?>
+                    <button class="btn btn-custom" onclick="window.location.href='login-signup.php'">Đăng nhập</button>
+                <?php endif; ?>
+            </div>
 
-                </div>
             <div class="container-menu" >
                 <div class="nav-menu">
                     <nav class="mainmenu mobile-menu">
