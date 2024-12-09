@@ -248,14 +248,77 @@ class AuthController
         </script>";
     }
 
+    // public function updateProfile($id) {
+    //     $email = $_POST['email'];
+    //     $name = $_POST['name'];
+    //     $phone = $_POST['phone'];
+    //     $user = $this->user->updateProfile($email, $name, $phone, $id);
+    //     echo "<script>
+    //      alert('Cập nhật thành công !');
+    //         window.location.href = '" . BASE_URL . "views/profile.php';
+    //     </script>";
+    // }
     public function updateProfile($id) {
+        // cập nhật thôgn tin
         $email = $_POST['email'];
         $name = $_POST['name'];
         $phone = $_POST['phone'];
+        $user = $this->user->getUser($id);
+
+        // cập nhật ảnh
+        // Xử lý upload ảnh đại diện
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
+            // Đặt thư mục lưu ảnh
+            $uploadDir = 'asset/img/avatar/'.$user['vaiTro'].'/';
+            
+            // $uploadDir = '../asset/img/avatar/';
+            $fileName = $_FILES['avatar']['name'];
+            $fileTmp = $_FILES['avatar']['tmp_name'];
+            $fileType = $_FILES['avatar']['type'];
+            $fileSize = $_FILES['avatar']['size'];
+            
+            // Kiểm tra loại file (chỉ cho phép jpg, jpeg, png)
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (!in_array($fileType, $allowedTypes)) {
+                echo "
+                <script>alert('Ảnh chỉ có thể là JPG, JPEG, hoặc PNG.');
+                window.location.href = '" . BASE_URL . "views/profile.php';
+                </script>";
+                exit();
+            }
+            
+            
+            // Kiểm tra kích thước file (ví dụ tối đa 5MB)
+            if ($fileSize > 5 * 1024 * 1024) {
+                echo "<script>alert('Kích thước ảnh không được vượt quá 5MB.');
+                window.location.href = '" . BASE_URL . "views/profile.php';
+                </script>";
+                exit();
+            }
+            
+            // Tạo tên file mới để tránh trùng lặp
+            $newFileName = $user['email'] . uniqid('avatar_') . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+            $uploadPath = $uploadDir . $newFileName;
+
+            // Di chuyển file tới thư mục lưu trữ
+            if (move_uploaded_file($fileTmp, $uploadPath)==true) {
+                $this->user->updateAvatar($newFileName, $id);
+            } else {
+                echo "<script>alert('Đã có lỗi xảy ra trong việc tải ảnh lên.');</script>";
+                header('Location: views/profile.php');
+                
+                exit();
+            }
+        }
         $user = $this->user->updateProfile($email, $name, $phone, $id);
         echo "<script>
-         alert('Cập nhật thành công !');
+         alert('Cập nhật thông tin 1234 thành công !');
             window.location.href = '" . BASE_URL . "views/profile.php';
         </script>";
+
+        // xử lý ảnh đại diện
+        // Xử lý upload ảnh đại diện
+        
+
     }
 }

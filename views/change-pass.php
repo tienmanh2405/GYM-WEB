@@ -39,7 +39,7 @@ if ($userId) {
         <!-- Sidebar ènd -->
         <div class="content">
                 <h1>Đổi Mật Khẩu</h1>
-                    <form action="../change/post" method="post" id="change-password-form" onsubmit="return validateForm()">
+                    <form action="../change/post" method="post" id="change-password-form" onsubmit="return validateForm(even)">
                         <div class="form-group">
                             <label for="current-password">Mật khẩu hiện tại</label>
                             <input type="password" name="current-password" class="form-control" id="current-password" required>
@@ -68,7 +68,7 @@ if ($userId) {
         </div>
 <script>
     // dùng js để validate form, không dùng alert 
-    function validateForm() {
+    function validateForm(even) {
         const newPassword = document.getElementById("new-password").value;
         const confirmPassword = document.getElementById("confirm-password").value;
         const passwordError = document.getElementById("passwordError");
