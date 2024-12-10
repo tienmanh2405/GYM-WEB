@@ -29,11 +29,11 @@ class LichLamViec {
 
         // Câu lệnh SQL truy vấn lịch làm việc
         $sql = "
-            SELECT lv.ngayLamViec, lv.caLamViec, u.userID, u.hoTen 
-            FROM lichlamViec lv
-            JOIN nguoidung u ON lv.userID = u.userID
-            WHERE lv.ngayLamViec BETWEEN '{$startDate}' AND '{$endDate}'  -- Lọc theo ngày trong tuần hiện tại
-            ORDER BY lv.ngayLamViec, lv.caLamViec";
+    SELECT lv.maLich, lv.ngayLamViec, lv.caLamViec, u.userID, u.hoTen, u.vaiTro
+    FROM lichlamViec lv
+    JOIN nguoidung u ON lv.userID = u.userID
+    WHERE lv.ngayLamViec BETWEEN '{$startDate}' AND '{$endDate}'
+    ORDER BY lv.ngayLamViec, lv.caLamViec";
         
         // Thực thi truy vấn
         $result = $this->conn->query($sql);
@@ -50,10 +50,16 @@ class LichLamViec {
         while ($row = $result->fetch_assoc()) {
             $day = $row['ngayLamViec'];
             $shift = $row['caLamViec'];
-            $user = "{$row['hoTen']} - {$row['userID']}";
+            $user = "{$row['hoTen']} - {$row['vaiTro']}";
+            $maLich = $row['maLich'];  // Lấy mã lịch từ kết quả
+
 
             // Gắn dữ liệu vào từng ca làm việc
-            $workingSchedule[$day][$shift][] = $user;
+            $workingSchedule[$day][$shift][] = [
+                'user' => $user,
+                'maLich' => $maLich  // Thêm maLich vào dữ liệu
+            ];
+            
         }
         
         // Trả về mảng dữ liệu lịch làm việc

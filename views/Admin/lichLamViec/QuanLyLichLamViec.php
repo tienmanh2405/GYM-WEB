@@ -65,6 +65,32 @@
             padding: 5px 10px; /* Khoảng cách trong */
             border-radius: 3px; /* Bo góc */
         }
+        /* CSS riêng cho modal */
+#scheduleModal .form-select,
+#scheduleModal .form-control {
+    color: white;
+}
+#scheduleModal .form-label {
+    color: black;
+    font-weight: bold;
+}
+#scheduleModal .modal-title {
+        color: black; /* Màu chữ đen */
+    }
+    .btn-align-right {
+        display: block;
+        margin-left: auto;
+        margin-right: 0;
+    }
+    .span-user {
+    background-color: black; /* Màu nền */
+    color: white; /* Màu chữ */
+    padding: 5px 10px; /* Khoảng cách trong */
+    border-radius: 3px; /* Bo góc */
+    display: inline-block; /* Để có thể áp dụng margin */
+    margin-bottom: 5px; /* Tạo khoảng cách giữa các tên */
+}
+
 
     </style>
 </head>
@@ -72,111 +98,13 @@
     <?php require_once('../views/Admin/layout/header.php'); ?>
     <?php require_once('../views/Admin/layout/sidebar.php'); ?>
     <?php require_once('../views/Admin/layout/spinner.php'); ?>
-    
-    <!-- Bảng tạo lịch làm việc -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-12 col-xl-12"> 
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h2 class="mb-0">Quản Lý Lịch làm việc</h2>
-                </div>
-                    <?php 
-                        // Lấy các ngày trong tuần hiện tại
-                        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-                        $currentDate = date('Y-m-d');
-                        $firstDayOfWeek = date('Y-m-d', strtotime('last Monday', strtotime($currentDate))); // Tính ngày đầu tuần (thứ 2)
-                        $weekDates = [];  // Mảng để chứa các ngày trong tuần
-
-                        // Tính tất cả các ngày trong tuần hiện tại (từ thứ Hai đến Chủ Nhật)
-                        for ($i = 0; $i < 7; $i++) {
-                            $weekDates[] = date('Y-m-d', strtotime("+$i day", strtotime($firstDayOfWeek)));
-                        }
-
-                        echo '<table class="table ">';
-                        echo '<thead>';
-                        echo '<tr>';
-                        echo '<th scope="col">Ca làm việc</th>';
-
-                        // Hiển thị các ngày trong tuần (tên ngày)
-                        foreach ($weekDates as $date) {
-                            $dayOfWeek = date('l', strtotime($date));  // Lấy tên ngày trong tuần
-                            echo "<th scope=\"col\">$dayOfWeek<br>($date)</th>";
-                        }
-                        echo '</tr>';
-                        echo '</thead>';
-
-                        echo '<tbody>';
-
-                        // Các ca làm việc trong ngày
-                        $shifts = ['Ca sáng', 'Ca chiều'];
-
-                        foreach ($shifts as $shift) {
-                            echo '<tr>';
-                            echo "<td><strong>$shift</strong></td>";
-                            foreach ($weekDates as $date) {
-                                echo '<td>';
-                                if (isset($lichLamViec[$date][$shift])) {
-                                    foreach ($lichLamViec[$date][$shift] as $user) {
-                                        echo "<span class='span-user'> $user</span> <br>";  // Hiển thị tên và mã người dùng
-                                    }
-                                }
-                                 else {
-                                    // Thêm nút + trong ô
-                                    echo "<button class='btn btn-success btn-sm' data-bs-toggle='modal' data-bs-target='#addUserModal' 
-                                    data-date='$date' data-shift='$shift'>
-                                    +
-                                    </button>";
-                                    echo '</td>';                                
-                                }
-                                echo '</td>';
-                            }
-                            echo '</tr>';
-                        }
-
-                        echo '</tbody>';
-                        echo '</table>';
-                    ?>
-                </div>
-            </div>
-        </div>
-        <!-- Nút Tạo Lịch Làm Việc -->
-<button id="saveScheduleButton" class="btn btn-primary mt-3">Tạo Lịch Làm Việc</button>
-
-<!-- Modal Thêm Nhân Viên -->
-<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="addUserForm">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addUserModalLabel">Thêm Nhân Viên Vào Lịch</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="dateInput" name="date">
-                    <input type="hidden" id="shiftInput" name="shift">
-                    <div class="form-group">
-                        <label for="employeeSelect">Chọn nhân viên:</label>
-                        <select id="employeeSelect" multiple class="form-select">
-                            <!-- Các tùy chọn nhân viên sẽ được thêm bằng Ajax -->
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" id="addSelectedEmployees" class="btn btn-success">Thêm</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 
         <!-- Bảng danh sách lịch làm việc -->
         <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <div class="col-sm-12 col-xl-12"> 
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Lịch làm việc</h6>
+                    <h2 class="mb-0">Lịch làm việc</h2>
                 </div>
                     <?php 
                         // Lấy các ngày trong tuần hiện tại
@@ -214,14 +142,20 @@
                             foreach ($weekDates as $date) {
                                 echo '<td>';
                                 if (isset($lichLamViec[$date][$shift])) {
-                                    foreach ($lichLamViec[$date][$shift] as $user) {
-                                        echo "<span class='span-user'> $user</span> <br>";  // Hiển thị tên và mã người dùng
+                                    foreach ($lichLamViec[$date][$shift] as $entry) {
+                                        $user = $entry['user'];
+                                        $maLich = $entry['maLich'];
+                                        // Thêm maLich vào thẻ <a> để gửi tham số xóa
+                                        echo "<span class='span-user'> $user</span> 
+                                            <a href='models/handle_LichLamViec_delete.php?maLich=$maLich' class='btn-remove' onclick='return confirm(\"Bạn có chắc chắn muốn xóa?\")'>x</a>
+                                        <br>";
                                     }
                                 } else {
-                                    echo "";  // Nếu không có người làm việc trong ca này
+                                    echo ""; // Nếu không có người làm việc trong ca này
                                 }
                                 echo '</td>';
                             }
+                            
                             echo '</tr>';
                         }
 
@@ -231,6 +165,77 @@
                 </div>
             </div>
         </div>
+
+        <!-- Button to open modal -->
+        <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-primary me-4" data-bs-toggle="modal" data-bs-target="#scheduleModal">
+        Tạo lịch làm việc
+    </button>
+</div>
+
+
+<!-- Modal structure -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scheduleModalLabel">Tạo lịch làm việc</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="models/handle_LichLamViec_add.php" method="post">
+                    <div class="mb-3">
+                        <label for="ngayLamViec" class="form-label">Ngày làm việc</label>
+                        <select class="form-select" id="ngayLamViec" name="ngayLamViec" required>
+                            <?php
+                            // Tạo mảng các ngày trong tuần từ thứ Hai đến Chủ Nhật
+                            $daysOfWeek = [];
+                            $currentDate = new DateTime(); // Ngày hiện tại
+                            $startOfWeek = clone $currentDate;
+                            $startOfWeek->modify('monday this week');
+
+                            for ($i = 0; $i < 7; $i++) {
+                                $date = clone $startOfWeek;
+                                $date->modify("+$i day");
+                                $formattedDate = $date->format('Y-m-d');
+                                $dayName = $date->format('l'); // Tên ngày trong tuần
+                                echo "<option value='$formattedDate'>$dayName ($formattedDate)</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="userID" class="form-label">Nhân viên</label>
+                        <select class="form-select" id="userID" name="userID[]" multiple required>
+                            <?php
+                            require_once "../config/database.php";
+                            $database = new Database();
+                            $conn = $database->connect();
+
+                            $result = $conn->query("SELECT userID, hoTen FROM nguoidung WHERE vaiTro IN ('NVQuay', 'HuongDanVien', 'NVBaoTri')");
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<option value='{$row['userID']}'>{$row['hoTen']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="caLamViec" class="form-label">Ca làm việc</label>
+                        <select class="form-select" id="caLamViec" name="caLamViec" required>
+                            <option value="Ca sáng">Ca sáng</option>
+                            <option value="Ca chiều">Ca chiều</option>
+                        </select>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary btn-align-right" >Tạo lịch làm việc</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
