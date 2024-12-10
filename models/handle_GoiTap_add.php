@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $thoiHan = $_POST['thoiHan'];
     $gia = $_POST['gia'];
     $moTa = trim($_POST['moTa']);
-    $hinhAnh = $_FILES['hinhAnh'];
+    $hinhAnh = $_FILES['anhGoiTap'];
 
     
     

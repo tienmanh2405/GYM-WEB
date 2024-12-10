@@ -70,7 +70,7 @@
                         <td><?= number_format($member['gia'], 0, '.', '.')?></td>
                         <td><?= $member['moTa'] ?></td>
                         <td>
-                        <img src="/GYM-WEB/asset/image/<?= $member['hinhAnh'] ?>" alt="Hình Ảnh" width="100" height="100">
+                        <img src="/GYM-WEB/asset/image/<?= $member['anhGoiTap'] ?>" alt="Hình Ảnh" width="100" height="100">
                         </td>
                         <td class="text-center">
                             <!-- button mở modal sửa thông tin gói tập -->
@@ -122,10 +122,10 @@
                         <label for="moTa" class="form-label">Mô Tả</label>
                         <textarea class="form-control" style="color: white;" id="moTa" name="moTa" required></textarea>
                     </div>
-                     <!-- form thêm hình ảnh cho cột hinhAnh định dạng là jpg, jpeg, png -->
+                     <!-- form thêm hình ảnh cho cột anhGoiTap định dạng là jpg, jpeg, png -->
                      <div class="mb-3">
-                        <label for="hinhAnh" class="form-label">Hình ảnh</label>
-                        <input type="file" class="form-control" style="color: black;" id="hinhAnh" name="hinhAnh" required>
+                        <label for="anhGoiTap" class="form-label">Hình ảnh</label>
+                        <input type="file" class="form-control" style="color: black;" id="anhGoiTap" name="anhGoiTap" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -167,8 +167,8 @@
                         <textarea class="form-control" id="edit-moTa" name="moTa" style="color: white;" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="hinhAnh" class="form-label">Hình ảnh</label>
-                        <input type="file" class="form-control" style="color: black;" id="hinhAnh" name="hinhAnh" >
+                        <label for="anhGoiTap" class="form-label">Hình ảnh</label>
+                        <input type="file" class="form-control" style="color: black;" id="anhGoiTap" name="anhGoiTap" >
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -233,7 +233,7 @@
             const thoiHan = document.getElementById('thoiHan').value;
             const gia = document.getElementById('gia').value;
             const mota = document.getElementById('moTa').value;
-            const hinhAnh = document.getElementById('hinhAnh');
+            const hinhAnh = document.getElementById('anhGoiTap');
 
             
 
