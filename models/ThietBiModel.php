@@ -51,26 +51,18 @@ class Equipment {
     }
 
 // edit thiết bị
-public function editThietBi($idThietBi, $tenThietBi, $ngayMua, $trangThai, $hinhAnh) {
-    // Câu truy vấn cập nhật thông tin thiết bị
-    $query = "UPDATE thietbi SET tenThietBi = ?, ngayMua = ?, trangThai = ?, hinhAnh = ? WHERE maThietBi = ?";
-    
-    $stmt = $this->conn->prepare($query);
-    
-    // Kiểm tra nếu prepare() thành công
-    if (!$stmt) {
-        return false; // Trả về false nếu chuẩn bị câu lệnh thất bại
-    }
-    
-    // Sử dụng bind_param và truyền đúng số lượng tham số
-    $stmt->bind_param("ssssi", $tenThietBi, $ngayMua, $trangThai, $hinhAnh, $idThietBi);
-    
-    // Thực thi câu lệnh
-    if ($stmt->execute()) {
-        return true; // Cập nhật thành công
+public function editThietBi($tenThietBi, $ngayMua, $trangThai, $hinhAnh, $idThietBi) {
+    if ($hinhAnh) {
+        $query = "UPDATE thietbi SET tenThietBi = ?, ngayMua = ?, trangthai = ?, hinhAnh = ? WHERE maThietBi = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssssi", $tenThietBi, $ngayMua, $trangThai, $hinhAnh, $idThietBi);
     } else {
-        return false; // Cập nhật thất bại
+        $query = "UPDATE thietbi SET tenThietBi = ?, ngayMua = ?, trangthai = ? WHERE maThietBi = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("sssi", $tenThietBi, $ngayMua, $trangThai, $idThietBi);
     }
+
+    return $stmt->execute();
 }
 
 

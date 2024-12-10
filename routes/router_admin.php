@@ -17,6 +17,7 @@ class Router {
             'Admin/baoCaoDoanhThu' => ['controller' => 'HomeController_Admin', 'action' =>'baoCaoDoanhThu'],
             'Admin/baoCaoThanhVien' => ['controller' => 'HomeController_Admin', 'action' => 'baoCaoThanhVien'],
             'Admin/baoCaoThietBi' => ['controller' => 'HomeController_Admin', 'action' => 'baoCaoThietBi'],
+            'Admin/lichLamViec' => ['controller' => 'HomeController_Admin', 'action' => 'quanLyLichLamViec'],
             // 'Admin/nhanVien/suaNhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'suaNhanVien'],
             // 'Admin/nhanVien/themNhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'themNhanVien'],
             // 'Admin/themThietBi' => ['controller' => 'HomeController_Admin', 'action' => 'themThietBi'],

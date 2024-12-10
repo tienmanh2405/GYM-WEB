@@ -6,6 +6,8 @@ require_once BASE_PATH . '/models/ThietBiModel.php';
 require_once BASE_PATH . '/models/GoiTapModel.php';
 require_once BASE_PATH . '/models/BaoCaoThanhVienModel.php';
 require_once BASE_PATH . '/models/BaoCaoThietBiModel.php';
+require_once BASE_PATH . '/models/QuanLyLichLamViecModel.php';
+
 
 class HomeController_Admin {
     public function admin_dash() {
@@ -199,6 +201,31 @@ public function baoCaoThietBi(){
     ];
     $this->render('Admin/baoCaoThietBi/baoCaoThietBi_dash',$data);
 }
+
+//danh sách lịch làm việc
+public function quanLyLichLamViec() {
+    // Khởi tạo lớp LichLamViec để lấy lịch làm việc
+    $lichLamViecModel = new LichLamViec();
+    
+    // Lấy lịch làm việc theo tuần
+    $lichLamViec = $lichLamViecModel->getWorkingSchedule();
+
+    // Các ngày trong tuần
+    $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+    // Các ca làm việc trong ngày
+    $shifts = ['Ca sáng', 'Ca chiều'];
+
+    // Gửi dữ liệu lịch làm việc vào view
+    $data = [
+        'lichLamViec' => $lichLamViec,
+        'daysOfWeek' => $daysOfWeek,
+        'shifts' => $shifts,
+    ];
+
+    // Render view cho danh sách lịch làm việc
+    $this->render('Admin/lichLamViec/QuanLyLichLamViec', $data);
+} 
 
 //Truyen bien vao view
     protected function render($view, $data = []) {

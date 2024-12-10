@@ -128,8 +128,9 @@
                     <!-- form thêm hình ảnh cho cột hinhAnh định dạng là jpg, jpeg, png -->
                      <div class="mb-3">
                         <label for="hinhAnh" class="form-label">Hình ảnh</label>
-                        <input type="file" class="form-control" style="color: white;" id="hinhAnh" name="hinhAnh" required>
+                        <input type="file" class="form-control" style="color: black;" id="hinhAnh" name="hinhAnh" required>
                     </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                     <button type="submit" class="btn btn-success">Thêm Thiết Bị</button>
@@ -152,15 +153,15 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="edit-tenThietBi" class="form-label">Tên Thiết Bị</label>
-                        <input type="text" class="form-control" style="color: black;" id="edit-tenThietBi" name="tenThietBi" required>
+                        <input type="text" class="form-control" style="color: white;" id="edit-tenThietBi" name="tenThietBi" required>
                     </div>
                     <div class="mb-3">
                         <label for="edit-ngayMua" class="form-label">Ngày Mua</label>
-                        <input type="date" class="form-control" style="color: black;" id="edit-ngayMua" name="ngayMua" required>
+                        <input type="date" class="form-control" style="color: white;" id="edit-ngayMua" name="ngayMua" required>
                     </div>
                     <div class="mb-3">
                         <label for="edit-trangThai" class="form-label">Trạng Thái</label>
-                        <select class="form-select" style="color: black;" id="edit-trangThai" name="trangthai" required>
+                        <select class="form-select" style="color: white;" id="edit-trangThai" name="trangthai" required>
                             <option value="Đang sử dụng">Đang sử dụng</option>
                             <option value="Hỏng">Hỏng</option>
                             <option value="Bảo trì">Bảo trì</option>
@@ -168,8 +169,8 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="edit-hinhAnh" class="form-label">Hình Ảnh</label>
-                        <input type="file" class="form-control" id="edit-hinhAnh" name="hinhAnh">
+                        <label for="hinhAnh" class="form-label">Hình ảnh</label>
+                        <input type="file" class="form-control" style="color: black;" id="hinhAnh" name="hinhAnh" >
                     </div>
                 </div>
                 <div class="modal-footer">

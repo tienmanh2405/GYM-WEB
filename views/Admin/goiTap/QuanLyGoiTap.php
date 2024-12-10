@@ -57,6 +57,7 @@
                     <th>Thời Hạn (Tháng)</th>
                     <th>Giá (VND)</th>
                     <th>Mô Tả</th>
+                    <th>Hình Ảnh</th>
                     <th>Thao Tác</th>
                 </tr>
             </thead>
@@ -68,6 +69,9 @@
                         <td><?= $member['thoiHan'] ?></td>
                         <td><?= number_format($member['gia'], 0, '.', '.')?></td>
                         <td><?= $member['moTa'] ?></td>
+                        <td>
+                        <img src="/GYM-WEB/asset/image/<?= $member['hinhAnh'] ?>" alt="Hình Ảnh" width="100" height="100">
+                        </td>
                         <td class="text-center">
                             <!-- button mở modal sửa thông tin gói tập -->
                             <button class="btn btn-info btn-editGoiTap" 
@@ -118,6 +122,11 @@
                         <label for="moTa" class="form-label">Mô Tả</label>
                         <textarea class="form-control" style="color: white;" id="moTa" name="moTa" required></textarea>
                     </div>
+                     <!-- form thêm hình ảnh cho cột hinhAnh định dạng là jpg, jpeg, png -->
+                     <div class="mb-3">
+                        <label for="hinhAnh" class="form-label">Hình ảnh</label>
+                        <input type="file" class="form-control" style="color: black;" id="hinhAnh" name="hinhAnh" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -130,7 +139,7 @@
 
 
 
-<!-- modal sửa gói tập -->
+<!-- modal sửa thông tin gói tập -->
 <div class="modal fade" id="editGoiTapModal" tabindex="-1" aria-labelledby="editGoiTapModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -156,6 +165,10 @@
                     <div class="mb-3">
                         <label for="edit-moTa" class="form-label">Mô Tả</label>
                         <textarea class="form-control" id="edit-moTa" name="moTa" style="color: white;" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="hinhAnh" class="form-label">Hình ảnh</label>
+                        <input type="file" class="form-control" style="color: black;" id="hinhAnh" name="hinhAnh" >
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -220,6 +233,8 @@
             const thoiHan = document.getElementById('thoiHan').value;
             const gia = document.getElementById('gia').value;
             const mota = document.getElementById('moTa').value;
+            const hinhAnh = document.getElementById('hinhAnh');
+
             
 
             // Kiểm tra dữ liệu nhập
@@ -227,7 +242,12 @@
                 alert('Vui lòng nhập đầy đủ thông tin gói tập.');
                 return;
             }
-            
+            //hình ảnh không được trống
+            //hình ảnh chỉ được các dạng jpg/png/jpeg
+            if (!hinhAnh ||/image\/(jpeg|png|jpg)$/.test(hinhAnh.type)) {
+                alert('Hình ảnh phải có dạng jpg/png/jpeg và không được bỏ trống');
+                return;
+            }
         
             const formData = new FormData(this);
             fetch('models/handle_GoiTap_add.php', {

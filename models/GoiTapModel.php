@@ -23,14 +23,14 @@ class GoiTapModel {
         return $result->fetch_all(MYSQLI_ASSOC); 
     }
 
-    public function addGoiTap($tenGoiTap, $thoiHan, $gia, $moTa) {
+    public function addGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $hinhAnh) {
         // Kiểm tra nếu giá trị các tham số quan trọng khác rỗng
-        if (empty($tenGoiTap) || empty($thoiHan) || empty($gia) || empty($moTa)) {
+        if (empty($tenGoiTap) || empty($thoiHan) || empty($gia) || empty($moTa) || empty($hinhAnh)) {
             return false;
         }
         
         // Câu truy vấn thêm gói tập
-        $query = "INSERT INTO goitap (tenGoiTap, thoiHan, gia, moTa) VALUES (?,?,?,?)";
+        $query = "INSERT INTO goitap (tenGoiTap, thoiHan, gia, moTa, hinhAnh) VALUES (?,?,?,?,?)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -40,7 +40,7 @@ class GoiTapModel {
         }
 
         // Sử dụng bind_param và truyền đúng số lượng tham số
-        $stmt->bind_param("ssss", $tenGoiTap, $thoiHan, $gia, $moTa);
+        $stmt->bind_param("sssss", $tenGoiTap, $thoiHan, $gia, $moTa, $hinhAnh);
 
         // Thực thi câu lệnh
         if ($stmt->execute()) {
@@ -52,26 +52,18 @@ class GoiTapModel {
 
 
     // edit gói tập
-    public function editGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $idGoiTap) {
-        // Câu truy vấn cập nhật thông tin gói tập
-        $query = "UPDATE goitap SET tenGoiTap = ?, thoiHan = ?, gia = ?, moTa = ? WHERE maGoiTap = ?";
-        
-        $stmt = $this->conn->prepare($query);
-        
-        // Kiểm tra nếu prepare() thành công
-        if (!$stmt) {
-            return false; // Trả về false nếu chuẩn bị câu lệnh thất bại
-        }
-        
-        // Sử dụng bind_param và truyền đúng số lượng tham số
-        $stmt->bind_param("ssssi", $tenGoiTap, $thoiHan, $gia, $moTa, $idGoiTap);
-        
-        // Thực thi câu lệnh
-        if ($stmt->execute()) {
-            return true; // Cập nhật thành công
+    public function editGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $hinhAnh, $idGoiTap) {
+        if ($hinhAnh) {
+            $query = "UPDATE goitap SET tenGoiTap = ?, thoiHan = ?, gia = ?, moTa = ?, hinhAnh = ? WHERE maGoiTap = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("sssssi", $tenGoiTap, $thoiHan, $gia, $moTa, $hinhAnh, $idGoiTap);
         } else {
-            return false; // Cập nhật thất bại
+            $query = "UPDATE goitap SET tenGoiTap = ?, thoiHan = ?, gia = ?, moTa = ? WHERE maGoiTap = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("ssssi", $tenGoiTap, $thoiHan, $gia, $moTa, $idGoiTap);
         }
+    
+        return $stmt->execute();
     }
 
     public function deleteGoiTap($idGoiTap) {
