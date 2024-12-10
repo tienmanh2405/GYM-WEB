@@ -233,7 +233,7 @@
             const thoiHan = document.getElementById('thoiHan').value;
             const gia = document.getElementById('gia').value;
             const mota = document.getElementById('moTa').value;
-            const hinhAnh = document.getElementById('anhGoiTap');
+            const anhGoiTap = document.getElementById('anhGoiTap');
 
             
 
@@ -244,7 +244,7 @@
             }
             //hình ảnh không được trống
             //hình ảnh chỉ được các dạng jpg/png/jpeg
-            if (!hinhAnh ||/image\/(jpeg|png|jpg)$/.test(hinhAnh.type)) {
+            if (!anhGoiTap ||/image\/(jpeg|png|jpg)$/.test(anhGoiTap.type)) {
                 alert('Hình ảnh phải có dạng jpg/png/jpeg và không được bỏ trống');
                 return;
             }

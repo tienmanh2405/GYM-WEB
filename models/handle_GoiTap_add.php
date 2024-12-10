@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $thoiHan = $_POST['thoiHan'];
     $gia = $_POST['gia'];
     $moTa = trim($_POST['moTa']);
-    $hinhAnh = $_FILES['anhGoiTap'];
+    $anhGoiTap = $_FILES['anhGoiTap'];
 
     
     
@@ -20,12 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Thiết lập múi giờ
 date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
     // Kiểm tra tệp hình ảnh
-    if ($hinhAnh['error'] > 0) {
+    if ($anhGoiTap['error'] > 0) {
         echo json_encode(['success' => false, 'message' => 'Lỗi upload hình ảnh.']);
         exit;
     }
-    $filename = pathinfo($hinhAnh['name'], PATHINFO_FILENAME);
-    $extension = pathinfo($hinhAnh['name'], PATHINFO_EXTENSION);
+    $filename = pathinfo($anhGoiTap['name'], PATHINFO_FILENAME);
+    $extension = pathinfo($anhGoiTap['name'], PATHINFO_EXTENSION);
     $allowedExtensions = array('jpg', 'jpeg', 'png');
     if (!in_array(strtolower($extension), $allowedExtensions)) {
         echo json_encode(['success' => false, 'message' => 'Chỉ cho phép upload hình ảnh có đuôi.jpg,.jpeg,.png.']);
@@ -34,7 +34,7 @@ date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
     $uploadPath = date('Ymd_His') . '_' . $filename . '.' . $extension; //năm tháng ngày_giờ phút giây.tênfile 
     $target_dir = "../asset/image/";
     $target_file = $target_dir . $uploadPath;
-    move_uploaded_file($hinhAnh['tmp_name'], $target_file);
+    move_uploaded_file($anhGoiTap['tmp_name'], $target_file);
 
     // Thêm gói tập
     $resultGoiTap = $goiTapModel->addGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $uploadPath);

@@ -13,11 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
 
 // Kiểm tra và xử lý hình ảnh
-$hinhAnh = null;
-if (isset($_FILES['hinhAnh']) && $_FILES['hinhAnh']['error'] === UPLOAD_ERR_OK) {
+$anhGoiTap = null;
+if (isset($_FILES['anhGoiTap']) && $_FILES['anhGoiTap']['error'] === UPLOAD_ERR_OK) {
     // Lấy thông tin tệp
-    $filename = pathinfo($_FILES['hinhAnh']['name'], PATHINFO_FILENAME);
-    $extension = pathinfo($_FILES['hinhAnh']['name'], PATHINFO_EXTENSION);
+    $filename = pathinfo($_FILES['anhGoiTap']['name'], PATHINFO_FILENAME);
+    $extension = pathinfo($_FILES['anhGoiTap']['name'], PATHINFO_EXTENSION);
 
     // Các loại tệp được phép
     $allowedExtensions = array('jpg', 'jpeg', 'png');
@@ -32,19 +32,19 @@ if (isset($_FILES['hinhAnh']) && $_FILES['hinhAnh']['error'] === UPLOAD_ERR_OK) 
     $target_file = $target_dir . $uploadPath;
 
     // Di chuyển file tải lên
-    if (move_uploaded_file($_FILES['hinhAnh']['tmp_name'], $target_file)) {
-        $hinhAnh = $uploadPath; // Lưu tên file để lưu vào cơ sở dữ liệu
+    if (move_uploaded_file($_FILES['anhGoiTap']['tmp_name'], $target_file)) {
+        $anhGoiTap = $uploadPath; // Lưu tên file để lưu vào cơ sở dữ liệu
     } else {
         echo json_encode(['success' => false, 'message' => 'Tải lên hình ảnh thất bại.']);
         exit;
     }
-} else if (isset($_FILES['hinhAnh']) && $_FILES['hinhAnh']['error'] !== UPLOAD_ERR_NO_FILE) {
+} else if (isset($_FILES['anhGoiTap']) && $_FILES['anhGoiTap']['error'] !== UPLOAD_ERR_NO_FILE) {
     echo json_encode(['success' => false, 'message' => 'Lỗi upload hình ảnh.']);
     exit;
 }
 
     // Thực hiện cập nhật gói tập
-    $result = $goiTapModel->editGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $hinhAnh, $idGoiTap);
+    $result = $goiTapModel->editGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $anhGoiTap, $idGoiTap);
 
     if ($result) {
         echo json_encode([

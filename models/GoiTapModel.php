@@ -23,14 +23,14 @@ class GoiTapModel {
         return $result->fetch_all(MYSQLI_ASSOC); 
     }
 
-    public function addGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $hinhAnh) {
+    public function addGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $anhGoiTap) {
         // Kiểm tra nếu giá trị các tham số quan trọng khác rỗng
-        if (empty($tenGoiTap) || empty($thoiHan) || empty($gia) || empty($moTa) || empty($hinhAnh)) {
+        if (empty($tenGoiTap) || empty($thoiHan) || empty($gia) || empty($moTa) || empty($anhGoiTap)) {
             return false;
         }
         
         // Câu truy vấn thêm gói tập
-        $query = "INSERT INTO goitap (tenGoiTap, thoiHan, gia, moTa, hinhAnh) VALUES (?,?,?,?,?)";
+        $query = "INSERT INTO goitap (tenGoiTap, thoiHan, gia, moTa, anhGoiTap) VALUES (?,?,?,?,?)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -40,7 +40,7 @@ class GoiTapModel {
         }
 
         // Sử dụng bind_param và truyền đúng số lượng tham số
-        $stmt->bind_param("sssss", $tenGoiTap, $thoiHan, $gia, $moTa, $hinhAnh);
+        $stmt->bind_param("sssss", $tenGoiTap, $thoiHan, $gia, $moTa, $anhGoiTap);
 
         // Thực thi câu lệnh
         if ($stmt->execute()) {
@@ -52,11 +52,11 @@ class GoiTapModel {
 
 
     // edit gói tập
-    public function editGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $hinhAnh, $idGoiTap) {
-        if ($hinhAnh) {
-            $query = "UPDATE goitap SET tenGoiTap = ?, thoiHan = ?, gia = ?, moTa = ?, hinhAnh = ? WHERE maGoiTap = ?";
+    public function editGoiTap($tenGoiTap, $thoiHan, $gia, $moTa, $anhGoiTap, $idGoiTap) {
+        if ($anhGoiTap) {
+            $query = "UPDATE goitap SET tenGoiTap = ?, thoiHan = ?, gia = ?, moTa = ?, anhGoiTap = ? WHERE maGoiTap = ?";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("sssssi", $tenGoiTap, $thoiHan, $gia, $moTa, $hinhAnh, $idGoiTap);
+            $stmt->bind_param("sssssi", $tenGoiTap, $thoiHan, $gia, $moTa, $anhGoiTap, $idGoiTap);
         } else {
             $query = "UPDATE goitap SET tenGoiTap = ?, thoiHan = ?, gia = ?, moTa = ? WHERE maGoiTap = ?";
             $stmt = $this->conn->prepare($query);
