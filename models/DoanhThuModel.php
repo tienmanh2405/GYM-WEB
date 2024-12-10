@@ -71,5 +71,36 @@ public function getAvailableYears() {
         $row = $result->fetch_assoc();
         return $row['total_revenue'] ?? 0;
     }
+
+    public function getLastThreeMonthsRevenue() {
+        $query = "SELECT 
+                    DATE_FORMAT(ngayThanhToan, '%Y-%m') AS month,
+                    SUM(soTien) AS revenue
+                  FROM hoadon 
+                  WHERE ngayThanhToan >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+                  GROUP BY month
+                  ORDER BY month ASC";
+        
+        $result = $this->conn->query($query);
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+    
+        // Đảm bảo trả về 3 tháng đầy đủ
+        $months = [];
+        for ($i = 2; $i >= 0; $i--) {
+            $month = date('Y-m', strtotime("-$i month"));
+            $months[$month] = 0;
+        }
+        foreach ($data as $row) {
+            $months[$row['month']] = $row['revenue'];
+        }
+    
+        // Chuyển về định dạng mong muốn
+        $formattedData = [];
+        foreach ($months as $month => $revenue) {
+            $formattedData[] = ['month' => $month, 'revenue' => $revenue];
+        }
+        return $formattedData;
+    }
+    
 }
 ?>

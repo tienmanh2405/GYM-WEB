@@ -15,7 +15,7 @@ class GoiTapModel {
         $row = $result->fetch_assoc();
         return $row['count'];
     }
-    // hàm lấy danh sách thành viên
+    // hàm lấy danh sách gói tập
     public function getGoiTap($page, $limit) {
         $offset = ($page - 1) * $limit;
         $query = "SELECT * FROM goitap LIMIT $limit OFFSET $offset";
@@ -92,6 +92,8 @@ class GoiTapModel {
             return false; // Xóa thất bại, có thể thêm $stmt->error để lấy thông báo chi tiết
         }
     }
+
+    
 //thêm gói tập Tên Gói Tập	Thời Hạn (Tháng)	Giá (VND)	Mô Tả
     // public function addGoiTap($tenGoiTap, $thoiHan, $gia, $moTa) {
     //     $sql = "INSERT INTO goitap (tenGoiTap, thoiHan, gia, moTa) VALUES (?,?,?,?)";
@@ -102,7 +104,7 @@ class GoiTapModel {
     // }
 
     // public function getGoiDangKyByUserID($userID) {
-    //     // Truy vấn lấy thông tin gói đăng ký của thành viên theo userID
+    //     // Truy vấn lấy thông tin gói đăng ký của gói tập theo userID
     //     $query = "SELECT idDangKy, userID, maGoiTap, ngayHetHan, trangThai, ngayMua 
     //               FROM goidangky 
     //               WHERE userID = ?";

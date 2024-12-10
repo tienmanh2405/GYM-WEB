@@ -37,7 +37,7 @@
 
 <?php require_once('../views/Admin/layout/spinner.php'); ?>
 
-<!-- Sale & Revenue Start -->
+
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <!-- Đăng ký mới -->
@@ -80,15 +80,14 @@
                     </div>
                 </div>
             </div>
-        <div class="col-sm-12 col-xl-6">
-            <div class="h-100 bg-secondary rounded p-4">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Calender</h6>
-                    <a href="">Show All</a>
-                </div>
-                <div id="calender"></div>
+            <div class="col-sm-12 col-xl-6">
+                <div class="h-100 bg-secondary rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Doanh Thu 3 Tháng Gần Nhất</h6>
+                    </div>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
             </div>
-        </div>
         <div class="col-sm-12 col-xl-6">
             <div class="bg-secondary rounded h-100 p-4">
                 <iframe class="position-relative rounded w-100 h-100"
@@ -156,6 +155,52 @@
     <script src="asset/lib/tempusdominus/js/moment.min.js"></script>
     <script src="asset/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="asset/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </body>
 <!-- Template Javascript -->
 <script src="asset/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Fetch dữ liệu từ API
+    fetch('models/handle_DoanhThu.php')
+        .then(response => response.json())
+        .then(data => {
+            // Xử lý dữ liệu từ API
+            const labels = data.map(item => `Tháng ${item.month}`);
+            const revenues = data.map(item => item.revenue);
+
+            // Tạo biểu đồ
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar', // Loại biểu đồ
+                data: {
+                    labels: labels, // Nhãn (tháng)
+                    datasets: [{
+                        label: 'Doanh Thu (VNĐ)',
+                        data: revenues, // Dữ liệu doanh thu
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+</script>
+
