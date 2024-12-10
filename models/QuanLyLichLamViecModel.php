@@ -29,16 +29,14 @@ class LichLamViec {
 
         // Câu lệnh SQL truy vấn lịch làm việc
         $sql = "
-    SELECT lv.ngayLamViec, lv.caLamViec, u.userID, u.hoTen 
-    FROM lichlamViec lv
-    JOIN nguoidung u ON lv.userID = u.userID
-    WHERE lv.ngayLamViec BETWEEN ? AND ?
-    ORDER BY lv.ngayLamViec, lv.caLamViec
-";
-$stmt = $this->conn->prepare($sql);
-$stmt->bind_param('ss', $startDate, $endDate);
-$stmt->execute();
-$result = $stmt->get_result();
+            SELECT lv.ngayLamViec, lv.caLamViec, u.userID, u.hoTen 
+            FROM lichlamViec lv
+            JOIN nguoidung u ON lv.userID = u.userID
+            WHERE lv.ngayLamViec BETWEEN '{$startDate}' AND '{$endDate}'  -- Lọc theo ngày trong tuần hiện tại
+            ORDER BY lv.ngayLamViec, lv.caLamViec";
+        
+        // Thực thi truy vấn
+        $result = $this->conn->query($sql);
         
         // Kiểm tra nếu có lỗi khi truy vấn
         if (!$result) {
@@ -61,46 +59,5 @@ $result = $stmt->get_result();
         // Trả về mảng dữ liệu lịch làm việc
         return $workingSchedule;
     }
-
-    public function isUserExist($userID) {
-        $sql = "SELECT userID FROM nguoidung WHERE userID = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('s', $userID);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->num_rows > 0; // Trả về true nếu tồn tại, ngược lại false
-    }
-
-    public function getEmployeeList() {
-        $sql = "SELECT userID, hoTen, vaiTro FROM nguoidung where vaiTro= 'NVQuay' Or vaiTro='HuongDanVien' or vaiTro='NVBaoTri'";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        $employees = [];
-        while ($row = $result->fetch_assoc()) {
-            $employees[] = $row;
-        }
-        return $employees;
-    }
-    
-    
-    public function addEmployeeToSchedule($date, $shift, $userID) {
-        // Kiểm tra nếu userID tồn tại trong bảng nguoidung
-        if (!$this->isUserExist($userID)) {
-            return ['success' => false, 'error' => 'User ID không tồn tại.'];
-        }
-    
-        $sql = "INSERT INTO lichlamviec (ngayLamViec, caLamViec, userID) VALUES (?, ?, ?)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('sss', $date, $shift, $userID);
-    
-        if ($stmt->execute()) {
-            return ['success' => true];
-        } else {
-            return ['success' => false, 'error' => $this->conn->error];
-        }
-    }
-    
 }
 ?>
