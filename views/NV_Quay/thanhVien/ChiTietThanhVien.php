@@ -64,7 +64,13 @@
     <div class="row g-4">
         <div class="col-12">
             <div class="bg-light rounded p-4">
-                <h4 class="mb-4">Thông Tin Thành Viên</h4>
+            <div class="d-flex align-items-center mb-4">
+                <button onclick="window.history.back()" class="btn btn-secondary mb-0 me-3">
+                    <i class="bi bi-arrow-left"></i> Trở lại
+                </button>
+                <h4 class="mb-0">Thông Tin Thành Viên</h4>
+            </div>
+
                <!-- Nút Check-in -->
                 <div class="d-flex mb-4">
                     <?php if ($hasActivePackage): // Kiểm tra nếu có gói hoạt động ?>
@@ -338,7 +344,9 @@
         formData.append('customerEmail', customerEmail);
         formData.append('customerPhone', customerPhone);
         formData.append('maGoiTap', maGoiTap);
+        if (maKhuyenMai) {
         formData.append('maKhuyenMai', maKhuyenMai);
+        }
         formData.append('phuongThucThanhToan', phuongThucThanhToan);
         formData.append('giaSauKhuyenMai', giaSauKhuyenMai);
 

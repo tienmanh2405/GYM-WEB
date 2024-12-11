@@ -66,28 +66,20 @@ class HomeController_NV {
         
     }
     public function DSLichLamViec() {
-        // Khởi tạo lớp LichLamViec để lấy lịch làm việc
         $lichLamViecModel = new LichLamViec();
-        
-        // Lấy lịch làm việc theo tuần
-        $lichLamViec = $lichLamViecModel->getWorkingSchedule();
-
-        // Các ngày trong tuần
-        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        // $lichLamViec = $lichLamViecModel->getWorkingSchedule($nextWeek);
     
-        // Các ca làm việc trong ngày
-        $shifts = ['Ca sáng', 'Ca chiều'];
+        // $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        // $shifts = ['Ca sáng', 'Ca chiều'];
     
-        // Gửi dữ liệu lịch làm việc vào view
-        $data = [
-            'lichLamViec' => $lichLamViec,
-            'daysOfWeek' => $daysOfWeek,
-            'shifts' => $shifts,
-        ];
+        // $data = [
+        //     'lichLamViec' => $lichLamViec,
+        //     'daysOfWeek' => $daysOfWeek,
+        //     'shifts' => $shifts,
+        // ];
     
-        // Render view cho danh sách lịch làm việc
-        $this->render('NV_Quay/lichlamviec/DSLichLamViec', $data);
-    } 
+        $this->render('NV_Quay/lichlamviec/DSLichLamViec');
+    }     
         
     protected function render($view, $data = []) {
         extract($data); // Truyền biến vào view

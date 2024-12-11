@@ -14,6 +14,7 @@ if (!isset($data['action']) || !isset($data['userID'])) {
 $action = $data['action'];
 $userID = $data['userID'];
 $model = new LichSuHoatDong(); // Khởi tạo đối tượng model
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 if ($action === 'checkin') {
     $thoiGianVao = date('Y-m-d H:i:s');

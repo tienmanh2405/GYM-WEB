@@ -1,3 +1,15 @@
+<?php
+// Xác định tuần dựa trên lựa chọn
+$nextWeek = isset($_GET['week']) && $_GET['week'] === 'next';
+// Lấy lịch làm việc
+$lichLamViecModel = new LichLamViec();
+$lichLamViec = $lichLamViecModel->getWorkingSchedule($nextWeek);
+// Các thông tin cố định
+$daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+$shifts = ['Ca sáng', 'Ca chiều'];
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,15 +66,30 @@
             letter-spacing: 1px;
             border: 1px solid #ccc;
         } 
+        th, td{
+            text-align: center; /* Căn giữa nội dung trong các ô */
+            vertical-align: middle;
+        }
         table tr, td{
             border: 1px solid #ccc;
         }  
-        .span-user{
-            background-color: black; /* Màu nền xanh dương đậm */
-            color: white; /* Màu chữ trắng */
-            padding: 5px 10px; /* Khoảng cách trong */
-            border-radius: 3px; /* Bo góc */
-        }
+        /* Định dạng cho các tên người dùng */
+    .span-user {
+        display: block; /* Đảm bảo mỗi tên người dùng nằm trên một dòng mới */
+        background-color: black; /* Màu nền nhẹ */
+        padding: 5px 10px; /* Khoảng cách xung quanh mỗi tên */
+        margin-bottom: 5px; /* Khoảng cách giữa các tên */
+        border-radius: 5px; /* Bo góc cho các ô tên */
+        font-size: 14px; /* Kích thước chữ */
+        color: #fff; /* Màu chữ tối */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng đổ bóng */
+        transition: background-color 0.3s ease; /* Hiệu ứng khi hover */
+    }
+
+    /* Hiệu ứng hover khi di chuột qua tên */
+    .span-user:hover {
+        background-color: #e2e6ea; /* Màu nền đổi khi hover */
+    }
 
     </style>
 </head>
@@ -72,65 +99,60 @@
     <?php require_once('../views/NV_Quay/layout/spinner.php'); ?>
     
     <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-12 col-xl-12"> 
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-xl-10"> 
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0">Lịch làm việc</h6>
+                    <form method="GET" action="" id="week-selector-form">
+                        <select name="week" class="form-select" onchange="document.getElementById('week-selector-form').submit()">
+                            <option value="current" <?= (!isset($_GET['week']) || $_GET['week'] === 'current') ? 'selected' : '' ?>>Tuần này</option>
+                            <option value="next" <?= (isset($_GET['week']) && $_GET['week'] === 'next') ? 'selected' : '' ?>>Tuần sau</option>
+                        </select>
+                    </form>
                 </div>
-                    <?php 
-                        // Lấy các ngày trong tuần hiện tại
-                        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-                        $currentDate = date('Y-m-d');
-                        $firstDayOfWeek = date('Y-m-d', strtotime('last Monday', strtotime($currentDate))); // Tính ngày đầu tuần (thứ 2)
-                        $weekDates = [];  // Mảng để chứa các ngày trong tuần
 
-                        // Tính tất cả các ngày trong tuần hiện tại (từ thứ Hai đến Chủ Nhật)
-                        for ($i = 0; $i < 7; $i++) {
-                            $weekDates[] = date('Y-m-d', strtotime("+$i day", strtotime($firstDayOfWeek)));
-                        }
-
-                        echo '<table class="table ">';
-                        echo '<thead>';
-                        echo '<tr>';
-                        echo '<th scope="col">Ca làm việc</th>';
-
-                        // Hiển thị các ngày trong tuần (tên ngày)
-                        foreach ($weekDates as $date) {
-                            $dayOfWeek = date('l', strtotime($date));  // Lấy tên ngày trong tuần
-                            echo "<th scope=\"col\">$dayOfWeek<br>($date)</th>";
-                        }
-                        echo '</tr>';
-                        echo '</thead>';
-
-                        echo '<tbody>';
-
-                        // Các ca làm việc trong ngày
-                        $shifts = ['Ca sáng', 'Ca chiều'];
-
-                        foreach ($shifts as $shift) {
-                            echo '<tr>';
-                            echo "<td><strong>$shift</strong></td>";
-                            foreach ($weekDates as $date) {
-                                echo '<td>';
-                                if (isset($lichLamViec[$date][$shift])) {
-                                    foreach ($lichLamViec[$date][$shift] as $user) {
-                                        echo "<span class='span-user'> $user</span> <br>";  // Hiển thị tên và mã người dùng
-                                    }
-                                } else {
-                                    echo "";  // Nếu không có người làm việc trong ca này
-                                }
-                                echo '</td>';
-                            }
-                            echo '</tr>';
-                        }
-
-                        echo '</tbody>';
-                        echo '</table>';
-                    ?>
-                </div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Ca làm việc</th>
+                            <?php foreach ($daysOfWeek as $day): ?>
+                                <th><?= $day ?></th>
+                            <?php endforeach; ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($shifts as $shift): ?>
+                            <tr>
+                                <td><strong><?= $shift ?></strong></td>
+                                <?php foreach ($daysOfWeek as $day): ?>
+                                    <td style="height: 250px; vertical-align: middle;">
+                                        <?php 
+                                            // Kiểm tra nếu tuần này hoặc tuần sau được chọn
+                                            if (isset($_GET['week']) && $_GET['week'] === 'next') {
+                                                // Nếu là tuần sau
+                                                $date = date('Y-m-d', strtotime($day . ' next week'));
+                                            } else {
+                                                // Nếu là tuần này
+                                                $date = date('Y-m-d', strtotime($day . ' this week'));
+                                            }
+                                        
+                                            if (!empty($lichLamViec[$date][$shift])) {
+                                                foreach ($lichLamViec[$date][$shift] as $user) {
+                                                    echo "<span class='span-user'>$user</span><br>";
+                                                }
+                                            } else {
+                                                echo "Không có";
+                                            }
+                                        ?>
+                                    </td>
+                                <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-
+    </div>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

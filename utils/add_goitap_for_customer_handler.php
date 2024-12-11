@@ -39,7 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Nếu thêm thành công, tạo hóa đơn
             $hoaDonModel = new HoaDonModel();
             $ngayThanhToan = null;
-
+            
+            // Kiểm tra xem có mã khuyến mãi hay không
+            if (empty($maKhuyenMai)) {
+                $maKhuyenMai = null; // Nếu không có khuyến mãi, không cần gửi giá trị này
+            }
             // Tạo hóa đơn
             $hoaDon = $hoaDonModel->createInvoice($idDangKy, $maGoiTap, $giaSauKhuyenMai, $phuongThucThanhToan, $maKhuyenMai, $ngayThanhToan);
 

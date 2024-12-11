@@ -42,7 +42,7 @@
     <!-- Tìm kiếm khách hàng -->
     <div class="row mb-3">
         <div class="col-sm-12 col-xl-10">
-            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm khách hàng theo tên hoặc số điện thoại">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm khách hàng theo số điện thoại">
         </div>
         <div class="col-sm-3 col-xl-2">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addMemberModal">Thêm Thành Viên Mới</button>
@@ -97,6 +97,7 @@
             </div>
             <form id="addMemberForm">
                 <div class="modal-body">
+                    <div id="error-message" style="color: red"></div>
                     <div class="mb-3">
                         <label for="hoTen" class="form-label">Họ Tên</label>
                         <input type="text" class="form-control" style="color: white;" id="hoTen" name="hoTen" required>
@@ -146,7 +147,81 @@
         // Lấy các phần tử từ HTML
         const searchInput = document.getElementById("searchInput");
         const customerTable = document.getElementById("customerTable");
+        // Lấy các phần tử từ HTML
+        const emailInput = document.getElementById("email");
+        const phoneInput = document.getElementById("sdt");
+        const birthDateInput = document.getElementById("ngaySinh");
+        const addMemberForm = document.getElementById("addMemberForm");
+        const errorMessage = document.createElement("div");  // Để hiển thị thông báo lỗi
 
+        // Thêm thông báo lỗi vào modal nếu có lỗi
+        document.getElementById("error-message").appendChild(errorMessage);
+
+        // Lắng nghe sự kiện khi người dùng nhập email và số điện thoại
+        function checkUniqueValues() {
+            const emailValue = emailInput.value.trim();
+            const phoneValue = phoneInput.value.trim();
+            const birthDateValue = birthDateInput.value.trim();
+        
+            // Lấy tất cả các dòng trong bảng khách hàng
+            const rows = document.getElementById("customerTable").getElementsByTagName("tr");
+            let errorMessageContent = "";
+            let isFormValid = true;
+            
+            // Kiểm tra ngày sinh có hợp lệ không (người dùng phải trên 14 tuổi)
+            if (birthDateValue) {
+                const today = new Date();
+                const birthDate = new Date(birthDateValue);
+                const age = today.getFullYear() - birthDate.getFullYear();
+                const month = today.getMonth() - birthDate.getMonth();
+                if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+            
+                if (age < 14) {
+                    errorMessageContent += "Phải trên 14 tuổi để đăng ký.<br>";
+                    isFormValid = false;
+                }
+            }
+            // Lặp qua từng dòng trong bảng để kiểm tra
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const emailCell = row.getElementsByTagName("td")[2];  // Cột email (giả sử cột email ở vị trí thứ 2)
+                const phoneCell = row.getElementsByTagName("td")[3];  // Cột số điện thoại (giả sử cột số điện thoại ở vị trí thứ 3)
+            
+                if (emailCell && phoneCell) {
+                    const existingEmail = emailCell.textContent.trim();
+                    const existingPhone = phoneCell.textContent.trim();
+                
+                    // Kiểm tra email và số điện thoại có trùng không
+                    if (existingEmail === emailValue) {
+                        errorMessageContent += "Email đã tồn tại. Vui lòng nhập email khác.<br>";
+                        isFormValid = false;
+                    }
+                
+                    if (existingPhone === phoneValue) {
+                        errorMessageContent += "Số điện thoại đã tồn tại. Vui lòng nhập số điện thoại khác.<br>";
+                        isFormValid = false;
+                    }
+                }
+            }
+        
+            // Hiển thị thông báo lỗi
+            if (errorMessageContent) {
+                errorMessage.innerHTML = errorMessageContent;
+                errorMessage.style.color = "red";
+                addMemberForm.querySelector("button[type='submit']").disabled = true;  // Vô hiệu hóa nút Submit
+            } else {
+                errorMessage.innerHTML = "";  // Xóa thông báo lỗi nếu không có lỗi
+                addMemberForm.querySelector("button[type='submit']").disabled = false;  // Kích hoạt nút Submit
+            }
+        }
+
+        // Lắng nghe sự kiện khi người dùng nhập vào ô email hoặc số điện thoại
+        emailInput.addEventListener("input", checkUniqueValues);
+        phoneInput.addEventListener("input", checkUniqueValues);
+        birthDateInput.addEventListener("input", checkUniqueValues);
+        
         // Lắng nghe sự kiện tìm kiếm
         searchInput.addEventListener("keyup", function() {
             const searchValue = searchInput.value.toLowerCase();  // Lấy giá trị tìm kiếm và chuyển thành chữ thường
@@ -181,12 +256,12 @@
             const matKhau = document.getElementById('matKhau').value.trim();
 
             // Kiểm tra dữ liệu nhập
-            if (!hoTen) {
-                alert('Vui lòng nhập họ tên.');
+            if (!hoTen || !/^[A-Z][a-zA-z]*(\s[A-Z][a-zA-Z]*)*$/.test(hoTen)) {
+                alert('Họ và tên trống hoặc sai định dạng');
                 return;
             }
         
-            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            if (!email || !/^[a-zA-Z0-9]+\@[a-zA-Z]{4,7}\.[a-zA-Z]{3}$/.test(email)) {
                 alert('Email không hợp lệ.');
                 return;
             }
