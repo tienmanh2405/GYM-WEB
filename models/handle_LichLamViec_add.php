@@ -50,7 +50,7 @@ foreach ($userIDs as $userID) {
     if ($result->num_rows > 0) {
         // Nếu đã tồn tại, trả về thông báo
         echo "<script>alert('Nhân viên ID $userID đã có lịch làm việc vào ngày $ngayLamViec, ca $caLamViec.');</script>";
-        echo "<script>location.reload();</script>";
+        echo "<script>window.history.back();</script>";
         exit;
     }
 }
@@ -65,7 +65,7 @@ foreach ($userIDs as $userID) {
 
 // Redirect hoặc thông báo thành công
 echo "<script>alert('Thêm lịch làm việc thành công.');</script>";
-echo "<script>location.reload();</script>";
+echo "<script>window.location.href = '/GYM-WEB/public/Admin/lichLamViec';</script>";
 ?>
 
 
