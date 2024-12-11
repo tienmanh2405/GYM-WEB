@@ -66,7 +66,7 @@
             <div class="bg-light rounded p-4">
             <div class="d-flex align-items-center mb-4">
                 <button onclick="window.history.back()" class="btn btn-secondary mb-0 me-3">
-                    <i class="bi bi-arrow-left"></i> Trở lại
+                <i class="fa fa-chevron-left me-2"></i>
                 </button>
                 <h4 class="mb-0">Thông Tin Thành Viên</h4>
             </div>
@@ -116,17 +116,32 @@
                     $goiDangKyList = $thanhVienModel->getGoiDangKyByUserID($userID);
                     if (!empty($goiDangKyList)) {
                         foreach ($goiDangKyList as $item) {
-                ?>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <p><strong>ID Gói Đăng Ký:</strong> <?= $item['idDangKy'] ?></p>
-                        <p><strong>Mã Gói Tập:</strong> <?= $item['maGoiTap'] ?></p>
-                        <p><strong>Ngày Hết Hạn:</strong> <?= $item['ngayHetHan'] ?></p>
-                        <p><strong>Trạng Thái:</strong> <?= $item['trangThai'] ?></p>
-                        <p><strong>Ngày Mua:</strong> <?= $item['ngayMua'] ?></p>
-                    </div>
-                </div>
-                <?php
+                            // Kiểm tra nếu gói tập đã hết hạn
+                            $currentDate = date('Y-m-d');  // Lấy ngày hiện tại
+                            $expiryDate = $item['ngayHetHan'];  // Ngày hết hạn gói tập
+                            $isExpired = strtotime($expiryDate) < strtotime($currentDate);  // Kiểm tra gói đã hết hạn chưa
+                    ?>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <p><strong>ID Gói Đăng Ký:</strong> <?= $item['idDangKy'] ?></p>
+                                    <p><strong>Mã Gói Tập:</strong> <?= $item['maGoiTap'] ?></p>
+                                    <p><strong>Ngày Hết Hạn:</strong> <?= $item['ngayHetHan'] ?></p>
+                                    <p><strong>Trạng Thái:</strong> <?= $item['trangThai'] ?></p>
+                                    <p><strong>Ngày Mua:</strong> <?= $item['ngayMua'] ?></p>
+
+                                    <?php if ($isExpired): ?>
+                                        <!-- Hiển thị nút gia hạn nếu gói đã hết hạn -->
+                                        <button type="button" id="submitGiaHanGoiTap" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#extendGoitapForCustomerModal" 
+                                                data-userid="<?= $thanhVien['userID'] ?>" 
+                                                data-customername="<?= $thanhVien['hoTen'] ?>"
+                                                data-customeremail="<?= $thanhVien['email'] ?>"
+                                                data-customerphone="<?= $thanhVien['sdt'] ?>"
+                                                data-magoi="<?= $item['maGoiTap'] ?>"
+                                                >Gia Hạn Gói Tập</button>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                    <?php
                         }
                     } else {
                         echo '<div class="alert alert-warning">Không có thông tin gói đăng ký cho thành viên này.</div>';
@@ -229,6 +244,70 @@
     </div>
 </div>
 
+<!-- Modal Gia Hạn Gói Tập Cho Khách Hàng -->
+<div class="modal fade" id="extendGoitapForCustomerModal" tabindex="-1" aria-labelledby="extendGoitapForCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="extendGoitapForCustomerModalLabel">Gia Hạn Gói Tập Cho Khách Hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="extendGoitapForCustomerForm">
+                <div class="modal-body">
+                    <!-- Thông tin khách hàng -->
+                    <div class="mb-3" style="display: none;">
+                        <label for="customerUserID2" class="form-label">customerUserID</label>
+                        <input type="text" class="form-control" id="customerUserID2" name="customerUserID2" required readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customerName2" class="form-label">Tên Khách Hàng</label>
+                        <input type="text" class="form-control" id="customerName2" name="customerName2" required readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customerEmail2" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="customerEmail2" name="customerEmail2" required readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customerPhone2" class="form-label">Số Điện Thoại</label>
+                        <input type="text" class="form-control" id="customerPhone2" name="customerPhone2" required readonly>
+                    </div>
+                    <!-- Gói Tập (Điền Sẵn) -->
+                    <div class="mb-3">
+                        <label for="maGoiTap2" class="form-label">Gói Tập</label>
+                        <input type="text" class="form-control" id="maGoiTap2" name="maGoiTap2" readonly>
+                    </div>
+                    <!-- Dropdown Chọn Khuyến Mãi -->
+                    <div class="mb-3">
+                        <label for="khuyenMai2" class="form-label">Chọn Khuyến Mãi</label>
+                        <select class="form-select" id="khuyenMai2" name="khuyenMai2" required>
+                        </select>
+                    </div>
+                    <!-- Hiển thị giá sau khuyến mãi -->
+                    <div class="mb-3">
+                        <label for="giaSauKhuyenMai2" class="form-label">Giá Sau Khuyến Mãi</label>
+                        <input type="text" class="form-control" id="giaSauKhuyenMai2" name="giaSauKhuyenMai2" readonly>
+                    </div>
+
+                    <!-- Phương Thức Thanh Toán -->
+                    <div class="mb-3">
+                        <label for="phuongThucThanhToan" class="form-label">Phương Thức Thanh Toán</label>
+                        <select class="form-select" id="phuongThucThanhToan2" name="phuongThucThanhToan2" required>
+                            <option value="">Chọn Phương Thức Thanh Toán</option>
+                            <option value="Tiền mặt">Tiền Mặt</option>
+                            <option value="Chuyển khoản">Chuyển Khoản</option>
+                        </select>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-success">Gia Hạn Gói Tập</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -246,6 +325,7 @@
     // Lắng nghe sự kiện thay đổi gói tập hoặc khuyến mãi để cập nhật giá
     document.getElementById('maGoiTap').addEventListener('change', updateGiaSauKhuyenMai);
     document.getElementById('khuyenMai').addEventListener('change', updateGiaSauKhuyenMai);
+    document.getElementById('khuyenMai2').addEventListener('change', updateGiaSauKhuyenMai2);
 
     function updateGiaSauKhuyenMai() {
     // Lấy giá trị gói tập từ thuộc tính data-gia
@@ -273,6 +353,91 @@
         window.giaSauKhuyenMaiValue = null;
     }
 }
+//Laayd mã khuyến mãi cho modal của gia hạn gói
+document.getElementById('submitGiaHanGoiTap').addEventListener('click', function () {
+    const maGoiTap = document.getElementById('maGoiTap2').value; // Lấy mã gói tập đã chọn trong modal
+
+    if (maGoiTap) {
+        // Gọi API để lấy danh sách khuyến mãi và giá của gói tập
+        fetch(`utils/getKhuyenMai.php?maGoiTap=${maGoiTap}`)
+            .then(response => response.json())
+            .then(data => {
+                const khuyenMaiSelect = document.getElementById('khuyenMai2');
+                const giaInput = document.getElementById('giaSauKhuyenMai2'); // Trường input hiển thị giá của gói tập
+
+                // Reset các options của dropdown khuyến mãi
+                khuyenMaiSelect.innerHTML = '<option value="">Chọn Khuyến Mãi</option>'; 
+
+                if (data.length >= 0) {
+                    // Thêm các khuyến mãi khả dụng
+                    data.forEach(km => {
+                        khuyenMaiSelect.innerHTML += `
+                            <option value="${km.maKhuyenMai}" data-giamgia="${km.giamGia}">${km.moTa} - Giảm ${km.giamGia}%</option>
+                        `;
+                    });
+
+                    // Lấy giá của gói tập từ API và hiển thị vào trường input
+                    fetch(`utils/getGiaByGoiTap.php?maGoiTap=${maGoiTap}`)
+                        .then(response => response.json())
+                        .then(giaData => {
+                            if (giaData) {
+                                giaInput.value = giaData.gia.toLocaleString('vi-VN') + " VND"; // Hiển thị giá vào trường input
+                                // updateGiaSauKhuyenMai2(); // Cập nhật lại giá sau khuyến mãi
+                            } else {
+                                giaInput.value = "Không có thông tin giá";
+                            }
+                        })
+                        .catch(err => console.error('Error fetching gia:', err));
+                } else {
+                    // Không có khuyến mãi áp dụng
+                    khuyenMaiSelect.innerHTML = '<option value="0" data-giamgia="0">Không có khuyến mãi áp dụng</option>';
+                    giaInput.value = "Không có thông tin giá";
+                }
+            })
+            .catch(err => console.error('Error fetching khuyen mai:', err));
+    }
+});
+
+// Hàm tính giá sau khuyến mãi (nếu có)
+function updateGiaSauKhuyenMai2() {
+    const maGoiTap = document.getElementById('maGoiTap2').value;
+    const giaGoiTap = parseFloat(document.getElementById('giaSauKhuyenMai2').value.replace(" VND", "").replace(",", "")); // Lấy giá gói tập từ input
+
+    const khuyenMaiSelect = document.getElementById('khuyenMai2');
+    const khuyenMaiSelected = khuyenMaiSelect.selectedOptions[0];
+    const giamGia = parseInt(khuyenMaiSelected?.getAttribute('data-giamgia') || 0); // Nếu không có khuyến mãi, giamGia = 0
+
+    if (giaGoiTap > 0) {
+        // Tính giá sau khuyến mãi (nếu có khuyến mãi)
+        const giaSauKhuyenMai2 = giamGia > 0 ? giaGoiTap * (1 - giamGia / 100) : giaGoiTap;
+        document.getElementById('giaSauKhuyenMai2').value = giaSauKhuyenMai2.toLocaleString('vi-VN') + " VND"; 
+        window.giaSauKhuyenMaiValue = giaSauKhuyenMai2;
+        // Hiển thị giá sau khuyến mãi
+    } else {
+        document.getElementById('giaSauKhuyenMai2').value = "0 VND"; 
+        window.giaSauKhuyenMaiValue = null;// Nếu không có giá, hiển thị 0
+    }
+}
+
+
+
+    // Lắng nghe sự kiện khi modal mở
+    $('#extendGoitapForCustomerModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Lấy đối tượng button đã nhấn
+        var userID = button.data('userid');
+        var customerName = button.data('customername');
+        var customerEmail = button.data('customeremail');
+        var customerPhone = button.data('customerphone');
+        var maGoiTap = button.data('magoi');
+
+        // Điền thông tin vào modal
+        var modal = $(this);
+        modal.find('#customerUserID2').val(userID);
+        modal.find('#customerName2').val(customerName);
+        modal.find('#customerEmail2').val(customerEmail);
+        modal.find('#customerPhone2').val(customerPhone);
+        modal.find('#maGoiTap2').val(maGoiTap);
+    });
 
 
     document.getElementById('maGoiTap').addEventListener('change', function () {
@@ -353,6 +518,127 @@
         const addGoitapForCustomerModal = document.getElementById('addGoitapForCustomerModal');
         addGoitapForCustomerModal.style.display = 'none';
         const form = document.getElementById('addGoitapForCustomerForm');
+        form.reset();  // Reset tất cả trường trong form
+        fetch('utils/add_goitap_for_customer_handler.php', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    const invoiceContainer = document.getElementById('invoiceContainer');
+                    const modal = new bootstrap.Modal(invoiceContainer);
+                    const invoiceDetails = document.getElementById('invoiceDetails');
+                    const qrCodeContainer = document.getElementById('qrCodeContainer');
+                    const invoiceData = data.invoice;
+                    const tenGoiTap = data.tenGoiTap;
+                    // Cập nhật nội dung hóa đơn
+                    invoiceDetails.innerHTML = `
+                        <p><strong>Mã hóa đơn:</strong> ${invoiceData.maHoaDon}</p>
+                        <p><strong>Gói tập:</strong> ${tenGoiTap}</p>
+                        <p><strong>Số tiền:</strong> ${invoiceData.soTien} VND</p>
+                        <p><strong>Phương thức thanh toán:</strong> ${invoiceData.phuongThucThanhToan}</p>
+                        <p><strong>Ngày thanh toán:</strong> ${invoiceData.ngayThanhToan || 'Chưa thanh toán'}</p>
+                        <p><strong>Trạng thái:</strong> ${invoiceData.trangThai || 'Chưa thanh toán'}</p>
+                        <button id="confirmPaymentBtn">Xác nhận thanh toán</button>
+                        <button id="cancelPaymentBtn">Hủy</button>
+                    `;
+
+                    // Hiển thị hóa đơn
+                    modal.show();
+                    modal.hide();
+                    // Hiển thị QR Code nếu cần
+                    if (phuongThucThanhToan === "Chuyển khoản" && invoiceData.paymentLink) {
+                        qrCodeContainer.innerHTML = '';
+                        new QRCode(qrCodeContainer, {
+                            text: invoiceData.paymentLink,
+                            width: 128,
+                            height: 128,
+                            colorDark: "#000000",
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                    }
+
+                    document.getElementById('cancelPaymentBtn').addEventListener('click', function () {
+                        // Reload lại trang khi bấm nút Hủy
+                        location.reload();
+                    });
+                    // Xử lý nút xác nhận thanh toán
+                    document.getElementById('confirmPaymentBtn').addEventListener('click', function () {
+                        fetch('utils/update_invoice_status.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                maHoaDon: invoiceData.maHoaDon,
+                                ngayThanhToan: new Date().toISOString().split('T')[0],
+                                trangThai: 'Đã thanh toán',
+                                idDangKy: invoiceData.idDangKy,
+                            }),
+                        })
+                            .then(res => res.json())
+                            .then(result => {
+                                if (result.success) {
+                                    alert('Hóa đơn đã được xác nhận!');
+                                    // Update trạng thái gói tập
+                                    fetch('utils/update_goidangky_status.php', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            idDangKy: invoiceData.idDangKy,
+                                            trangThai: 'Đang hoạt động',
+                                        }),
+                                    })
+                                        .then(res => res.json())
+                                        .then(res => {
+                                            if (res.success) {
+                                                alert('Gói tập đã kích hoạt!');
+                                                location.reload();
+                                            } else alert('Lỗi cập nhật gói tập!');
+                                        });
+                                } else alert('Lỗi xác nhận hóa đơn!');
+                            });
+                    });
+                } else {
+                    alert('Có lỗi: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+    document.getElementById('extendGoitapForCustomerForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        // Lấy giá trị từ form
+        const userID2 = document.getElementById('customerUserID2').value.trim();
+        const customerName2 = document.getElementById('customerName2').value.trim();
+        const customerEmail2 = document.getElementById('customerEmail2').value.trim();
+        const customerPhone2 = document.getElementById('customerPhone2').value.trim();
+        const maGoiTap2 = document.getElementById('maGoiTap2').value.trim();
+        const maKhuyenMai2 = document.getElementById('khuyenMai2').value.trim();
+        const phuongThucThanhToan2 = document.getElementById('phuongThucThanhToan2').value.trim();
+        const giaSauKhuyenMai2 = window.giaSauKhuyenMaiValue;
+
+        if (!maGoiTap2 || !userID2 || !customerName2 || !customerEmail2 || !customerPhone2) {
+            alert('Vui lòng điền đầy đủ thông tin.');
+            return;
+        }
+
+        const formData = new FormData(this);
+        formData.append('userID', userID2);
+        formData.append('customerName', customerName2);
+        formData.append('customerEmail', customerEmail2);
+        formData.append('customerPhone', customerPhone2);
+        formData.append('maGoiTap', maGoiTap2);
+        if (maKhuyenMai2) {
+        formData.append('maKhuyenMai', maKhuyenMai2);
+        }
+        formData.append('phuongThucThanhToan', phuongThucThanhToan2);
+        formData.append('giaSauKhuyenMai', giaSauKhuyenMai2);
+
+        const addGoitapForCustomerModal = document.getElementById('extendGoitapForCustomerModal');
+        addGoitapForCustomerModal.style.display = 'none';
+        const form = document.getElementById('extendGoitapForCustomerForm');
         form.reset();  // Reset tất cả trường trong form
         fetch('utils/add_goitap_for_customer_handler.php', {
             method: 'POST',

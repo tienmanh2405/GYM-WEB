@@ -50,7 +50,23 @@ class GoitapModel {
         $stmt->bind_param("i", $maGoiTap);
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    }    
+    }
+    public function getGiaByGoiTap($maGoiTap) {
+        // Truy vấn SQL lấy giá của gói tập theo maGoiTap
+        $query = "SELECT gia FROM goitap WHERE maGoiTap = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $maGoiTap);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        // Kiểm tra nếu có dữ liệu và trả về giá
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['gia']; // Trả về giá của gói tập
+        } else {
+            return null; // Nếu không tìm thấy gói tập, trả về null
+        }
+    }     
     public function updatePackageStatus($idDangKy, $trangThai) {
         // Câu lệnh SQL
         $query = "UPDATE goidangky SET trangThai = ? WHERE idDangKy = ?";
