@@ -16,16 +16,20 @@ class LichLamViec {
         $currentDate = new DateTime();  // Ngày hiện tại
         $startOfWeek = clone $currentDate;  // Sao chép đối tượng ngày hiện tại
         $endOfWeek = clone $currentDate;  // Sao chép đối tượng ngày hiện tại
+        $startOfNextWeek = clone $currentDate;  // Sao chép đối tượng ngày hiện tại
+        $endOfNextWeek = clone $currentDate;  // Sao chép đối tượng ngày hiện tại
 
         // Tính ngày bắt đầu của tuần (Thứ 2)
         $startOfWeek->modify('monday this week');
+        $startOfNextWeek->modify('monday next week');
 
         // Tính ngày kết thúc của tuần (Chủ Nhật)
         $endOfWeek->modify('sunday this week');
+        $endOfNextWeek->modify('sunday next week');
 
         // Định dạng ngày theo định dạng 'Y-m-d' để dùng trong SQL
         $startDate = $startOfWeek->format('Y-m-d');
-        $endDate = $endOfWeek->format('Y-m-d');
+        $endDate = $endOfNextWeek->format('Y-m-d');
 
         // Câu lệnh SQL truy vấn lịch làm việc
         $sql = "

@@ -28,69 +28,44 @@
 //     header("Location: /GYM-WEB/public/Admin/lichLamViec");
 // }
 ?>
-
 <?php
 require_once "../config/database.php";
+$database = new Database();
+$conn = $database->connect();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $ngayLamViec = $_POST['ngayLamViec'];
-    $caLamViec = $_POST['caLamViec'];
-    $userIDs = $_POST['userID'];  // Mảng chứa các userID được chọn
+// Lấy dữ liệu từ form
+$tuan = $_POST['tuan'];
+$ngayLamViec = $_POST['ngayLamViec'];
+$userIDs = $_POST['userID'];
+$caLamViec = $_POST['caLamViec'];
 
-    $database = new Database();
-    $conn = $database->connect();
+// Kiểm tra nếu đã có dữ liệu lịch làm việc cho ngày, ca và nhân viên này
+foreach ($userIDs as $userID) {
+    $query = "SELECT * FROM lichlamviec WHERE ngayLamViec = ? AND caLamViec = ? AND userID = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("sss", $ngayLamViec, $caLamViec, $userID);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Kiểm tra kết nối cơ sở dữ liệu
-    if ($conn->connect_error) {
-        die("Kết nối thất bại: " . $conn->connect_error);
+    if ($result->num_rows > 0) {
+        // Nếu đã tồn tại, trả về thông báo
+        echo "<script>alert('Nhân viên ID $userID đã có lịch làm việc vào ngày $ngayLamViec, ca $caLamViec.');</script>";
+        echo "<script>location.reload();</script>";
+        exit;
     }
-
-    // Tính ngày bắt đầu và kết thúc của tuần hiện tại
-    $currentDate = new DateTime($ngayLamViec);
-    $startOfWeek = clone $currentDate;
-    $startOfWeek->modify('monday this week');
-    $endOfWeek = clone $startOfWeek;
-    $endOfWeek->modify('sunday this week');
-
-    // Tính ngày bắt đầu và kết thúc của tuần kế tiếp
-    $startOfNextWeek = clone $startOfWeek;
-    $startOfNextWeek->modify('+1 week');
-    $endOfNextWeek = clone $endOfWeek;
-    $endOfNextWeek->modify('+1 week');
-
-    // Dùng prepared statements để bảo mật
-    $stmt = $conn->prepare("INSERT INTO lichlamViec (caLamViec, ngayLamViec, userID) VALUES (?, ?, ?)");
-
-    // Kiểm tra nếu statement được chuẩn bị thành công
-    if ($stmt === false) {
-        die("Lỗi chuẩn bị câu lệnh: " . $conn->error);
-    }
-
-    // Lặp qua các userID và chèn vào cơ sở dữ liệu
-    foreach ($userIDs as $userID) {
-        // Chèn lịch cho tuần hiện tại
-        $stmt->bind_param("ssi", $caLamViec, $ngayLamViec, $userID);
-        if (!$stmt->execute()) {
-            echo "Lỗi khi thêm dữ liệu cho tuần hiện tại: " . $stmt->error;
-        }
-
-        // Chèn lịch cho tuần kế tiếp (các ngày trong tuần)
-        $currentDate = clone $startOfNextWeek;
-        while ($currentDate <= $endOfNextWeek) {
-            $ngayLamViecNextWeek = $currentDate->format('Y-m-d');
-            $stmt->bind_param("ssi", $caLamViec, $ngayLamViecNextWeek, $userID);
-            if (!$stmt->execute()) {
-                echo "Lỗi khi thêm dữ liệu cho tuần kế tiếp (ngày " . $ngayLamViecNextWeek . "): " . $stmt->error;
-            }
-            $currentDate->modify('+1 day');
-        }
-    }
-
-    $stmt->close();
-    $conn->close();
-
-    echo "Thêm lịch làm việc thành công!";
-    header("Location: /GYM-WEB/public/Admin/lichLamViec");
 }
+
+// Nếu không có trùng lặp, tiếp tục thêm lịch làm việc
+foreach ($userIDs as $userID) {
+    $insertQuery = "INSERT INTO lichlamviec (ngayLamViec, caLamViec, userID) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($insertQuery);
+    $stmt->bind_param("sss", $ngayLamViec, $caLamViec, $userID);
+    $stmt->execute();
+}
+
+// Redirect hoặc thông báo thành công
+echo "<script>alert('Thêm lịch làm việc thành công.');</script>";
+echo "<script>location.reload();</script>";
 ?>
+
 

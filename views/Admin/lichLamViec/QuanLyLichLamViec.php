@@ -31,64 +31,96 @@
     
     <!-- Custom Styles for Table Borders -->
     <style>
-        table {
-        border-collapse: collapse;
-        width: 100%;
-        color: #333;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        text-align: left;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        margin: auto;
-        margin-top: 50px;
-        margin-bottom: 50px;
-        background-color: #fff;
-        }
-        table th {
-            background-color: #ff9800;
-            color: blaclk;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid #ccc;
-        } 
-        table tr, td{
-            border: 1px solid #ccc;
-            text-align: center;
-        vertical-align: middle;
-        }  
-        .span-user{
-            background-color: black; /* Màu nền xanh dương đậm */
-            color: white; /* Màu chữ trắng */
-            padding: 5px 10px; /* Khoảng cách trong */
-            border-radius: 3px; /* Bo góc */
-        }
-        /* CSS riêng cho modal */
-#scheduleModal .form-select,
-#scheduleModal .form-control {
-    color: white;
+ /* Định dạng cho bảng và các thành phần của nó */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    color: #333;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    text-align: left;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    background-color: #fff;
 }
-#scheduleModal .form-label {
-    color: black;
+
+/* Định dạng tiêu đề bảng */
+table th {
+    background-color: #ff9800; /* Màu nền cam */
+    color: black; /* Chữ màu đen */
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid #ccc;
 }
-#scheduleModal .modal-title {
-        color: black; /* Màu chữ đen */
-    }
-    .btn-align-right {
-        display: block;
-        margin-left: auto;
-        margin-right: 0;
-    }
-    .span-user {
-    background-color: black; /* Màu nền */
-    color: white; /* Màu chữ */
+
+/* Định dạng các ô trong bảng */
+table tr, td {
+    border: 1px solid #ccc;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Định dạng cho các thẻ span hiển thị tên người */
+.span-user {
+    background-color: black; /* Màu nền đen */
+    color: white; /* Chữ màu trắng */
     padding: 5px 10px; /* Khoảng cách trong */
     border-radius: 3px; /* Bo góc */
-    display: inline-block; /* Để có thể áp dụng margin */
-    margin-bottom: 5px; /* Tạo khoảng cách giữa các tên */
+    display: inline-block; /* Hiển thị dưới dạng khối nội tuyến */
+    margin-bottom: 5px; /* Khoảng cách dưới */
+}
+
+/* Định dạng cho các thành phần modal */
+#scheduleModal .form-select,
+#scheduleModal .form-control {
+    color: white; /* Màu chữ trắng */
+}
+
+#scheduleModal .form-label {
+    color: black; /* Màu chữ đen */
+    font-weight: bold; /* Chữ đậm */
+}
+
+#scheduleModal .modal-title {
+    color: black; /* Màu chữ đen */
+}
+
+/* Định dạng nút bấm căn phải */
+.btn-align-right {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* Tùy chỉnh giao diện của nút xóa trong bảng */
+.btn-remove {
+    color: red; /* Màu đỏ */
+    text-decoration: none; /* Bỏ gạch chân */
+    font-weight: bold; /* Chữ đậm */
+}
+
+.btn-remove:hover {
+    color: darkred; /* Màu đỏ đậm khi hover */
+}
+
+/* Cải thiện hình thức bảng khi chứa nhiều nội dung */
+table td {
+    padding: 5px; /* Thêm khoảng cách trong cho ô */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#h3tuanhientai{
+    position: absolute;
+    top: 200px; /* Điều chỉnh giá trị theo nhu cầu */
+}
+
+#h3tuantieptheo{
+    position: absolute;
+    top: 550px; /* Điều chỉnh giá trị theo nhu cầu */
 }
 
 
@@ -99,128 +131,137 @@
     <?php require_once('../views/Admin/layout/sidebar.php'); ?>
     <?php require_once('../views/Admin/layout/spinner.php'); ?>
 
-       <!-- Bảng danh sách lịch làm việc -->
-<div class="container-fluid pt-4 px-4">
-    <div class="row g-4">
-        <div class="col-sm-12 col-xl-12"> 
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h2 class="mb-0">Lịch làm việc</h2>
-            </div>
-
-            <?php 
-                // Lấy ngày hiện tại
-                $currentDate = date('Y-m-d');
-                // Tính ngày đầu tuần hiện tại (thứ 2)
-                $firstDayOfWeek = date('Y-m-d', strtotime('last Monday', strtotime($currentDate)));
-                $weekDates = [];  // Mảng để chứa các ngày trong tuần hiện tại
-
-                // Tính tất cả các ngày trong tuần hiện tại (từ thứ Hai đến Chủ Nhật)
-                for ($i = 0; $i < 7; $i++) {
-                    $weekDates[] = date('Y-m-d', strtotime("+$i day", strtotime($firstDayOfWeek)));
-                }
-
-                // Hiển thị bảng làm việc cho tuần hiện tại
-                echo '<h3>Tuần hiện tại</h3>';
-                echo '<table class="table">';
-                echo '<thead>';
-                echo '<tr>';
-                echo '<th scope="col">Ca làm việc</th>';
-
-                // Hiển thị các ngày trong tuần (tên ngày)
-                foreach ($weekDates as $date) {
-                    $dayOfWeek = date('l', strtotime($date));
-                    echo "<th scope=\"col\">$dayOfWeek<br>($date)</th>";
-                }
-                echo '</tr>';
-                echo '</thead>';
-                echo '<tbody>';
-
-                // Các ca làm việc trong ngày
-                $shifts = ['Ca sáng', 'Ca chiều'];
-
-                foreach ($shifts as $shift) {
-                    echo '<tr>';
-                    echo "<td><strong>$shift</strong></td>";
-                    foreach ($weekDates as $date) {
-                        echo '<td>';
-                        if (isset($lichLamViec[$date][$shift])) {
-                            foreach ($lichLamViec[$date][$shift] as $entry) {
-                                $user = $entry['user'];
-                                $maLich = $entry['maLich'];
-                                // Thêm maLich vào thẻ <a> để gửi tham số xóa
-                                echo "<span class='span-user'> $user</span> 
-                                    <a href='models/handle_LichLamViec_delete.php?maLich=$maLich' class='btn-remove' onclick='return confirm(\"Bạn có chắc chắn muốn xóa?\")'>x</a>
-                                <br>";
-                            }
-                        } else {
-                            echo ""; // Nếu không có người làm việc trong ca này
-                        }
-                        echo '</td>';
-                    }
-                    echo '</tr>';
-                }
-                echo '</tbody>';
-                echo '</table>';
-
-                // Tính ngày đầu tuần tiếp theo
-                $firstDayOfNextWeek = date('Y-m-d', strtotime('+1 week', strtotime($firstDayOfWeek)));
-                $weekDatesNext = [];  // Mảng để chứa các ngày trong tuần tiếp theo
-
-                // Tính tất cả các ngày trong tuần tiếp theo (từ thứ Hai đến Chủ Nhật)
-                for ($i = 0; $i < 7; $i++) {
-                    $weekDatesNext[] = date('Y-m-d', strtotime("+$i day", strtotime($firstDayOfNextWeek)));
-                }
-
-                // Hiển thị bảng làm việc cho tuần tiếp theo
-                echo '<h3>Tuần tiếp theo</h3>';
-                echo '<table class="table">';
-                echo '<thead>';
-                echo '<tr>';
-                echo '<th scope="col">Ca làm việc</th>';
-
-                // Hiển thị các ngày trong tuần (tên ngày)
-                foreach ($weekDatesNext as $date) {
-                    $dayOfWeek = date('l', strtotime($date));
-                    echo "<th scope=\"col\">$dayOfWeek<br>($date)</th>";
-                }
-                echo '</tr>';
-                echo '</thead>';
-                echo '<tbody>';
-
-                foreach ($shifts as $shift) {
-                    echo '<tr>';
-                    echo "<td><strong>$shift</strong></td>";
-                    foreach ($weekDatesNext as $date) {
-                        echo '<td>';
-                        if (isset($lichLamViec[$date][$shift])) {
-                            foreach ($lichLamViec[$date][$shift] as $entry) {
-                                $user = $entry['user'];
-                                $maLich = $entry['maLich'];
-                                // Thêm maLich vào thẻ <a> để gửi tham số xóa
-                                echo "<span class='span-user'> $user</span> 
-                                    <a href='models/handle_LichLamViec_delete.php?maLich=$maLich' class='btn-remove' onclick='return confirm(\"Bạn có chắc chắn muốn xóa?\")'>x</a>
-                                <br>";
-                            }
-                        } else {
-                            echo ""; // Nếu không có người làm việc trong ca này
-                        }
-                        echo '</td>';
-                    }
-                    echo '</tr>';
-                }
-                echo '</tbody>';
-                echo '</table>';
-            ?>
-        </div>
-    </div>
-</div>
-
-        <!-- Button to open modal -->
-        <div class="d-flex justify-content-end">
+        <!-- Bảng danh sách lịch làm việc -->
+        <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-12"> 
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h2 class="mb-0">Quản Lý Lịch làm việc</h2>
+                </div>
+                        <!-- Button to open modal -->
+        <div class="d-flex justify-content-end mb-3">
     <button type="button" class="btn btn-primary me-4" data-bs-toggle="modal" data-bs-target="#scheduleModal">
         Tạo lịch làm việc
     </button>
 </div>
+<h3 id="h3tuanhientai">Lịch Làm Việc Tuần Hiện Tại</h3>
+                    <?php 
+                    
+                        // Lấy các ngày trong tuần hiện tại
+                        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                        $currentDate = date('Y-m-d');
+                        $firstDayOfWeek = date('Y-m-d', strtotime('last Monday', strtotime($currentDate))); // Tính ngày đầu tuần (thứ 2)
+                        $weekDates = [];  // Mảng để chứa các ngày trong tuần
+
+                        // Tính tất cả các ngày trong tuần hiện tại (từ thứ Hai đến Chủ Nhật)
+                        for ($i = 0; $i < 7; $i++) {
+                            $weekDates[] = date('Y-m-d', strtotime("+$i day", strtotime($firstDayOfWeek)));
+                        }
+
+                        echo '<table class="table ">';
+                        echo '<thead>';
+                        echo '<tr>';
+                        echo '<th scope="col">Ca làm việc</th>';
+
+                        // Hiển thị các ngày trong tuần (tên ngày)
+                        foreach ($weekDates as $date) {
+                            $dayOfWeek = date('l', strtotime($date));  // Lấy tên ngày trong tuần
+                            echo "<th scope=\"col\">$dayOfWeek<br>($date)</th>";
+                        }
+                        echo '</tr>';
+                        echo '</thead>';
+
+                        echo '<tbody>';
+
+                        // Các ca làm việc trong ngày
+                        $shifts = ['Ca sáng', 'Ca chiều'];
+
+                        foreach ($shifts as $shift) {
+                            echo '<tr>';
+                            echo "<td><strong>$shift</strong></td>";
+                            foreach ($weekDates as $date) {
+                                echo '<td>';
+                                if (isset($lichLamViec[$date][$shift])) {
+                                    foreach ($lichLamViec[$date][$shift] as $entry) {
+                                        $user = $entry['user'];
+                                        $maLich = $entry['maLich'];
+                                        // Thêm maLich vào thẻ <a> để gửi tham số xóa
+                                        echo "<span class='span-user'> $user</span> 
+                                            <a href='models/handle_LichLamViec_delete.php?maLich=$maLich' class='btn-remove' onclick='return confirm(\"Bạn có chắc chắn muốn xóa?\")'>x</a>
+                                        <br>";
+                                    }
+                                } else {
+                                    echo ""; // Nếu không có người làm việc trong ca này
+                                }
+                                echo '</td>';
+                            }
+                            
+                            echo '</tr>';
+                        }
+
+                        echo '</tbody>';
+                        echo '</table>';
+                    ?>
+                    <h3 id="h3tuantieptheo">Lịch Làm Việc Tuần Tiếp Theo</h3>
+                    <?php 
+                        // Lấy các ngày trong tuần hiện tại
+                        $daysOfNextWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                        $currentDate = date('Y-m-d');
+                        $firstDayOfNextWeek = date('Y-m-d', strtotime('next Monday', strtotime($currentDate))); // Tính ngày đầu tuần (thứ 2)
+                        $nextWeekDates = [];  // Mảng để chứa các ngày trong tuần
+
+                        // Tính tất cả các ngày trong tuần hiện tại (từ thứ Hai đến Chủ Nhật)
+                        for ($i = 0; $i < 7; $i++) {
+                            $nextWeekDates[] = date('Y-m-d', strtotime("+$i day", strtotime($firstDayOfNextWeek)));
+                        }
+
+                        echo '<table class="table ">';
+                        echo '<thead>';
+                        echo '<tr>';
+                        echo '<th scope="col">Ca làm việc</th>';
+
+                        // Hiển thị các ngày trong tuần (tên ngày)
+                        foreach ($nextWeekDates as $date) {
+                            $dayOfNextWeek = date('l', strtotime($date));  // Lấy tên ngày trong tuần
+                            echo "<th scope=\"col\">$dayOfNextWeek<br>($date)</th>";
+                        }
+                        echo '</tr>';
+                        echo '</thead>';
+
+                        echo '<tbody>';
+
+                        // Các ca làm việc trong ngày
+                        $shifts = ['Ca sáng', 'Ca chiều'];
+
+                        foreach ($shifts as $shift) {
+                            echo '<tr>';
+                            echo "<td><strong>$shift</strong></td>";
+                            foreach ($nextWeekDates as $date) {
+                                echo '<td>';
+                                if (isset($lichLamViec[$date][$shift])) {
+                                    foreach ($lichLamViec[$date][$shift] as $entry) {
+                                        $user = $entry['user'];
+                                        $maLich = $entry['maLich'];
+                                        // Thêm maLich vào thẻ <a> để gửi tham số xóa
+                                        echo "<span class='span-user'> $user</span> 
+                                            <a href='models/handle_LichLamViec_delete.php?maLich=$maLich' class='btn-remove' onclick='return confirm(\"Bạn có chắc chắn muốn xóa?\")'>x</a>
+                                        <br>";
+                                    }
+                                } else {
+                                    echo ""; // Nếu không có người làm việc trong ca này
+                                }
+                                echo '</td>';
+                            }
+                            
+                            echo '</tr>';
+                        }
+
+                        echo '</tbody>';
+                        echo '</table>';
+                    ?>
+                </div>
+            </div>
+        </div>
 
 
 <!-- Modal structure -->
@@ -233,18 +274,17 @@
             </div>
             <div class="modal-body">
                 <form action="models/handle_LichLamViec_add.php" method="post">
-                    <!-- Chọn tuần -->
                     <div class="mb-3">
-    <label for="tuan" class="form-label">Chọn tuần</label>
-    <select class="form-select" id="tuan" name="tuan" required onchange="updateNgayLamViec()">
-        <option value="current">Tuần hiện tại</option>
-        <option value="next">Tuần tiếp theo</option>
-    </select>
-</div>
+                        <label for="tuần" class="form-label">Chọn tuần</label>
+                        <select class="form-select" id="tuan" name="tuan" required onchange="updateDates()">
+                            <option value="current">Tuần hiện tại</option>
+                            <option value="next">Tuần tiếp theo</option>
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <label for="ngayLamViec" class="form-label">Ngày làm việc</label>
                         <select class="form-select" id="ngayLamViec" name="ngayLamViec" required>
-                            <!-- Các ngày trong tuần sẽ được cập nhật bằng JavaScript -->
+                            <!-- Các ngày sẽ được thêm bằng JavaScript -->
                         </select>
                     </div>
                     <div class="mb-3">
@@ -278,6 +318,42 @@
     </div>
 </div>
 
+<script>
+    function updateDates() {
+        const weekSelect = document.getElementById('tuan');
+        const dateSelect = document.getElementById('ngayLamViec');
+        dateSelect.innerHTML = ''; // Xóa các tùy chọn hiện tại
+
+        const currentDate = new Date();
+        let startDate;
+
+        if (weekSelect.value === 'current') {
+            // Tuần hiện tại
+            startDate = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 1));
+        } else {
+            // Tuần tiếp theo
+            startDate = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 8));
+        }
+
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(startDate);
+            date.setDate(startDate.getDate() + i);
+            const formattedDate = date.toISOString().split('T')[0];
+            const dayName = date.toLocaleDateString('vi-VN', { weekday: 'long' });
+
+            const option = document.createElement('option');
+            option.value = formattedDate;
+            option.textContent = `${dayName} (${formattedDate})`;
+
+            dateSelect.appendChild(option);
+        }
+    }
+
+    // Gọi hàm để cập nhật danh sách ngày khi trang được tải lần đầu
+    document.addEventListener('DOMContentLoaded', updateDates);
+</script>
+
+
 
 
     <!-- JavaScript Libraries -->
@@ -298,43 +374,4 @@
 <script>
    
 </script>
-<script>
-function updateNgayLamViec() {
-    const ngayLamViecSelect = document.getElementById('ngayLamViec');
-    const tuanSelect = document.getElementById('tuan').value;
-    let startOfWeek;
-
-    // Tính ngày bắt đầu của tuần hiện tại hoặc tuần tiếp theo
-    if (tuanSelect === 'current') {
-        startOfWeek = new Date();
-        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 1);
-    } else if (tuanSelect === 'next') {
-        startOfWeek = new Date();
-        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 8); // Di chuyển đến tuần tiếp theo
-    }
-
-    // Tạo danh sách các ngày trong tuần
-    const daysInWeek = [];
-    for (let i = 0; i < 7; i++) {
-        let date = new Date(startOfWeek);
-        date.setDate(startOfWeek.getDate() + i);
-        daysInWeek.push(date.toISOString().split('T')[0]); // Định dạng ngày thành 'Y-m-d'
-    }
-
-    // Cập nhật dropdown ngày làm việc
-    ngayLamViecSelect.innerHTML = ''; // Xóa nội dung cũ
-    daysInWeek.forEach(date => {
-        const dayName = new Date(date).toLocaleString('vi-VN', { weekday: 'long' });
-        const option = document.createElement('option');
-        option.value = date;
-        option.textContent = `${dayName.charAt(0).toUpperCase() + dayName.slice(1)} (${date})`;
-        ngayLamViecSelect.appendChild(option);
-    });
-}
-
-// Gọi hàm khi tải trang để hiển thị các ngày trong tuần hiện tại
-updateNgayLamViec();
-</script>
-
-
 </html>
