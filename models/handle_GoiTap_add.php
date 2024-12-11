@@ -9,14 +9,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $moTa = trim($_POST['moTa']);
     $anhGoiTap = $_FILES['anhGoiTap'];
 
-    
-    
 
     // Kiểm tra dữ liệu
     if (empty($tenGoiTap) || empty($thoiHan) || empty($gia) || empty($moTa)) {
         echo json_encode(['success' => false, 'message' => 'Thông tin gói tập không được để trống.']);
         exit;
     }
+    // Kiểm tra thời hạn phải là số nguyên dương và không được là số lẻ
+if (!is_numeric($thoiHan) || $thoiHan <= 0) {
+    echo json_encode(['success' => false, 'message' => 'Thời hạn phải là số nguyên dương']);
+    exit;
+}
+if (!preg_match('/^\d+$/', $thoiHan)) {
+    echo json_encode(['success' => false, 'message' => 'Thời hạn phải là số và không có ký tự đặc biệt']);
+    exit;
+}
+//kiểm tra giá tiền
+if (!preg_match('/^\d+$/', $gia) || $gia <= 0) {
+    echo json_encode(['success' => false, 'message' => 'Giá tiền chỉ được chứa số và phải là số dương.']);
+    exit;
+}
     // Thiết lập múi giờ
 date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
     // Kiểm tra tệp hình ảnh

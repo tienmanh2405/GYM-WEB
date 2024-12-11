@@ -99,72 +99,121 @@
     <?php require_once('../views/Admin/layout/sidebar.php'); ?>
     <?php require_once('../views/Admin/layout/spinner.php'); ?>
 
-        <!-- Bảng danh sách lịch làm việc -->
-        <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-12 col-xl-12"> 
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h2 class="mb-0">Lịch làm việc</h2>
-                </div>
-                    <?php 
-                        // Lấy các ngày trong tuần hiện tại
-                        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-                        $currentDate = date('Y-m-d');
-                        $firstDayOfWeek = date('Y-m-d', strtotime('last Monday', strtotime($currentDate))); // Tính ngày đầu tuần (thứ 2)
-                        $weekDates = [];  // Mảng để chứa các ngày trong tuần
-
-                        // Tính tất cả các ngày trong tuần hiện tại (từ thứ Hai đến Chủ Nhật)
-                        for ($i = 0; $i < 7; $i++) {
-                            $weekDates[] = date('Y-m-d', strtotime("+$i day", strtotime($firstDayOfWeek)));
-                        }
-
-                        echo '<table class="table ">';
-                        echo '<thead>';
-                        echo '<tr>';
-                        echo '<th scope="col">Ca làm việc</th>';
-
-                        // Hiển thị các ngày trong tuần (tên ngày)
-                        foreach ($weekDates as $date) {
-                            $dayOfWeek = date('l', strtotime($date));  // Lấy tên ngày trong tuần
-                            echo "<th scope=\"col\">$dayOfWeek<br>($date)</th>";
-                        }
-                        echo '</tr>';
-                        echo '</thead>';
-
-                        echo '<tbody>';
-
-                        // Các ca làm việc trong ngày
-                        $shifts = ['Ca sáng', 'Ca chiều'];
-
-                        foreach ($shifts as $shift) {
-                            echo '<tr>';
-                            echo "<td><strong>$shift</strong></td>";
-                            foreach ($weekDates as $date) {
-                                echo '<td>';
-                                if (isset($lichLamViec[$date][$shift])) {
-                                    foreach ($lichLamViec[$date][$shift] as $entry) {
-                                        $user = $entry['user'];
-                                        $maLich = $entry['maLich'];
-                                        // Thêm maLich vào thẻ <a> để gửi tham số xóa
-                                        echo "<span class='span-user'> $user</span> 
-                                            <a href='models/handle_LichLamViec_delete.php?maLich=$maLich' class='btn-remove' onclick='return confirm(\"Bạn có chắc chắn muốn xóa?\")'>x</a>
-                                        <br>";
-                                    }
-                                } else {
-                                    echo ""; // Nếu không có người làm việc trong ca này
-                                }
-                                echo '</td>';
-                            }
-                            
-                            echo '</tr>';
-                        }
-
-                        echo '</tbody>';
-                        echo '</table>';
-                    ?>
-                </div>
+       <!-- Bảng danh sách lịch làm việc -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-12"> 
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h2 class="mb-0">Lịch làm việc</h2>
             </div>
+
+            <?php 
+                // Lấy ngày hiện tại
+                $currentDate = date('Y-m-d');
+                // Tính ngày đầu tuần hiện tại (thứ 2)
+                $firstDayOfWeek = date('Y-m-d', strtotime('last Monday', strtotime($currentDate)));
+                $weekDates = [];  // Mảng để chứa các ngày trong tuần hiện tại
+
+                // Tính tất cả các ngày trong tuần hiện tại (từ thứ Hai đến Chủ Nhật)
+                for ($i = 0; $i < 7; $i++) {
+                    $weekDates[] = date('Y-m-d', strtotime("+$i day", strtotime($firstDayOfWeek)));
+                }
+
+                // Hiển thị bảng làm việc cho tuần hiện tại
+                echo '<h3>Tuần hiện tại</h3>';
+                echo '<table class="table">';
+                echo '<thead>';
+                echo '<tr>';
+                echo '<th scope="col">Ca làm việc</th>';
+
+                // Hiển thị các ngày trong tuần (tên ngày)
+                foreach ($weekDates as $date) {
+                    $dayOfWeek = date('l', strtotime($date));
+                    echo "<th scope=\"col\">$dayOfWeek<br>($date)</th>";
+                }
+                echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
+
+                // Các ca làm việc trong ngày
+                $shifts = ['Ca sáng', 'Ca chiều'];
+
+                foreach ($shifts as $shift) {
+                    echo '<tr>';
+                    echo "<td><strong>$shift</strong></td>";
+                    foreach ($weekDates as $date) {
+                        echo '<td>';
+                        if (isset($lichLamViec[$date][$shift])) {
+                            foreach ($lichLamViec[$date][$shift] as $entry) {
+                                $user = $entry['user'];
+                                $maLich = $entry['maLich'];
+                                // Thêm maLich vào thẻ <a> để gửi tham số xóa
+                                echo "<span class='span-user'> $user</span> 
+                                    <a href='models/handle_LichLamViec_delete.php?maLich=$maLich' class='btn-remove' onclick='return confirm(\"Bạn có chắc chắn muốn xóa?\")'>x</a>
+                                <br>";
+                            }
+                        } else {
+                            echo ""; // Nếu không có người làm việc trong ca này
+                        }
+                        echo '</td>';
+                    }
+                    echo '</tr>';
+                }
+                echo '</tbody>';
+                echo '</table>';
+
+                // Tính ngày đầu tuần tiếp theo
+                $firstDayOfNextWeek = date('Y-m-d', strtotime('+1 week', strtotime($firstDayOfWeek)));
+                $weekDatesNext = [];  // Mảng để chứa các ngày trong tuần tiếp theo
+
+                // Tính tất cả các ngày trong tuần tiếp theo (từ thứ Hai đến Chủ Nhật)
+                for ($i = 0; $i < 7; $i++) {
+                    $weekDatesNext[] = date('Y-m-d', strtotime("+$i day", strtotime($firstDayOfNextWeek)));
+                }
+
+                // Hiển thị bảng làm việc cho tuần tiếp theo
+                echo '<h3>Tuần tiếp theo</h3>';
+                echo '<table class="table">';
+                echo '<thead>';
+                echo '<tr>';
+                echo '<th scope="col">Ca làm việc</th>';
+
+                // Hiển thị các ngày trong tuần (tên ngày)
+                foreach ($weekDatesNext as $date) {
+                    $dayOfWeek = date('l', strtotime($date));
+                    echo "<th scope=\"col\">$dayOfWeek<br>($date)</th>";
+                }
+                echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
+
+                foreach ($shifts as $shift) {
+                    echo '<tr>';
+                    echo "<td><strong>$shift</strong></td>";
+                    foreach ($weekDatesNext as $date) {
+                        echo '<td>';
+                        if (isset($lichLamViec[$date][$shift])) {
+                            foreach ($lichLamViec[$date][$shift] as $entry) {
+                                $user = $entry['user'];
+                                $maLich = $entry['maLich'];
+                                // Thêm maLich vào thẻ <a> để gửi tham số xóa
+                                echo "<span class='span-user'> $user</span> 
+                                    <a href='models/handle_LichLamViec_delete.php?maLich=$maLich' class='btn-remove' onclick='return confirm(\"Bạn có chắc chắn muốn xóa?\")'>x</a>
+                                <br>";
+                            }
+                        } else {
+                            echo ""; // Nếu không có người làm việc trong ca này
+                        }
+                        echo '</td>';
+                    }
+                    echo '</tr>';
+                }
+                echo '</tbody>';
+                echo '</table>';
+            ?>
         </div>
+    </div>
+</div>
 
         <!-- Button to open modal -->
         <div class="d-flex justify-content-end">
@@ -184,24 +233,18 @@
             </div>
             <div class="modal-body">
                 <form action="models/handle_LichLamViec_add.php" method="post">
+                    <!-- Chọn tuần -->
+                    <div class="mb-3">
+    <label for="tuan" class="form-label">Chọn tuần</label>
+    <select class="form-select" id="tuan" name="tuan" required onchange="updateNgayLamViec()">
+        <option value="current">Tuần hiện tại</option>
+        <option value="next">Tuần tiếp theo</option>
+    </select>
+</div>
                     <div class="mb-3">
                         <label for="ngayLamViec" class="form-label">Ngày làm việc</label>
                         <select class="form-select" id="ngayLamViec" name="ngayLamViec" required>
-                            <?php
-                            // Tạo mảng các ngày trong tuần từ thứ Hai đến Chủ Nhật
-                            $daysOfWeek = [];
-                            $currentDate = new DateTime(); // Ngày hiện tại
-                            $startOfWeek = clone $currentDate;
-                            $startOfWeek->modify('monday this week');
-
-                            for ($i = 0; $i < 7; $i++) {
-                                $date = clone $startOfWeek;
-                                $date->modify("+$i day");
-                                $formattedDate = $date->format('Y-m-d');
-                                $dayName = $date->format('l'); // Tên ngày trong tuần
-                                echo "<option value='$formattedDate'>$dayName ($formattedDate)</option>";
-                            }
-                            ?>
+                            <!-- Các ngày trong tuần sẽ được cập nhật bằng JavaScript -->
                         </select>
                     </div>
                     <div class="mb-3">
@@ -227,7 +270,7 @@
                         </select>
                     </div>
                     <div class="text-end">
-                        <button type="submit" class="btn btn-primary btn-align-right" >Tạo lịch làm việc</button>
+                        <button type="submit" class="btn btn-primary btn-align-right">Tạo lịch làm việc</button>
                     </div>
                 </form>
             </div>
@@ -255,4 +298,43 @@
 <script>
    
 </script>
+<script>
+function updateNgayLamViec() {
+    const ngayLamViecSelect = document.getElementById('ngayLamViec');
+    const tuanSelect = document.getElementById('tuan').value;
+    let startOfWeek;
+
+    // Tính ngày bắt đầu của tuần hiện tại hoặc tuần tiếp theo
+    if (tuanSelect === 'current') {
+        startOfWeek = new Date();
+        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 1);
+    } else if (tuanSelect === 'next') {
+        startOfWeek = new Date();
+        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + 8); // Di chuyển đến tuần tiếp theo
+    }
+
+    // Tạo danh sách các ngày trong tuần
+    const daysInWeek = [];
+    for (let i = 0; i < 7; i++) {
+        let date = new Date(startOfWeek);
+        date.setDate(startOfWeek.getDate() + i);
+        daysInWeek.push(date.toISOString().split('T')[0]); // Định dạng ngày thành 'Y-m-d'
+    }
+
+    // Cập nhật dropdown ngày làm việc
+    ngayLamViecSelect.innerHTML = ''; // Xóa nội dung cũ
+    daysInWeek.forEach(date => {
+        const dayName = new Date(date).toLocaleString('vi-VN', { weekday: 'long' });
+        const option = document.createElement('option');
+        option.value = date;
+        option.textContent = `${dayName.charAt(0).toUpperCase() + dayName.slice(1)} (${date})`;
+        ngayLamViecSelect.appendChild(option);
+    });
+}
+
+// Gọi hàm khi tải trang để hiển thị các ngày trong tuần hiện tại
+updateNgayLamViec();
+</script>
+
+
 </html>

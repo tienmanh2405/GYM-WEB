@@ -10,15 +10,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $trangThai = $_POST['trangthai'];
 
     // Kiểm tra dữ liệu đầu vào
-    if (empty($tenThietBi)) {
-        echo json_encode(['success' => false, 'message' => 'Tên thiết bị không được để trống.']);
+    if (!preg_match('/^[a-zA-Z0-9\s]+$/u', $tenThietBi)) {
+        echo json_encode(['success' => false, 'message' => 'Tên thiết bị không được chứa ký tự đặc biệt.']);
         exit;
     }
-
+    // Thiết lập múi giờ
+    date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
     if (empty($ngayMua)) {
         echo json_encode(['success' => false, 'message' => 'Ngày mua không được để trống.']);
         exit;
     }
+    $currentDate = date('Y-m-d');
+
+// So sánh ngày mua với ngày hiện tại
+if (strtotime($ngayMua) > strtotime($currentDate)) {
+    echo json_encode(['success' => false, 'message' => 'Ngày mua thiết bị phải bé hơn hoặc bằng ngày hiện tại.']);
+    exit;
+}
 
     $validTrangThai = ['Đang sử dụng', 'Hỏng', 'Bảo trì', 'Không sử dụng'];
     if (!in_array($trangThai, $validTrangThai)) {
@@ -26,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Thiết lập múi giờ
-date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
+//     // Thiết lập múi giờ
+// date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
 
 // Kiểm tra và xử lý hình ảnh
 $hinhAnh = null;

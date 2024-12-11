@@ -11,33 +11,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $vaiTro = $_POST['vaiTro'];
     $matKhau = trim($_POST['matKhau']);
 
-    // Kiểm tra dữ liệu Thêm nhân viên
-    if (empty($hoTen)) {
-        echo json_encode(['success' => false, 'message' => 'Họ tên không được để trống.']);
+    // Kiểm tra họ tên
+    if (empty($hoTen) || !preg_match('/^[a-zA-Z\s]+$/u', $hoTen)) {
+        echo json_encode(['success' => false, 'message' => 'Họ tên không hợp lệ.']);
         exit;
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    // Kiểm tra email
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo json_encode(['success' => false, 'message' => 'Email không hợp lệ.']);
         exit;
     }
 
-    if (!preg_match('/^\d{10}$/', $sdt)) {
+    // Kiểm tra email trùng
+    if ($nhanVienModel->checkEmailExists($email)) {
+        echo json_encode(['success' => false, 'message' => 'Email đã tồn tại.']);
+        exit;
+    }
+
+    // Kiểm tra số điện thoại
+    if (empty($sdt) || !preg_match('/^\d{10}$/', $sdt)) {
         echo json_encode(['success' => false, 'message' => 'Số điện thoại phải bao gồm 10 chữ số.']);
         exit;
     }
 
-    if (empty($ngaySinh)) {
-        echo json_encode(['success' => false, 'message' => 'Ngày sinh không được để trống.']);
+    // Kiểm tra số điện thoại trùng
+    if ($nhanVienModel->checkPhoneExists($sdt)) {
+        echo json_encode(['success' => false, 'message' => 'Số điện thoại đã tồn tại.']);
         exit;
     }
-    
+
+    // Kiểm tra ngày sinh
+    if (empty($ngaySinh) || strtotime($ngaySinh) > time()) {
+        echo json_encode(['success' => false, 'message' => 'Ngày sinh không hợp lệ.']);
+        exit;
+    }
+
+    // Kiểm tra vai trò
     if (empty($vaiTro)) {
         echo json_encode(['success' => false, 'message' => 'Vai trò không hợp lệ.']);
         exit;
     }
 
-    if (strlen($matKhau) < 6) {
+    // Kiểm tra mật khẩu
+    if (empty($matKhau) || strlen($matKhau) < 6) {
         echo json_encode(['success' => false, 'message' => 'Mật khẩu phải có ít nhất 6 ký tự.']);
         exit;
     }

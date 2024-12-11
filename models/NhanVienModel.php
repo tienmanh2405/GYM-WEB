@@ -23,6 +23,41 @@ class Employees {
         return $result->fetch_all(MYSQLI_ASSOC); 
     }
 
+    // Check if email already exists
+    public function checkEmailExists($email, $excludeId = null) {
+        if ($excludeId === null) {
+            $query = "SELECT COUNT(*) as count FROM nguoidung WHERE email = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("s", $email);
+        } else {
+            $query = "SELECT COUNT(*) as count FROM nguoidung WHERE email = ? AND userID != ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("si", $email, $excludeId);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['count'] > 0;
+    }
+    //check if sdt already exists
+    public function checkPhoneExists($sdt, $excludeId = null) {
+        if ($excludeId === null) {
+            $query = "SELECT COUNT(*) as count FROM nguoidung WHERE sdt = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("s", $sdt);
+        } else {
+            $query = "SELECT COUNT(*) as count FROM nguoidung WHERE sdt = ? AND userID != ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("si", $sdt, $excludeId);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['count'] > 0;
+    }
+    
+    
+
     public function addNhanVien($hoTen, $email, $sdt, $ngaySinh, $vaiTro, $matKhau) {
         // Kiểm tra nếu giá trị $hoTen và các tham số quan trọng khác rỗng
         if (empty($hoTen) || empty($email) || empty($sdt) || empty($ngaySinh) || empty($vaiTro) || empty($matKhau)) {
@@ -105,8 +140,11 @@ class Employees {
     }
 
     public function getNhanVienById($idNhanVien) {
-        $idNhanVien = $_GET['userID'];
-        $query = "SELECT * FROM nguoidung WHERE userID = $idNhanVien";
+        if (is_null($idNhanVien)) {
+            throw new InvalidArgumentException("ID nhân viên không hợp lệ.");
+        }
+    
+        $query = "SELECT * FROM nguoidung WHERE userID = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $idNhanVien);
         $stmt->execute();

@@ -235,19 +235,6 @@
             const mota = document.getElementById('moTa').value;
             const anhGoiTap = document.getElementById('anhGoiTap');
 
-            
-
-            // Kiểm tra dữ liệu nhập
-            if (tenGoiTap === '' || thoiHan === '' || gia === '' || mota === '') {
-                alert('Vui lòng nhập đầy đủ thông tin gói tập.');
-                return;
-            }
-            //hình ảnh không được trống
-            //hình ảnh chỉ được các dạng jpg/png/jpeg
-            if (!anhGoiTap ||/image\/(jpeg|png|jpg)$/.test(anhGoiTap.type)) {
-                alert('Hình ảnh phải có dạng jpg/png/jpeg và không được bỏ trống');
-                return;
-            }
         
             const formData = new FormData(this);
             fetch('models/handle_GoiTap_add.php', {
@@ -260,7 +247,7 @@
                     alert('Gói tập đã được thêm thành công!');
                     location.reload(); // Tải lại trang để cập nhật danh sách
                 } else {
-                    alert('Có lỗi xảy ra, vui lòng thử lại.');
+                    alert(data.message);
                 }
             })
             .catch(error => console.error('Error:', error));

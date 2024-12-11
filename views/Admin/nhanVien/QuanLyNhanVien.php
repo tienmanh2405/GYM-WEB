@@ -145,7 +145,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="editEmployeeForm" method="post">
-                <input type="hidden" id="edit-idNhanVien" name="idNhanVien">
+                <input type="hidden" id="edit-idNhanVien" name="idNhanVien" value="<?= $idNhanVien ?>">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editEmployeeModalLabel" style="color: black;">Sửa Thông Tin Nhân Viên</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -247,31 +247,31 @@
             const vaiTro = document.getElementById('vaiTro').value;
             const matKhau = document.getElementById('matKhau').value.trim();
 
-            // Kiểm tra dữ liệu nhập
-            if (!hoTen) {
-                alert('Vui lòng nhập họ tên.');
-                return;
-            }
+            // // Kiểm tra dữ liệu nhập
+            // if (!hoTen) {
+            //     alert('Vui lòng nhập họ tên.');
+            //     return;
+            // }
         
-            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                alert('Email không hợp lệ.');
-                return;
-            }
+            // if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            //     alert('Email không hợp lệ.');
+            //     return;
+            // }
         
-            if (!sdt || !/^\d{10}$/.test(sdt)) {
-                alert('Số điện thoại phải bao gồm 10 chữ số.');
-                return;
-            }
+            // if (!sdt || !/^\d{10}$/.test(sdt)) {
+            //     alert('Số điện thoại phải bao gồm 10 chữ số.');
+            //     return;
+            // }
         
-            if (!ngaySinh) {
-                alert('Vui lòng chọn ngày sinh.');
-                return;
-            }
+            // if (!ngaySinh) {
+            //     alert('Vui lòng chọn ngày sinh.');
+            //     return;
+            // }
         
-            if (!matKhau || matKhau.length < 6) {
-                alert('Mật khẩu phải có ít nhất 6 ký tự.');
-                return;
-            }
+            // if (!matKhau || matKhau.length < 6) {
+            //     alert('Mật khẩu phải có ít nhất 6 ký tự.');
+            //     return;
+            // }
         
             const formData = new FormData(this);
             fetch('models/handle_NhanVien_add.php', {
@@ -284,7 +284,7 @@
                     alert('Nhân viên đã được thêm thành công!');
                     location.reload(); // Tải lại trang để cập nhật danh sách
                 } else {
-                    alert('Có lỗi xảy ra, vui lòng thử lại.');
+                    alert(data.message);
                 }
             })
             .catch(error => console.error('Error:', error));

@@ -183,6 +183,7 @@
 </div>
 
 
+
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -229,6 +230,7 @@
         });
     </script>
 
+<!-- kiểm tra thêm thiết bị -->
 <script>
         document.getElementById('addEquipmentForm').addEventListener('submit', function (e) {
             e.preventDefault();
@@ -237,41 +239,7 @@
             const tenThietBi = document.getElementById('tenThietBi').value.trim();
             const ngayMua = document.getElementById('ngayMua');
             const trangThai = document.getElementById('trangthai');
-            const hinhAnh = document.getElementById('hinhAnh');
-            
-            
-
-            // Kiểm tra dữ liệu nhập (tên thiết bị không được trống, ngày mua phải nhỏ hơn hoặc bằng ngày hiện tại, trạng thái không được trống, hình ảnh chỉ được các dạng jpg/png/jpeg)
-            if (!tenThietBi) {
-                alert('Vui lòng nhập tên thiết bị.');
-                return;
-            }
-            
-            const ngayMuaDate = new Date(ngayMua.valueAsDate);
-            ngayMuaDate.setHours(0, 0, 0, 0); // Đặt giờ về 00:00:00 để chỉ tính ngày
-
-            // Chuẩn hóa ngày, tháng, năm cho ngày hiện tại
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Đặt giờ về 00:00:00 để chỉ tính ngày
-
-            if (ngayMuaDate > today) {
-                alert('Ngày mua phải bé hơn hoặc bằng ngày hiện tại.');
-                return;
-            }
-
-            
-            if (!trangThai) {
-                alert('Vui lòng chọn trạng thái.');
-                return;
-            }
-            //hình ảnh không được trống
-            //hình ảnh chỉ được các dạng jpg/png/jpeg
-            if (!hinhAnh ||/image\/(jpeg|png|jpg)$/.test(hinhAnh.type)) {
-                alert('Hình ảnh phải có dạng jpg/png/jpeg.');
-                return;
-            }
-            
-            
+            const hinhAnh = document.getElementById('hinhAnh');         
         
             const formData = new FormData(this);
             fetch('models/handle_ThietBi_add.php', {
@@ -283,8 +251,8 @@
                 if (data.success) {
                     alert('Thiết bị đã được thêm thành công!');
                     location.reload(); // Tải lại trang để cập nhật danh sách
-                } else {
-                    alert('Có lỗi xảy ra, vui lòng thử lại.');
+                }else {
+                    alert(data.message);
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -312,6 +280,7 @@
         editForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const formData = new FormData(editForm);
+            
 
             fetch('models/handle_ThietBi_edit.php', {
                 method: 'POST',

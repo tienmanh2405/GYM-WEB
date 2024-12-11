@@ -52,7 +52,7 @@ class BaoCaoThanhVienModel {
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        return $row['tenGoi'] ?? 'N/A'; // Trả về 'N/A' nếu không có gói nào
+        return $row['tenGoi'] ?? 'Chưa có'; // Trả về 'N/A' nếu không có gói nào
     }
     
 }

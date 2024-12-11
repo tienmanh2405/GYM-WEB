@@ -8,10 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hinhAnh = $_FILES['hinhAnh'];
 
     // Kiểm tra dữ liệu
-    if (empty($tenThietBi)) {
-        echo json_encode(['success' => false, 'message' => 'Tên thiết bị không được để trống.']);
-        exit;
-    }
+    // Kiểm tra ký tự đặc biệt trong tên thiết bị
+if (!preg_match('/^[a-zA-Z0-9\s]+$/u', $tenThietBi)) {
+    echo json_encode(['success' => false, 'message' => 'Tên thiết bị không được chứa ký tự đặc biệt.']);
+    exit;
+}
     // Thiết lập múi giờ
 date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
 
