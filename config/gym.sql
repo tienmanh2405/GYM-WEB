@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3307
--- Thời gian đã tạo: Th10 15, 2024 lúc 02:28 AM
+-- Thời gian đã tạo: Th12 11, 2024 lúc 09:44 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -49,9 +49,42 @@ CREATE TABLE `goidangky` (
   `userID` int(11) NOT NULL,
   `maGoiTap` int(11) NOT NULL,
   `ngayHetHan` date NOT NULL,
-  `trangThai` enum('Đang hoạt động','Hết hạn','Đã hủy') NOT NULL,
+  `trangThai` enum('Đang hoạt động','Hết hạn','Đã hủy','Đang chờ thanh toán') NOT NULL DEFAULT 'Đang chờ thanh toán',
   `ngayMua` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `goidangky`
+--
+
+INSERT INTO `goidangky` (`idDangKy`, `userID`, `maGoiTap`, `ngayHetHan`, `trangThai`, `ngayMua`) VALUES
+(36, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(37, 1, 1, '2024-12-21', 'Đang hoạt động', '2024-11-21'),
+(38, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(39, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(40, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(41, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(42, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(43, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(44, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(45, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(46, 1, 1, '2024-12-21', 'Đang hoạt động', '2024-11-21'),
+(47, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(48, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(49, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(50, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(51, 1, 1, '2024-12-21', 'Đang chờ thanh toán', '2024-11-21'),
+(52, 1, 1, '2024-12-21', 'Đang hoạt động', '2024-11-21'),
+(53, 1, 1, '2024-12-23', 'Đang chờ thanh toán', '2024-11-23'),
+(54, 1, 1, '2024-12-23', 'Đang hoạt động', '2024-11-23'),
+(55, 1, 1, '2024-12-23', 'Đang hoạt động', '2024-11-23'),
+(56, 1, 1, '2024-12-23', 'Đang chờ thanh toán', '2024-11-23'),
+(57, 1, 1, '2024-12-23', 'Đang hoạt động', '2024-11-23'),
+(58, 10, 1, '2024-12-23', 'Đang chờ thanh toán', '2024-11-23'),
+(59, 10, 1, '2024-12-23', 'Đang chờ thanh toán', '2024-11-23'),
+(60, 21, 1, '2024-12-29', 'Đang hoạt động', '2024-11-29'),
+(61, 2, 1, '2025-01-11', 'Đang chờ thanh toán', '2024-12-11'),
+(62, 1, 1, '2025-01-11', 'Đang hoạt động', '2024-12-11');
 
 -- --------------------------------------------------------
 
@@ -64,8 +97,21 @@ CREATE TABLE `goitap` (
   `tenGoiTap` varchar(255) NOT NULL,
   `thoiHan` int(11) NOT NULL,
   `gia` decimal(10,2) NOT NULL,
-  `moTa` text DEFAULT NULL
+  `moTa` text DEFAULT NULL,
+  `anhGoiTap` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `goitap`
+--
+
+INSERT INTO `goitap` (`maGoiTap`, `tenGoiTap`, `thoiHan`, `gia`, `moTa`, `anhGoiTap`) VALUES
+(1, 'Gói Tập Cơ Bản', 1, 300000.00, 'Gói tập cơ bản dành cho người mới bắt đầu, giúp làm quen với các thiết bị và bài tập nhẹ nhàng.', 'asset/image/basic-package.jpg'),
+(2, 'Gói Tập Nâng Cao', 3, 800000.00, 'Gói tập nâng cao cho những người có kinh nghiệm, bao gồm các bài tập chuyên sâu và sử dụng thiết bị nâng cao.', 'asset/image/basic-package.jpg'),
+(3, 'Gói Tập Giảm Cân', 2, 600000.00, 'Gói tập tập trung vào giảm cân, kết hợp giữa cardio và các bài tập giúp đốt mỡ.', 'asset/image/basic-package.jpg'),
+(4, 'Gói Tập Tăng Cơ', 6, 1500000.00, 'Gói tập dành cho những ai muốn tăng cơ bắp, bao gồm các bài tập sức mạnh và chế độ dinh dưỡng đi kèm.', 'asset/image/basic-package.jpg'),
+(5, 'Gói Tập Yoga', 1, 400000.00, 'Gói tập Yoga giúp tăng cường sự linh hoạt và cải thiện sức khỏe tổng thể.', 'asset/image/basic-package.jpg'),
+(6, 'Gói Tập Boxing', 2, 500000.00, 'Gói tập Boxing giúp cải thiện thể lực, sự nhanh nhẹn và giảm căng thẳng.', 'asset/image/basic-package.jpg');
 
 -- --------------------------------------------------------
 
@@ -80,8 +126,41 @@ CREATE TABLE `hoadon` (
   `phuongThucThanhToan` enum('Tiền mặt','Thẻ tín dụng','Chuyển khoản') NOT NULL,
   `soTien` decimal(10,2) NOT NULL,
   `maKhuyenMai` int(11) DEFAULT NULL,
-  `ngayThanhToan` date NOT NULL
+  `ngayThanhToan` date DEFAULT NULL,
+  `trangThai` enum('Đã thanh toán','Chưa thanh toán') NOT NULL DEFAULT 'Chưa thanh toán'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `hoadon`
+--
+
+INSERT INTO `hoadon` (`maHoaDon`, `idDangKy`, `ngayTao`, `phuongThucThanhToan`, `soTien`, `maKhuyenMai`, `ngayThanhToan`, `trangThai`) VALUES
+(34, 36, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(35, 37, '2024-11-21', 'Tiền mặt', 270000.00, 1, '2024-11-21', 'Đã thanh toán'),
+(36, 38, '2024-11-21', 'Chuyển khoản', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(37, 39, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(38, 40, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(39, 41, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(40, 42, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(41, 43, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(42, 44, '2024-11-21', 'Chuyển khoản', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(43, 45, '2024-11-21', 'Chuyển khoản', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(44, 46, '2024-11-21', 'Tiền mặt', 270000.00, 1, '2024-11-21', 'Đã thanh toán'),
+(45, 47, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(46, 48, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(47, 49, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(48, 50, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(49, 51, '2024-11-21', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(50, 52, '2024-11-21', 'Tiền mặt', 270000.00, 1, '2024-11-21', 'Đã thanh toán'),
+(51, 53, '2024-11-23', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(52, 54, '2024-11-23', 'Tiền mặt', 270000.00, 1, '2024-11-23', 'Đã thanh toán'),
+(53, 55, '2024-11-23', 'Tiền mặt', 270000.00, 1, '2024-11-23', 'Đã thanh toán'),
+(54, 56, '2024-11-23', 'Tiền mặt', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(55, 57, '2024-11-23', 'Tiền mặt', 270000.00, 1, '2024-11-23', 'Đã thanh toán'),
+(56, 58, '2024-11-23', 'Chuyển khoản', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(57, 59, '2024-11-23', 'Chuyển khoản', 270000.00, 1, NULL, 'Chưa thanh toán'),
+(58, 60, '2024-11-29', 'Tiền mặt', 270000.00, 1, '2024-11-29', 'Đã thanh toán'),
+(60, 62, '2024-12-11', 'Tiền mặt', 300000.00, NULL, '2024-12-11', 'Đã thanh toán');
 
 -- --------------------------------------------------------
 
@@ -93,8 +172,40 @@ CREATE TABLE `khuyenmai` (
   `maKhuyenMai` int(11) NOT NULL,
   `giamGia` decimal(5,2) NOT NULL,
   `ngayBatDau` date NOT NULL,
-  `ngayKetThuc` date NOT NULL
+  `ngayKetThuc` date NOT NULL,
+  `moTa` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `khuyenmai`
+--
+
+INSERT INTO `khuyenmai` (`maKhuyenMai`, `giamGia`, `ngayBatDau`, `ngayKetThuc`, `moTa`) VALUES
+(1, 10.00, '2024-11-01', '2024-11-30', 'Giảm 10% toàn bộ gói tập'),
+(2, 15.00, '2024-12-01', '2024-12-31', 'Giảm 15% gói nâng cao'),
+(3, 20.00, '2024-10-15', '2024-10-31', 'Giảm 20% gói Yoga');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `khuyenmai_goitap`
+--
+
+CREATE TABLE `khuyenmai_goitap` (
+  `maKhuyenMai` int(11) NOT NULL,
+  `maGoiTap` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `khuyenmai_goitap`
+--
+
+INSERT INTO `khuyenmai_goitap` (`maKhuyenMai`, `maGoiTap`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 2),
+(3, 5);
 
 -- --------------------------------------------------------
 
@@ -116,8 +227,8 @@ CREATE TABLE `lichlamviec` (
 --
 
 INSERT INTO `lichlamviec` (`maLich`, `ngayBatDau`, `caLamViec`, `ngayLamViec`, `ngayKetThuc`, `userID`) VALUES
-(1, '2024-11-01', 'Ca sáng', '2024-11-01', '2024-11-01', 11),
-(2, '2024-11-02', 'Ca chiều', '2024-11-02', '2024-11-02', 15);
+(1, '2024-11-01', 'Ca chiều', '2024-12-11', '2024-11-01', 11),
+(2, '2024-11-02', 'Ca chiều', '2024-12-11', '2024-11-02', 15);
 
 -- --------------------------------------------------------
 
@@ -138,8 +249,15 @@ CREATE TABLE `lichsuhoatdong` (
 --
 
 INSERT INTO `lichsuhoatdong` (`IDHoatDong`, `thoiGianVao`, `thoiGianRa`, `trangthai`, `userID`) VALUES
-(2, '0000-00-00 00:00:00', '2024-11-11 16:00:00', 'checkout', 1),
-(4, '0000-00-00 00:00:00', '2024-11-11 18:00:00', 'checkout', 2);
+(2, '2024-11-18 15:54:07', '2024-11-18 20:00:00', 'checkout', 1),
+(4, '0000-00-00 00:00:00', '2024-11-11 18:00:00', 'checkout', 2),
+(13, '2024-11-19 13:33:46', '2024-11-19 14:20:46', 'checkout', 1),
+(14, '2024-11-19 13:40:08', NULL, 'checkin', 2),
+(15, '2024-11-19 13:54:06', '2024-11-19 13:56:33', 'checkout', 3),
+(16, '2024-11-20 07:16:17', '2024-11-20 07:16:19', 'checkout', 1),
+(17, '2024-11-20 08:00:57', '2024-11-20 08:00:59', 'checkout', 1),
+(18, '2024-11-20 15:57:27', '2024-11-20 15:57:52', 'checkout', 9),
+(19, '2024-12-11 15:43:16', '2024-12-11 15:43:34', 'checkout', 1);
 
 -- --------------------------------------------------------
 
@@ -180,7 +298,9 @@ INSERT INTO `nguoidung` (`userID`, `hoTen`, `sdt`, `ngaySinh`, `email`, `matKhau
 (16, 'Bui Thi Lan', '0924567890', '1990-03-18', 'lan3@example.com', 'passwordnvbt2', 'NVBaoTri'),
 (17, 'Nguyen Thi Lan', '0987654321', '1985-06-15', 'admin@example.com', 'passwordadmin', 'Admin'),
 (18, 'Nguyen Minh Tu', '0933456789', '1991-10-05', 'tu2@example.com', 'passwordnvhd1', ''),
-(19, 'Tran Thi Bao', '0934567890', '1988-12-17', 'bao2@example.com', 'passwordnvhd2', '');
+(19, 'Tran Thi Bao', '0934567890', '1988-12-17', 'bao2@example.com', 'passwordnvhd2', ''),
+(20, 'Nguyen Tien Manh', '0906512692', '2003-05-24', 'tienmanh0167@gmail.com', '$2y$10$3J19ZnxNva8Txxeg19CtQ.BecXV0r.uFBogQjZ5QTfsCcaxJR6GHC', 'ThanhVien'),
+(21, 'Le Minh', '0906512698', '2003-05-24', 'leminh0000@gmail.com', '$2y$10$g77aAZ.4WOYQWQKBMjh3geRvxYh3F78oIhA.zygB0pWNXQt7MK9nO', 'ThanhVien');
 
 --
 -- Bẫy `nguoidung`
@@ -343,7 +463,9 @@ INSERT INTO `thanhvien` (`userID`, `ngayDangKy`) VALUES
 (7, '2024-11-11'),
 (8, '2024-11-11'),
 (9, '2024-11-11'),
-(10, '2024-11-11');
+(10, '2024-11-18'),
+(20, '2024-11-19'),
+(21, '2024-11-20');
 
 -- --------------------------------------------------------
 
@@ -395,6 +517,13 @@ ALTER TABLE `hoadon`
 --
 ALTER TABLE `khuyenmai`
   ADD PRIMARY KEY (`maKhuyenMai`);
+
+--
+-- Chỉ mục cho bảng `khuyenmai_goitap`
+--
+ALTER TABLE `khuyenmai_goitap`
+  ADD PRIMARY KEY (`maKhuyenMai`,`maGoiTap`),
+  ADD KEY `maGoiTap` (`maGoiTap`);
 
 --
 -- Chỉ mục cho bảng `lichlamviec`
@@ -478,43 +607,43 @@ ALTER TABLE `thietbi`
 -- AUTO_INCREMENT cho bảng `goidangky`
 --
 ALTER TABLE `goidangky`
-  MODIFY `idDangKy` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idDangKy` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT cho bảng `goitap`
 --
 ALTER TABLE `goitap`
-  MODIFY `maGoiTap` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `maGoiTap` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `hoadon`
 --
 ALTER TABLE `hoadon`
-  MODIFY `maHoaDon` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `maHoaDon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT cho bảng `khuyenmai`
 --
 ALTER TABLE `khuyenmai`
-  MODIFY `maKhuyenMai` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `maKhuyenMai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `lichlamviec`
 --
 ALTER TABLE `lichlamviec`
-  MODIFY `maLich` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `maLich` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `lichsuhoatdong`
 --
 ALTER TABLE `lichsuhoatdong`
-  MODIFY `IDHoatDong` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `IDHoatDong` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT cho bảng `nguoidung`
 --
 ALTER TABLE `nguoidung`
-  MODIFY `userID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `userID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT cho bảng `phieubaotri`
@@ -563,6 +692,13 @@ ALTER TABLE `goidangky`
 ALTER TABLE `hoadon`
   ADD CONSTRAINT `hoadon_ibfk_1` FOREIGN KEY (`idDangKy`) REFERENCES `goidangky` (`idDangKy`) ON DELETE CASCADE,
   ADD CONSTRAINT `hoadon_ibfk_2` FOREIGN KEY (`maKhuyenMai`) REFERENCES `khuyenmai` (`maKhuyenMai`) ON DELETE SET NULL;
+
+--
+-- Các ràng buộc cho bảng `khuyenmai_goitap`
+--
+ALTER TABLE `khuyenmai_goitap`
+  ADD CONSTRAINT `khuyenmai_goitap_ibfk_1` FOREIGN KEY (`maKhuyenMai`) REFERENCES `khuyenmai` (`maKhuyenMai`),
+  ADD CONSTRAINT `khuyenmai_goitap_ibfk_2` FOREIGN KEY (`maGoiTap`) REFERENCES `goitap` (`maGoiTap`);
 
 --
 -- Các ràng buộc cho bảng `lichlamviec`

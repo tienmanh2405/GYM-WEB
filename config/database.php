@@ -1,6 +1,6 @@
 <?php
 class Database {
-    private $servername = "localhost:3307";
+    private $servername = "localhost:3306";
     private $username = "root"; 
     private $password = "";
     private $dbname = "gym";
