@@ -19,6 +19,7 @@ class KhuyenMaiModel
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    // Lấy tất cả mã gói tập
     public function getAllMaGoiTap()
     {
         $query = "SELECT maGoiTap FROM goitap"; // Câu lệnh SQL để lấy danh sách mã gói tập
@@ -55,26 +56,26 @@ class KhuyenMaiModel
 
     // Xóa khuyến mãi
     public function deleteKhuyenMai($maKhuyenMai)
-{
-    // Bắt đầu giao dịch
-    $this->db->conn->begin_transaction();
+    {
+        // Bắt đầu giao dịch
+        $this->db->conn->begin_transaction();
 
-    // Xóa dữ liệu từ bảng khuyenmai_goitap
-    $query1 = "DELETE FROM khuyenmai_goitap WHERE maKhuyenMai = ?";
-    $stmt1 = $this->db->conn->prepare($query1);
-    $stmt1->bind_param("i", $maKhuyenMai);
-    $stmt1->execute();
+        // Xóa dữ liệu từ bảng khuyenmai_goitap
+        $query1 = "DELETE FROM khuyenmai_goitap WHERE maKhuyenMai = ?";
+        $stmt1 = $this->db->conn->prepare($query1);
+        $stmt1->bind_param("i", $maKhuyenMai);
+        $stmt1->execute();
 
-    // Xóa dữ liệu từ bảng khuyenmai
-    $query2 = "DELETE FROM khuyenmai WHERE maKhuyenMai = ?";
-    $stmt2 = $this->db->conn->prepare($query2);
-    $stmt2->bind_param("i", $maKhuyenMai);
-    $stmt2->execute();
+        // Xóa dữ liệu từ bảng khuyenmai
+        $query2 = "DELETE FROM khuyenmai WHERE maKhuyenMai = ?";
+        $stmt2 = $this->db->conn->prepare($query2);
+        $stmt2->bind_param("i", $maKhuyenMai);
+        $stmt2->execute();
 
-    // Cam kết giao dịch
-    $this->db->conn->commit();
+        // Cam kết giao dịch
+        $this->db->conn->commit();
 
-    return true; // Trả về true nếu xóa thành công
-}
+        return true; // Trả về true nếu xóa thành công
+    }
 }
 ?>

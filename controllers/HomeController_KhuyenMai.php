@@ -11,6 +11,7 @@ class HomeController_KhuyenMai
         $this->khuyenMaiModel = new KhuyenMaiModel();
     }
 
+    // Hiển thị danh sách tất cả khuyến mãi
     public function index()
     {
         $khuyenMais = $this->khuyenMaiModel->getAllKhuyenMai();
@@ -18,9 +19,10 @@ class HomeController_KhuyenMai
         require_once BASE_PATH . '/views/NV_BaoTri/quanlykhuyenmai/QuanLyKhuyenMai.php';
     }
     
+    // Tạo khuyến mãi mới
     public function create()
     {
-        $maGoiTapList = $this->khuyenMaiModel->getAllMaGoiTap(); // Lấy danh sách mã gói tập
+        $maGoiTapList = $this->khuyenMaiModel->getAllMaGoiTap(); 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $maKhuyenMai = $_POST['maKhuyenMai'];
             $giamGia = $_POST['giamGia'];
@@ -28,48 +30,40 @@ class HomeController_KhuyenMai
             $ngayKetThuc = $_POST['ngayKetThuc'];
             $moTa = $_POST['moTa'];
             $maGoiTap = $_POST['maGoiTap']; 
-
-            // Gọi model để thêm khuyến mãi vào cơ sở dữ liệu
             $this->khuyenMaiModel->addKhuyenMai($maKhuyenMai, $giamGia, $ngayBatDau, $ngayKetThuc, $moTa);
-            $this->khuyenMaiModel->addKhuyenMaiGoiTap($maKhuyenMai, $maGoiTap); // Thêm vào bảng khuyenmai_goitap
+            $this->khuyenMaiModel->addKhuyenMaiGoiTap($maKhuyenMai, $maGoiTap); 
+            header('Location: ' . BASE_URL . 'NV_BaoTri/quanlykhuyenmai');
+            exit();
+        }
+        require_once BASE_PATH . '/views/NV_BaoTri/quanlykhuyenmai/QuanLyKhuyenMai.php'; 
+    }
 
-            // Chuyển hướng về trang danh sách khuyến mãi
+    // Cập nhật thông tin khuyến mãi
+    public function update()
+    {
+        $maGoiTapList = $this->khuyenMaiModel->getAllMaGoiTap(); 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $maKhuyenMai = $_POST['maKhuyenMai'];
+            $giamGia = $_POST['giamGia'];
+            $ngayBatDau = $_POST['ngayBatDau'];
+            $ngayKetThuc = $_POST['ngayKetThuc'];
+            $moTa = $_POST['moTa'];
+            $this->khuyenMaiModel->updateKhuyenMai($maKhuyenMai, $giamGia, $ngayBatDau, $ngayKetThuc, $moTa);
             header('Location: ' . BASE_URL . 'NV_BaoTri/quanlykhuyenmai');
             exit();
         }
         require_once BASE_PATH . '/views/NV_BaoTri/quanlykhuyenmai/QuanLyKhuyenMai.php'; // Đảm bảo gọi view ở đây
     }
 
-    public function update()
-{
-    $maGoiTapList = $this->khuyenMaiModel->getAllMaGoiTap(); // Lấy danh sách mã gói tập
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $maKhuyenMai = $_POST['maKhuyenMai'];
-        $giamGia = $_POST['giamGia'];
-        $ngayBatDau = $_POST['ngayBatDau'];
-        $ngayKetThuc = $_POST['ngayKetThuc'];
-        $moTa = $_POST['moTa'];
-        
-        // Cập nhật khuyến mãi trong cơ sở dữ liệu
-        $this->khuyenMaiModel->updateKhuyenMai($maKhuyenMai, $giamGia, $ngayBatDau, $ngayKetThuc, $moTa);
-
-        // Chuyển hướng về trang danh sách khuyến mãi
-        header('Location: ' . BASE_URL . 'NV_BaoTri/quanlykhuyenmai');
+    // Xóa khuyến mãi theo mã
+    public function delete($maKhuyenMai)
+    {
+        if ($this->khuyenMaiModel->deleteKhuyenMai($maKhuyenMai)) {
+            header('Location: ' . BASE_URL . 'NV_BaoTri/quanlykhuyenmai?message=delete_success');
+        } else {
+            header('Location: ' . BASE_URL . 'NV_BaoTri/quanlykhuyenmai?message=delete_failed');
+        }
         exit();
     }
-    require_once BASE_PATH . '/views/NV_BaoTri/quanlykhuyenmai/QuanLyKhuyenMai.php'; // Đảm bảo gọi view ở đây
-}
-
-public function delete($maKhuyenMai)
-{
-    if ($this->khuyenMaiModel->deleteKhuyenMai($maKhuyenMai)) {
-        // Xóa thành công
-        header('Location: ' . BASE_URL . 'NV_BaoTri/quanlykhuyenmai?message=delete_success');
-    } else {
-        // Xóa không thành công
-        header('Location: ' . BASE_URL . 'NV_BaoTri/quanlykhuyenmai?message=delete_failed');
-    }
-    exit();
-}
 }
 ?>

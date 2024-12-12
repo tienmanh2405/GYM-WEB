@@ -9,6 +9,7 @@ class ThietBiModel {
         $this->db = $database->connect(); 
     }
 
+    // Lấy tất cả thiết bị
     public function getAllDevices() {
         $query = "SELECT * FROM thietbi"; 
         $result = mysqli_query($this->db, $query);
@@ -21,6 +22,7 @@ class ThietBiModel {
         return $devices;
     }
 
+    // Đếm số lượng thiết bị theo trạng thái
     public function getDeviceCountByStatus() {
         $statuses = ['Đang sử dụng', 'Hỏng', 'Bảo trì', 'Không sử dụng'];
         $counts = [];
