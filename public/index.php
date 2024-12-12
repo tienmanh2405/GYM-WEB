@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 define('BASE_PATH', dirname(__DIR__));
 
 // Gọi các thành phần cốt lõi
-require_once BASE_PATH . '/routes/router.php';
+require_once BASE_PATH . '/routes/router_admin.php';
 require_once '../config/config.php';
 // Khởi tạo Router và xử lý yêu cầu
 $router = new Router();
