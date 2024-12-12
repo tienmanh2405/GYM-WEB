@@ -216,9 +216,8 @@ INSERT INTO `khuyenmai_goitap` (`maKhuyenMai`, `maGoiTap`) VALUES
 CREATE TABLE `lichlamviec` (
   `maLich` int(11) NOT NULL,
   `ngayBatDau` date NOT NULL,
-  `caLamViec` varchar(50) NOT NULL,
+  `caLamViec` enum('Ca sáng','Ca chiều') DEFAULT NULL,
   `ngayLamViec` date NOT NULL,
-  `ngayKetThuc` date NOT NULL,
   `userID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -226,9 +225,72 @@ CREATE TABLE `lichlamviec` (
 -- Đang đổ dữ liệu cho bảng `lichlamviec`
 --
 
-INSERT INTO `lichlamviec` (`maLich`, `ngayBatDau`, `caLamViec`, `ngayLamViec`, `ngayKetThuc`, `userID`) VALUES
-(1, '2024-11-01', 'Ca chiều', '2024-12-11', '2024-11-01', 11),
-(2, '2024-11-02', 'Ca chiều', '2024-12-11', '2024-11-02', 15);
+INSERT INTO `lichlamviec` (`maLich`, `ngayBatDau`, `caLamViec`, `ngayLamViec`, `userID`) VALUES
+(6, '2024-12-09', 'Ca sáng', '2024-12-09', 11),
+(7, '2024-12-09', 'Ca sáng', '2024-12-09', 12),
+(8, '2024-12-09', 'Ca chiều', '2024-12-09', 13),
+(9, '2024-12-09', 'Ca chiều', '2024-12-09', 14),
+(10, '2024-12-09', 'Ca chiều', '2024-12-09', 23),
+(11, '2024-12-10', 'Ca sáng', '2024-12-10', 13),
+(12, '2024-12-10', 'Ca sáng', '2024-12-10', 14),
+(13, '2024-12-10', 'Ca chiều', '2024-12-10', 23),
+(14, '2024-12-10', 'Ca chiều', '2024-12-10', 24),
+(15, '2024-12-10', 'Ca chiều', '2024-12-10', 11),
+(16, '2024-12-11', 'Ca sáng', '2024-12-11', 23),
+(17, '2024-12-11', 'Ca sáng', '2024-12-11', 24),
+(18, '2024-12-11', 'Ca chiều', '2024-12-11', 11),
+(19, '2024-12-11', 'Ca chiều', '2024-12-11', 12),
+(20, '2024-12-11', 'Ca chiều', '2024-12-11', 13),
+(21, '2024-12-12', 'Ca sáng', '2024-12-12', 11),
+(22, '2024-12-12', 'Ca sáng', '2024-12-12', 12),
+(23, '2024-12-12', 'Ca chiều', '2024-12-12', 14),
+(24, '2024-12-12', 'Ca chiều', '2024-12-12', 23),
+(25, '2024-12-12', 'Ca chiều', '2024-12-12', 24),
+(26, '2024-12-13', 'Ca sáng', '2024-12-13', 14),
+(27, '2024-12-13', 'Ca sáng', '2024-12-13', 11),
+(28, '2024-12-13', 'Ca chiều', '2024-12-13', 12),
+(29, '2024-12-13', 'Ca chiều', '2024-12-13', 13),
+(30, '2024-12-13', 'Ca chiều', '2024-12-13', 23),
+(31, '2024-12-14', 'Ca sáng', '2024-12-14', 24),
+(32, '2024-12-14', 'Ca sáng', '2024-12-14', 11),
+(33, '2024-12-14', 'Ca chiều', '2024-12-14', 12),
+(34, '2024-12-14', 'Ca chiều', '2024-12-14', 13),
+(35, '2024-12-14', 'Ca chiều', '2024-12-14', 14),
+(36, '2024-12-15', 'Ca sáng', '2024-12-15', 11),
+(37, '2024-12-15', 'Ca sáng', '2024-12-15', 12),
+(38, '2024-12-15', 'Ca chiều', '2024-12-15', 23),
+(39, '2024-12-15', 'Ca chiều', '2024-12-15', 24),
+(40, '2024-12-15', 'Ca chiều', '2024-12-15', 14),
+(41, '2024-12-16', 'Ca sáng', '2024-12-16', 13),
+(42, '2024-12-16', 'Ca sáng', '2024-12-16', 14),
+(43, '2024-12-16', 'Ca chiều', '2024-12-16', 11),
+(44, '2024-12-16', 'Ca chiều', '2024-12-16', 12),
+(45, '2024-12-16', 'Ca chiều', '2024-12-16', 23),
+(46, '2024-12-17', 'Ca sáng', '2024-12-17', 23),
+(47, '2024-12-17', 'Ca sáng', '2024-12-17', 24),
+(48, '2024-12-17', 'Ca chiều', '2024-12-17', 11),
+(49, '2024-12-17', 'Ca chiều', '2024-12-17', 12),
+(50, '2024-12-17', 'Ca chiều', '2024-12-17', 13),
+(51, '2024-12-18', 'Ca sáng', '2024-12-18', 11),
+(52, '2024-12-18', 'Ca sáng', '2024-12-18', 12),
+(53, '2024-12-18', 'Ca chiều', '2024-12-18', 14),
+(54, '2024-12-18', 'Ca chiều', '2024-12-18', 23),
+(55, '2024-12-18', 'Ca chiều', '2024-12-18', 24),
+(56, '2024-12-19', 'Ca sáng', '2024-12-19', 14),
+(57, '2024-12-19', 'Ca sáng', '2024-12-19', 11),
+(58, '2024-12-19', 'Ca chiều', '2024-12-19', 12),
+(59, '2024-12-19', 'Ca chiều', '2024-12-19', 13),
+(60, '2024-12-19', 'Ca chiều', '2024-12-19', 23),
+(61, '2024-12-20', 'Ca sáng', '2024-12-20', 24),
+(62, '2024-12-20', 'Ca sáng', '2024-12-20', 11),
+(63, '2024-12-20', 'Ca chiều', '2024-12-20', 12),
+(64, '2024-12-20', 'Ca chiều', '2024-12-20', 13),
+(65, '2024-12-20', 'Ca chiều', '2024-12-20', 14),
+(66, '2024-12-21', 'Ca sáng', '2024-12-21', 11),
+(67, '2024-12-21', 'Ca sáng', '2024-12-21', 12),
+(68, '2024-12-21', 'Ca chiều', '2024-12-21', 23),
+(69, '2024-12-21', 'Ca chiều', '2024-12-21', 24),
+(70, '2024-12-21', 'Ca chiều', '2024-12-21', 14);
 
 -- --------------------------------------------------------
 
@@ -272,7 +334,9 @@ CREATE TABLE `nguoidung` (
   `ngaySinh` date DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `matKhau` varchar(255) NOT NULL,
-  `vaiTro` enum('Admin','NVQuay','NVBaoTri','ThanhVien','NVHuongDanVien') NOT NULL
+  `vaiTro` enum('Admin','NVQuay','NVBaoTri','ThanhVien','NVHuongDanVien') NOT NULL,
+  `hinhAnh` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -387,7 +451,9 @@ INSERT INTO `nvquay` (`userID`) VALUES
 (11),
 (12),
 (13),
-(14);
+(14),
+(23),
+(24);
 
 -- --------------------------------------------------------
 
@@ -413,16 +479,9 @@ CREATE TABLE `phieudanhgia` (
   `maPhieuDanhGia` int(11) NOT NULL,
   `noiDung` text NOT NULL,
   `diemDanhGia` decimal(3,2) NOT NULL,
-  `userID` int(11) DEFAULT NULL
+  `userID` int(11) DEFAULT NULL,
+  `ngayTao` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `phieudanhgia`
---
-
-INSERT INTO `phieudanhgia` (`maPhieuDanhGia`, `noiDung`, `diemDanhGia`, `userID`) VALUES
-(1, 'Rất hài lòng với dịch vụ', 9.50, 2),
-(2, 'Chất lượng phòng tập cần cải thiện', 7.00, 3);
 
 -- --------------------------------------------------------
 
@@ -477,7 +536,8 @@ CREATE TABLE `thietbi` (
   `maThietBi` int(11) NOT NULL,
   `tenThietBi` varchar(255) NOT NULL,
   `ngayMua` date DEFAULT NULL,
-  `trangthai` enum('Đang sử dụng','Hỏng','Bảo trì','Không sử dụng') NOT NULL
+  `trangthai` enum('Đang sử dụng','Hỏng','Bảo trì','Không sử dụng') NOT NULL,
+  `hinhAnh` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
