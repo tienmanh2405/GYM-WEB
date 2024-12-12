@@ -3,29 +3,35 @@ require_once BASE_PATH . '/config/config.php';
 require_once BASE_PATH . '/models/ThietBiModel.php';
 require_once BASE_PATH . '/models/PhieuBaoTriModel.php';
 
-class HomeController_ThietBi {
+class HomeController_ThietBi
+{
     private $thietBiModel;
     private $phieuBaoTriModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->thietBiModel = new ThietBiModel();
         $this->phieuBaoTriModel = new PhieuBaoTriModel();
     }
 
     // Hiển thị trang dashboard chính
-    public function index() {
+    public function index()
+    {
         require_once(BASE_PATH . '/views/NV_BaoTri/home/dashboard.php');
     }
 
     // Hiển thị danh sách thiết bị và thống kê số lượng thiết bị theo trạng thái
-    public function showDevices() {
+    public function showDevices()
+    {
         $data = $this->thietBiModel->getAllDevices();
         $deviceCounts = $this->thietBiModel->getDeviceCountByStatus();
+        $devices = $data;
         require_once(BASE_PATH . '/views/NV_BaoTri/thietBi/QuanLyThietBi.php');
     }
 
     // Hiển thị và xử lý thông tin phiếu bảo trì
-    public function showPhieuBaoTri() {
+    public function showPhieuBaoTri()
+    {
         $nextMaBaoTri = $this->phieuBaoTriModel->getNextMaBaoTri();
         $thietBiList = $this->phieuBaoTriModel->getAllThietBi();
         $userList = $this->phieuBaoTriModel->getAllUsers();
