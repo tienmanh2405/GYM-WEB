@@ -1,7 +1,7 @@
 <?php
 require_once BASE_PATH . '/config/database.php';
 
-class ThietBiModel {
+class Equipment {
     private $db;
 
     public function __construct() {

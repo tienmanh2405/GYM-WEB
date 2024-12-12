@@ -10,7 +10,7 @@ class Router {
     // Định nghĩa các route
     private function loadRoutes() {
         $this->routes = [
-            'NV_BaoTri/index' => ['controller' => 'HomeController_ThietBi', 'action' => 'index'],
+            '' => ['controller' => 'HomeController_ThietBi', 'action' => 'index'],
             'NV_BaoTri/thietBi' => ['controller' => 'HomeController_ThietBi', 'action' => 'showDevices'],
             'NV_BaoTri/phieuBaoTri' => ['controller' => 'HomeController_ThietBi', 'action' => 'showPhieuBaoTri'], 
             'NV_BaoTri/quanlykhuyenmai' => ['controller' => 'HomeController_KhuyenMai', 'action' => 'index'],

@@ -5,12 +5,12 @@ require_once BASE_PATH . '/models/PhieuBaoTriModel.php';
 
 class HomeController_ThietBi
 {
-    private $thietBiModel;
+    private $equipment;
     private $phieuBaoTriModel;
 
     public function __construct()
     {
-        $this->thietBiModel = new ThietBiModel();
+        $this->equipment = new Equipment();
         $this->phieuBaoTriModel = new PhieuBaoTriModel();
     }
 
@@ -23,8 +23,8 @@ class HomeController_ThietBi
     // Hiển thị danh sách thiết bị và thống kê số lượng thiết bị theo trạng thái
     public function showDevices()
     {
-        $data = $this->thietBiModel->getAllDevices();
-        $deviceCounts = $this->thietBiModel->getDeviceCountByStatus();
+        $data = $this->equipment->getAllDevices();
+        $deviceCounts = $this->equipment->getDeviceCountByStatus();
         $devices = $data;
         require_once(BASE_PATH . '/views/NV_BaoTri/thietBi/QuanLyThietBi.php');
     }
