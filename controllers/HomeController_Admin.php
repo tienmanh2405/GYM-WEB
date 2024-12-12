@@ -92,7 +92,7 @@ public function goiTap(){
     $currentGoiTap = $goiTapModel->getCurrentGoiTap();
     $limit = 8;
     $page = isset($_GET['page'])? $_GET['page'] : 1;
-    $members = $goiTapModel->getGoiTap($page, $limit);
+    $members = $goiTapModel->getGoiTapAdmin($page, $limit);
     $totalPages = ceil($currentGoiTap / $limit);
     $data = [
         'currentGoiTap' => $currentGoiTap,

@@ -119,9 +119,9 @@ $totalAmount = 0;  // Biến tổng tiền
             <td><?php echo $item['ngayThanhToan']; ?></td>
             <td><?php echo $item['tenKhachHang']; ?></td>
             <td><?php echo $item['tenGoiTap']; ?></td>
-            <td><?php echo number_format($item['donGia'], 0, '', '.'); ?></td>
+            <td><?php echo number_format($item['tongTien'], 0, '', '.'); ?></td>
         </tr>
-        <?php $totalAmount += $item['donGia']; ?> <!--  Cập nhật biến tổng tiền -->
+        <?php $totalAmount += $item['tongTien']; ?> <!--  Cập nhật biến tổng tiền -->
     <?php endforeach; ?>
 <?php endif; ?>
     </tbody>
@@ -222,142 +222,7 @@ function filterTable() {
 }
 </script>
 
-<!-- Tìm kiếm doanh thu theo tên khách hàng và gói đăng ký và bộ lọc -->
-<!-- <script>
-    // Lấy các phần tử từ HTML
-    const searchInput = document.getElementById("searchInput");
-    const customerTable = document.getElementById("customerTable");
-    const startDateInput = document.getElementById("startDate");
-    const endDateInput = document.getElementById("endDate");
 
-    // Lắng nghe sự kiện tìm kiếm
-    searchInput.addEventListener("keyup", function() {
-        filterTable();
-    });
-
-    // Lắng nghe sự kiện chọn ngày
-    startDateInput.addEventListener("change", function() {
-        filterTable();
-    });
-
-    endDateInput.addEventListener("change", function() {
-        filterTable();
-    });
-
-    // Hàm lọc bảng
-    function filterTable() {
-        const searchValue = searchInput.value.toLowerCase();  // Lấy giá trị tìm kiếm và chuyển thành chữ thường
-        const startDateValue = startDateInput.value;  // Lấy giá trị ngày bắt đầu
-        const endDateValue = endDateInput.value;  // Lấy giá trị ngày kết thúc
-        const rows = customerTable.getElementsByTagName("tr");  // Lấy tất cả các dòng trong bảng
-
-        // Lặp qua từng dòng và kiểm tra nội dung
-        Array.from(rows).forEach(row => {
-            const nameCell = row.getElementsByTagName("td")[1];  // Cột Tên Khách Hàng
-            const packageCell = row.getElementsByTagName("td")[2];  // Cột Gói đăng ký
-            const dateCell = row.getElementsByTagName("td")[0];  // Cột Ngày thanh toán
-
-            if (nameCell && packageCell && dateCell) {
-                const name = nameCell.textContent.toLowerCase();  // Lấy tên khách hàng và chuyển thành chữ thường
-                const pack = packageCell.textContent.toLowerCase();  // Lấy gói đăng ký và chuyển thành chữ thường
-                const date = dateCell.textContent;  // Lấy ngày thanh toán
-
-                // Kiểm tra nếu từ khóa tìm kiếm có trong tên khách hàng hoặc gói đăng ký và ngày thanh toán nằm trong khoảng ngày
-                if (
-                    (name.includes(searchValue) || pack.includes(searchValue)) &&
-                    (startDateValue === "" || (date >= startDateValue)) &&
-                    (endDateValue === "" || (date <= endDateValue))
-                ) {
-                    row.style.display = "";  // Hiển thị dòng
-                } else {
-                    row.style.display = "none";  // Ẩn dòng nếu không khớp
-                }
-            }
-        });
-    }
-    
-</script> -->
-<!-- <script>
-    // Lấy các phần tử từ HTML
-    const searchInput = document.getElementById("searchInput");
-    const customerTable = document.getElementById("customerTable");
-    const startDateInput = document.getElementById("startDate");//
-    const endDateInput = document.getElementById("endDate");
-
-    // Lắng nghe sự kiện tìm kiếm
-    searchInput.addEventListener("keyup", function() {
-        const searchValue = searchInput.value.toLowerCase();  // Lấy giá trị tìm kiếm và chuyển thành chữ thường
-        const rows = customerTable.getElementsByTagName("tr");  // Lấy tất cả các dòng trong bảng
-
-        // Lặp qua từng dòng và kiểm tra nội dung
-        Array.from(rows).forEach(row => {
-            const nameCell = row.getElementsByTagName("td")[1];  // Cột Tên Khách Hàng
-            const packageCell = row.getElementsByTagName("td")[2];  // Cột Gói đăng ký
-
-            if (nameCell && packageCell) {
-                const name = nameCell.textContent.toLowerCase();  // Lấy tên khách hàng và chuyển thành chữ thường
-                const pack = packageCell.textContent.toLowerCase();  // Lấy gói đăng ký và chuyển thành chữ thường
-
-                // Kiểm tra nếu từ khóa tìm kiếm có trong tên khách hàng hoặc gói đăng ký
-                if (name.includes(searchValue) || pack.includes(searchValue)) {
-                    row.style.display = "";  // Hiển thị dòng
-                } else {
-                    row.style.display = "none";  // Ẩn dòng nếu không khớp
-                }
-            }
-        });
-    });
-</script> -->
-
-<!-- Tìm kiếm doanh thu theo tên khách hàng và gói đăng ký -->
-<!-- <script>
-    // Lấy các phần tử từ HTML
-    const searchInput = document.getElementById("searchInput");
-    const customerTable = document.getElementById("customerTable");
-    const startDateInput = document.getElementById("startDate");
-    const endDateInput = document.getElementById("endDate");
-
-    // Lắng nghe sự kiện tìm kiếm
-    searchInput.addEventListener("keyup", function() {
-        filterTable();
-    });
-
-    // Lắng nghe sự kiện chọn ngày
-    startDateInput.addEventListener("change", function() {
-        filterTable();
-    });
-
-    endDateInput.addEventListener("change", function() {
-        filterTable();
-    });
-
-    // Hàm lọc bảng
-    function filterTable() {
-        const searchValue = searchInput.value.toLowerCase();  // Lấy giá trị tìm kiếm và chuyển thành chữ thường
-        const startDate = startDateInput.value;
-        const endDate = endDateInput.value;
-
-        const rows = customerTable.getElementsByTagName("tr");  // Lấy tất cả các dòng trong bảng
-
-        // Lặp qua từng dòng và kiểm tra nội dung
-        Array.from(rows).forEach(row => {
-            const nameCell = row.getElementsByTagName("td")[1];  // Cột Tên Khách Hàng
-            const dateCell = row.getElementsByTagName("td")[0];  // Cột Ngày thanh toán
-
-            if (nameCell && dateCell) {
-                const name = nameCell.textContent.toLowerCase();  // Lấy tên khách hàng và chuyển thành chữ thường
-                const date = dateCell.textContent;
-
-                // Kiểm tra nếu từ khóa tìm kiếm có trong tên khách hàng và ngày thanh toán nằm trong khoảng chọn
-                if (name.includes(searchValue) && (startDate === "" || date >= startDate) && (endDate === "" || date <= endDate)) {
-                    row.style.display = "";  // Hiển thị dòng
-                } else {
-                    row.style.display = "none";  // Ẩn dòng nếu không khớp
-                }
-            }
-        });
-    }
-</script> -->
 <script>
 
 </script>

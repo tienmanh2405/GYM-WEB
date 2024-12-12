@@ -16,7 +16,7 @@ class GoiTapModel {
         return $row['count'];
     }
     // hàm lấy danh sách gói tập
-    public function getGoiTap($page, $limit) {
+    public function getGoiTapAdmin($page, $limit) {
         $offset = ($page - 1) * $limit;
         $query = "SELECT * FROM goitap LIMIT $limit OFFSET $offset";
         $result = $this->conn->query($query);

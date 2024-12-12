@@ -10,9 +10,14 @@ class Router {
     // Định nghĩa các route
     private function loadRoutes() {
         $this->routes = [
-            '' => ['controller' => 'HomeController_NV', 'action' => 'dashboard'],   
-            'NV_Quay/thanhVien' => ['controller' => 'HomeController_NV', 'action' => 'thanhVien'],     
-            'NV_Quay/thanhVien/chiTietThanhVien' => ['controller' => 'HomeController_NV', 'action' => 'chiTietThanhVien'],     
+            'Admin/home' => ['controller' => 'HomeController_Admin', 'action' => 'admin_dash'],   
+            'Admin/nhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'nhanVien'],     
+            'Admin/thietBi' => ['controller' => 'HomeController_Admin', 'action' => 'thietBi'],     
+            'Admin/goiTap' => ['controller' => 'HomeController_Admin', 'action' => 'goiTap'],
+            'Admin/baoCaoDoanhThu' => ['controller' => 'HomeController_Admin', 'action' =>'baoCaoDoanhThu'],
+            'Admin/baoCaoThanhVien' => ['controller' => 'HomeController_Admin', 'action' => 'baoCaoThanhVien'],
+            'Admin/baoCaoThietBi' => ['controller' => 'HomeController_Admin', 'action' => 'baoCaoThietBi'],
+            'Admin/lichLamViec' => ['controller' => 'HomeController_Admin', 'action' => 'quanLyLichLamViec'],  
         ];
     }
 
