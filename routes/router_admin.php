@@ -10,7 +10,7 @@ class Router {
     // Định nghĩa các route
     private function loadRoutes() {
         $this->routes = [
-            '' => ['controller' => 'HomeController_Admin', 'action' => 'admin_dash'],   
+            'Admin/home' => ['controller' => 'HomeController_Admin', 'action' => 'admin_dash'],   
             'Admin/nhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'nhanVien'],     
             'Admin/thietBi' => ['controller' => 'HomeController_Admin', 'action' => 'thietBi'],     
             'Admin/goiTap' => ['controller' => 'HomeController_Admin', 'action' => 'goiTap'],
