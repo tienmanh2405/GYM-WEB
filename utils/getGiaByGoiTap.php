@@ -1,11 +1,11 @@
 <?php
 require_once "../config/database.php";
-require_once "../models/GoitapModel.php";
+require_once "../models/GoiTapModel.php";
 
 if (isset($_GET['maGoiTap'])) {
     $maGoiTap = intval($_GET['maGoiTap']);
-    $goiTapModel = new GoitapModel();
-    $giaGoiTap = $goiTapModel->getGiaByGoiTap($maGoiTap);
+    $GoiTapModel = new GoiTapModel();
+    $giaGoiTap = $GoiTapModel->getGiaByGoiTap($maGoiTap);
     
     if ($giaGoiTap) {
         echo json_encode(['gia' => $giaGoiTap]);

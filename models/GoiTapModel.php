@@ -1,7 +1,7 @@
 <?php
 require_once "../config/database.php";
 
-class GoitapModel {
+class GoiTapModel {
     private $conn;
 
     public function __construct() {
