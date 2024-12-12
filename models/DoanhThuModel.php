@@ -48,7 +48,7 @@ public function getAvailableYears() {
                     h.ngayThanhToan, 
                     n.hoTen AS tenKhachHang, 
                     g.tenGoiTap, 
-                    g.gia AS donGia, 
+                    -- g.gia AS donGia, 
                     h.soTien AS tongTien
                 FROM hoadon h 
                 INNER JOIN goidangky gd ON h.idDangKy = gd.idDangKy

@@ -29,6 +29,11 @@
 
     <!-- Template Stylesheet -->
     <link href="asset/css/style.css" rel="stylesheet">
+    <style>
+        #dongho{
+            padding: 17.19px;
+        }
+    </style>
 </head>
 <body>
 <?php require_once('../views/Admin/layout/header.php'); ?>
@@ -60,13 +65,19 @@
                     </div>
                 </div>
             </div>
-            <!-- Check-in hôm nay -->
+
             <div class="col-sm-6 col-xl-3">
-                <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-check-circle fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Check-in hôm nay</p>
-                        <h6 class="mb-0"><?php echo $todayCheckIns; ?></h6>
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-between" id="dongho">
+                    <div class="d-flex align-items-center">
+                        <i class="fa fa-clock fa-3x text-primary me-3"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">Đồng hồ và Thời tiết</p>
+                            <h6 id="clock" class="clock mb-0"></h6>
+                        </div>
+                    </div>
+                    <div id="weather" class="d-flex flex-column align-items-center">
+                        <img id="weather-icon" src="" alt="Weather" width="40">
+                        <p id="weather-temp" class="mb-0"></p>
                     </div>
                 </div>
             </div>
@@ -101,8 +112,7 @@
     <div class="col-sm-12 col-xl-12 pt-4">
     <div class="bg-secondary text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h6 class="mb-0">Recent Members</h6>
-            <a href="">Show All</a>
+            <h6 class="mb-0">Thành viên hiện tại</h6>
         </div>
         <div class="table-responsive">
             <table class="table text-start align-middle table-bordered table-hover mb-0">
@@ -203,4 +213,45 @@
         })
         .catch(error => console.error('Error fetching data:', error));
 </script>
+<script>
+function updateClock() {
+    var now = new Date();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+    var seconds = now.getSeconds();
 
+    var clockElement = document.getElementById('clock');
+    clockElement.textContent = padZero(hours) + ':' + padZero(minutes) + ':' + padZero(seconds);
+}
+
+function padZero(number) {
+    return String(number).padStart(2, '0');
+}
+
+setInterval(updateClock, 1000); // Cập nhật đồng hồ mỗi 1 giây
+updateClock(); // Cập nhật đồng hồ ngay lập tức
+
+// Function to update weather information
+function updateWeather() {
+    const apiKey = '547ae409811f0b5ece59c9218aea2f9c'; // Thay YOUR_API_KEY bằng API Key của bạn 547ae409811f0b5ece59c9218aea2f9c
+
+    const city = 'Ho Chi Minh City'; // Thành phố bạn muốn lấy dự báo thời tiết
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const iconCode = data.weather[0].icon; // Mã icon thời tiết
+            const temp = Math.round(data.main.temp); // Nhiệt độ hiện tại
+
+            // Cập nhật giao diện
+            document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+            document.getElementById('weather-temp').textContent = `${temp}°C`;
+        })
+        .catch(error => console.error('Error fetching weather data:', error));
+}
+
+// Cập nhật thời tiết mỗi 10 phút
+updateWeather();
+setInterval(updateWeather, 10 * 60 * 1000);
+</script>

@@ -10,10 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $trangThai = $_POST['trangthai'];
 
     // Kiểm tra dữ liệu đầu vào
-    if (!preg_match('/^[a-zA-Z0-9\s]+$/u', $tenThietBi)) {
-        echo json_encode(['success' => false, 'message' => 'Tên thiết bị không được chứa ký tự đặc biệt.']);
-        exit;
-    }
     // Thiết lập múi giờ
     date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
     if (empty($ngayMua)) {
