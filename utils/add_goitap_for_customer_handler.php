@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phuongThucThanhToan = $_POST['phuongThucThanhToan'];
     $giaSauKhuyenMai = $_POST['giaSauKhuyenMai'];
     // Kiểm tra gói tập có tồn tại không
-    $goitap = new GoitapModel();
+    $goitap = new GoiTapModel();
     $result  = $goitap->getGoitapById($maGoiTap);
     if ($result->num_rows > 0) {
         // lấy thoiGian cua GOI tap

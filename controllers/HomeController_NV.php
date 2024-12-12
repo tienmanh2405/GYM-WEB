@@ -50,11 +50,11 @@ class HomeController_NV {
         $this->render('NV_Quay/thanhVien/chiTietThanhVien');
     }
     public function DSGoiTap() {
-        $goitapModel = new GoitapModel();
-        $currentGoiTap = $goitapModel->getCurrentGoiTap();
+        $GoiTapModel = new GoiTapModel();
+        $currentGoiTap = $GoiTapModel->getCurrentGoiTap();
         $limit = 6;
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        $goitap_list = $goitapModel->getAllGoitap($page, $limit);
+        $goitap_list = $GoiTapModel->getAllGoitap($page, $limit);
         $totalPages = ceil($currentGoiTap / $limit);
         $data = [
             'goitap_list' => $goitap_list,

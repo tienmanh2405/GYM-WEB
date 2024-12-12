@@ -5,7 +5,7 @@
 
     $thanhVienModel = new Member();
     $lichSuHoatDongModel = new LichSuHoatDong();
-    $goitap = new GoitapModel();
+    $goitap = new GoiTapModel();
 
     $userID = isset($_GET['userID']) ? $_GET['userID'] : null;
 
