@@ -4,10 +4,7 @@
     // Lấy đường dẫn hiện tại
     var currentPath = window.location.pathname.replace(/\/$/, ''); // Loại bỏ dấu '/' thừa ở cuối currentPath
     $('#sidebar-menu a').each(function () {
-        var href = $(this).attr('href').replace(/\/$/, ''); // Loại bỏ dấu '/' thừa ở cuối href
-        console.log('Href:', href);
-        console.log('Current Path:', currentPath);
-        
+        var href = $(this).attr('href').replace(/\/$/, ''); // Loại bỏ dấu '/' thừa ở cuối href        
         if (href === currentPath) {
             $(this).addClass('active');
         } else {

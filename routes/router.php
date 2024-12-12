@@ -10,7 +10,21 @@ class Router {
     // Định nghĩa các route
     private function loadRoutes() {
         $this->routes = [
-            '' => ['controller' => 'HomeController_ThietBi', 'action' => 'index'],
+            ''=> ['controller' => 'ControllerLogin', 'action' => 'login'], 
+            'NV_Quay/dash' => ['controller' => 'HomeController_NV', 'action' => 'dashboard'],   
+            'NV_Quay/thanhVien' => ['controller' => 'HomeController_NV', 'action' => 'thanhVien'],     
+            'NV_Quay/thanhVien/chiTietThanhVien' => ['controller' => 'HomeController_NV', 'action' => 'chiTietThanhVien'], 
+            'NV_Quay/goitap' => ['controller' => 'HomeController_NV','action' => 'DSGoiTap'],    
+            'NV_Quay/lichlamviec' => ['controller' => 'HomeController_NV','action' => 'DSLichLamViec'],    
+            'Admin/home' => ['controller' => 'HomeController_Admin', 'action' => 'admin_dash'],   
+            'Admin/nhanVien' => ['controller' => 'HomeController_Admin', 'action' => 'nhanVien'],     
+            'Admin/thietBi' => ['controller' => 'HomeController_Admin', 'action' => 'thietBi'],     
+            'Admin/goiTap' => ['controller' => 'HomeController_Admin', 'action' => 'goiTap'],
+            'Admin/baoCaoDoanhThu' => ['controller' => 'HomeController_Admin', 'action' =>'baoCaoDoanhThu'],
+            'Admin/baoCaoThanhVien' => ['controller' => 'HomeController_Admin', 'action' => 'baoCaoThanhVien'],
+            'Admin/baoCaoThietBi' => ['controller' => 'HomeController_Admin', 'action' => 'baoCaoThietBi'],
+            'Admin/lichLamViec' => ['controller' => 'HomeController_Admin', 'action' => 'quanLyLichLamViec'],  
+            'NV_BaoTri/index' => ['controller' => 'HomeController_ThietBi', 'action' => 'index'],
             'NV_BaoTri/thietBi' => ['controller' => 'HomeController_ThietBi', 'action' => 'showDevices'],
             'NV_BaoTri/phieuBaoTri' => ['controller' => 'HomeController_ThietBi', 'action' => 'showPhieuBaoTri'], 
             'NV_BaoTri/quanlykhuyenmai' => ['controller' => 'HomeController_KhuyenMai', 'action' => 'index'],

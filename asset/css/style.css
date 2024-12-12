@@ -287,3 +287,10 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+.custom-img {
+    max-height: 300px; /* Chiều cao tối đa */
+    object-fit: cover; /* Giữ tỷ lệ ảnh, cắt nếu vượt quá */
+    width: 100%;
+  }
+  
