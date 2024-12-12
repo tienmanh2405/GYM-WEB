@@ -353,48 +353,55 @@
         window.giaSauKhuyenMaiValue = null;
     }
 }
-//Laayd mã khuyến mãi cho modal của gia hạn gói
-document.getElementById('submitGiaHanGoiTap').addEventListener('click', function () {
-    const maGoiTap = document.getElementById('maGoiTap2').value; // Lấy mã gói tập đã chọn trong modal
+document.addEventListener('DOMContentLoaded', function () {
+    const giaHanButton = document.getElementById('submitGiaHanGoiTap');
+    
+    // Kiểm tra xem nút có tồn tại hay không
+    if (giaHanButton) {
+        giaHanButton.addEventListener('click', function () {
+            const maGoiTap = document.getElementById('maGoiTap2').value; // Lấy mã gói tập đã chọn trong modal
 
-    if (maGoiTap) {
-        // Gọi API để lấy danh sách khuyến mãi và giá của gói tập
-        fetch(`utils/getKhuyenMai.php?maGoiTap=${maGoiTap}`)
-            .then(response => response.json())
-            .then(data => {
-                const khuyenMaiSelect = document.getElementById('khuyenMai2');
-                const giaInput = document.getElementById('giaSauKhuyenMai2'); // Trường input hiển thị giá của gói tập
+            if (maGoiTap) {
+                // Gọi API để lấy danh sách khuyến mãi và giá của gói tập
+                fetch(`utils/getKhuyenMai.php?maGoiTap=${maGoiTap}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const khuyenMaiSelect = document.getElementById('khuyenMai2');
+                        const giaInput = document.getElementById('giaSauKhuyenMai2'); // Trường input hiển thị giá của gói tập
 
-                // Reset các options của dropdown khuyến mãi
-                khuyenMaiSelect.innerHTML = '<option value="">Chọn Khuyến Mãi</option>'; 
+                        // Reset các options của dropdown khuyến mãi
+                        khuyenMaiSelect.innerHTML = '<option value="">Chọn Khuyến Mãi</option>'; 
 
-                if (data.length >= 0) {
-                    // Thêm các khuyến mãi khả dụng
-                    data.forEach(km => {
-                        khuyenMaiSelect.innerHTML += `
-                            <option value="${km.maKhuyenMai}" data-giamgia="${km.giamGia}">${km.moTa} - Giảm ${km.giamGia}%</option>
-                        `;
-                    });
+                        if (data.length > 0) {
+                            // Thêm các khuyến mãi khả dụng
+                            data.forEach(km => {
+                                khuyenMaiSelect.innerHTML += `
+                                    <option value="${km.maKhuyenMai}" data-giamgia="${km.giamGia}">${km.moTa} - Giảm ${km.giamGia}%</option>
+                                `;
+                            });
 
-                    // Lấy giá của gói tập từ API và hiển thị vào trường input
-                    fetch(`utils/getGiaByGoiTap.php?maGoiTap=${maGoiTap}`)
-                        .then(response => response.json())
-                        .then(giaData => {
-                            if (giaData) {
-                                giaInput.value = giaData.gia.toLocaleString('vi-VN') + " VND"; // Hiển thị giá vào trường input
-                                // updateGiaSauKhuyenMai2(); // Cập nhật lại giá sau khuyến mãi
-                            } else {
-                                giaInput.value = "Không có thông tin giá";
-                            }
-                        })
-                        .catch(err => console.error('Error fetching gia:', err));
-                } else {
-                    // Không có khuyến mãi áp dụng
-                    khuyenMaiSelect.innerHTML = '<option value="0" data-giamgia="0">Không có khuyến mãi áp dụng</option>';
-                    giaInput.value = "Không có thông tin giá";
-                }
-            })
-            .catch(err => console.error('Error fetching khuyen mai:', err));
+                            // Lấy giá của gói tập từ API và hiển thị vào trường input
+                            fetch(`utils/getGiaByGoiTap.php?maGoiTap=${maGoiTap}`)
+                                .then(response => response.json())
+                                .then(giaData => {
+                                    if (giaData) {
+                                        giaInput.value = giaData.gia.toLocaleString('vi-VN') + " VND"; // Hiển thị giá vào trường input
+                                    } else {
+                                        giaInput.value = "Không có thông tin giá";
+                                    }
+                                })
+                                .catch(err => console.error('Error fetching gia:', err));
+                        } else {
+                            // Không có khuyến mãi áp dụng
+                            khuyenMaiSelect.innerHTML = '<option value="0" data-giamgia="0">Không có khuyến mãi áp dụng</option>';
+                            giaInput.value = "Không có thông tin giá";
+                        }
+                    })
+                    .catch(err => console.error('Error fetching khuyen mai:', err));
+            }
+        });
+    } else {
+        console.warn('Nút gia hạn không tồn tại, không gán sự kiện.');
     }
 });
 
