@@ -6,7 +6,6 @@
     $thanhVienModel = new Member();
     $lichSuHoatDongModel = new LichSuHoatDong();
     $goitap = new GoiTapModel();
-
     $userID = isset($_GET['userID']) ? $_GET['userID'] : null;
 
     $hasActivePackage = $thanhVienModel->hasActivePackage($userID);
