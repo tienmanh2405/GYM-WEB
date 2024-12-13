@@ -75,7 +75,9 @@ $shifts = ['Ca sáng', 'Ca chiều'];
         }  
         /* Định dạng cho các tên người dùng */
     .span-user {
-        display: block; /* Đảm bảo mỗi tên người dùng nằm trên một dòng mới */
+        display: inline-block; /* Để áp dụng height */
+        height: 50px; /* Đặt chiều cao */
+        width: 150px;
         background-color: black; /* Màu nền nhẹ */
         padding: 5px 10px; /* Khoảng cách xung quanh mỗi tên */
         margin-bottom: 5px; /* Khoảng cách giữa các tên */
@@ -84,11 +86,6 @@ $shifts = ['Ca sáng', 'Ca chiều'];
         color: #fff; /* Màu chữ tối */
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng đổ bóng */
         transition: background-color 0.3s ease; /* Hiệu ứng khi hover */
-    }
-
-    /* Hiệu ứng hover khi di chuột qua tên */
-    .span-user:hover {
-        background-color: #e2e6ea; /* Màu nền đổi khi hover */
     }
 
     </style>
@@ -138,7 +135,7 @@ $shifts = ['Ca sáng', 'Ca chiều'];
                                         
                                             if (!empty($lichLamViec[$date][$shift])) {
                                                 foreach ($lichLamViec[$date][$shift] as $user) {
-                                                    echo "<span class='span-user'>$user</span><br>";
+                                                    echo "<span height='50px' class='span-user'>$user</span><br>";
                                                 }
                                             } else {
                                                 echo "Không có";

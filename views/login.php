@@ -1,5 +1,4 @@
 <?php
-
 session_unset();
 require_once BASE_PATH . '/config/database.php';
 require_once BASE_PATH . '/config/config.php';
@@ -22,7 +21,7 @@ if (isset($_POST['login'])) {
 
         // Điều hướng dựa trên vai trò của người dùng
         if ($user['vaiTro'] === 'Admin') {
-            header('Location: ./Admin/dashboard');
+            header('Location: ./Admin/home');
         } elseif ($user['vaiTro'] === 'NVQuay') {
             header('Location: ./NV_Quay/dash');
         } elseif ($user['vaiTro'] === 'NVBaoTri') {

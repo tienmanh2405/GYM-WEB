@@ -153,5 +153,35 @@ class Member {
         
         return false; // Mặc định trả về false nếu không có kết quả
     }
+    public function deleteGoiDangKyByUser($userID, $maGoiTap) {
+        // Kiểm tra nếu các tham số đầu vào bị rỗng
+        if (empty($userID) || empty($maGoiTap)) {
+            return false; // Trả về false nếu thiếu thông tin
+        }
+    
+        // Chuẩn bị câu lệnh SQL để xóa gói đăng ký
+        $query = "DELETE FROM goidangky WHERE userID = ? AND maGoiTap = ?";
+        $stmt = $this->conn->prepare($query);
+    
+        // Kiểm tra nếu chuẩn bị statement thất bại
+        if (!$stmt) {
+            // In ra lỗi và trả về false nếu không thể chuẩn bị câu truy vấn
+            error_log("Lỗi chuẩn bị câu lệnh: " . $this->conn->error);
+            return false;
+        }
+    
+        // Liên kết các tham số với câu truy vấn
+        $stmt->bind_param("is", $userID, $maGoiTap);
+    
+        // Thực thi câu lệnh và kiểm tra kết quả
+        if ($stmt->execute()) {
+            // Kiểm tra nếu có dòng bị ảnh hưởng (xóa thành công)
+            return $stmt->affected_rows > 0;
+        } else {
+            // In ra lỗi và trả về false nếu thực thi thất bại
+            error_log("Lỗi thực thi câu lệnh: " . $stmt->error);
+            return false;
+        }
+    }
 }
 ?>

@@ -646,7 +646,7 @@ function updateGiaSauKhuyenMai2() {
         addGoitapForCustomerModal.style.display = 'none';
         const form = document.getElementById('extendGoitapForCustomerForm');
         form.reset();  // Reset tất cả trường trong form
-        fetch('utils/add_goitap_for_customer_handler.php', {
+        fetch('utils/giahanforcustomer.php', {
             method: 'POST',
             body: formData,
         })

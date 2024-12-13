@@ -1,4 +1,10 @@
-
+<?php
+if (!isset($_SESSION['user']) || $_SESSION['user_entry']['vaiTro'] !== 'Admin') {
+    // Redirect to the login page if the user is not logged in or does not have the admin role
+    header('Location: ..' );
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

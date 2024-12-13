@@ -46,8 +46,8 @@
           data-thoihan="<?= htmlspecialchars($goitap['thoiHan']) ?>"
           data-gia="<?= htmlspecialchars($goitap['gia']) ?>"
           data-mota="<?= htmlspecialchars($goitap['moTa']) ?>"
-          data-anhgoitap="<?= htmlspecialchars($goitap['anhGoiTap'] ?? 'https://i.imgur.com/ZTkt4I5.jpg') ?>">
-      <img src="<?= htmlspecialchars($goitap['anhGoiTap'] ?? 'https://i.imgur.com/ZTkt4I5.jpg') ?>" class="card-img-top custom-img" style="" alt="...">
+          data-anhgoitap="<?= htmlspecialchars('asset/image/' . ($goitap['anhGoiTap']) ?? 'https://i.imgur.com/ZTkt4I5.jpg') ?>">
+      <img src="<?= htmlspecialchars('asset/image/' . ($goitap['anhGoiTap']) ?? 'https://i.imgur.com/ZTkt4I5.jpg') ?>" class="card-img-top custom-img" style="" alt="...">
       <div class="card-body ">
         <p class="card-title" style=""><?= htmlspecialchars($goitap['tenGoiTap'] ?? 'Tên Gói Tập Mặc Định') ?></p>
         <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars($goitap['gia'] ?? 'Giá Mặc Định') ?> VNĐ</h6>
