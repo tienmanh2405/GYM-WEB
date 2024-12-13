@@ -24,14 +24,15 @@ class Router {
             'Admin/baoCaoThanhVien' => ['controller' => 'HomeController_Admin', 'action' => 'baoCaoThanhVien'],
             'Admin/baoCaoThietBi' => ['controller' => 'HomeController_Admin', 'action' => 'baoCaoThietBi'],
             'Admin/lichLamViec' => ['controller' => 'HomeController_Admin', 'action' => 'quanLyLichLamViec'],  
-            'NV_BaoTri/index' => ['controller' => 'HomeController_ThietBi', 'action' => 'index'],
+            'NV_BaoTri/dash' => ['controller' => 'HomeController_ThietBi', 'action' => 'index'],
             'NV_BaoTri/thietBi' => ['controller' => 'HomeController_ThietBi', 'action' => 'showDevices'],
             'NV_BaoTri/phieuBaoTri' => ['controller' => 'HomeController_ThietBi', 'action' => 'showPhieuBaoTri'], 
-            'NV_BaoTri/quanlykhuyenmai' => ['controller' => 'HomeController_KhuyenMai', 'action' => 'index'],
-            'NV_BaoTri/quanlykhuyenmai/update' => ['controller' => 'HomeController_KhuyenMai', 'action' => 'update'],
-            'NV_BaoTri/quanlykhuyenmai/create' => ['controller' => 'HomeController_KhuyenMai', 'action' => 'create'],
-            'NV_BaoTri/quanlykhuyenmai/delete/{maKhuyenMai}' => ['controller' => 'HomeController_KhuyenMai', 'action' => 'delete'], // Route cho xóa
+            'Admin/quanlykhuyenmai' => ['controller' => 'HomeController_KhuyenMai', 'action' => 'index'],
+            'Admin/quanlykhuyenmai/update' => ['controller' => 'HomeController_KhuyenMai', 'action' => 'update'],
+            'Admin/quanlykhuyenmai/create' => ['controller' => 'HomeController_KhuyenMai', 'action' => 'create'],
+            'Admin/quanlykhuyenmai/delete/{maKhuyenMai}' => ['controller' => 'HomeController_KhuyenMai', 'action' => 'delete'], // Route cho xóa
         ];
+
     }
 
     // Xử lý yêu cầu

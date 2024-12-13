@@ -21,6 +21,7 @@
             <a href="/GYM-WEB/public/Admin/baoCaoThanhVien" class="nav-item nav-link"><i class="fas fa-star me-2"></i>Báo cáo Thành Viên</a>
             <a href="/GYM-WEB/public/Admin/baoCaoThietBi" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Báo cáo Thiết Bị</a>
             <a href="/GYM-WEB/public/Admin/lichLamViec" class="nav-item nav-link"><i class="fa fa-calendar-check me-2"></i>Lịch Làm Việc</a>
+            <a href="/GYM-WEB/public/Admin/quanlykhuyenmai" class="nav-item nav-link"><i class="fa fa-tags me-2"></i>Khuyến Mãi</a>
             <!-- 
             <a href="" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
             <a href="" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>

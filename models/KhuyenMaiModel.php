@@ -14,7 +14,10 @@ class KhuyenMaiModel
     // Lấy tất cả khuyến mãi
     public function getAllKhuyenMai()
     {
-        $query = "SELECT maKhuyenMai, giamGia, ngayBatDau, ngayKetThuc, moTa FROM khuyenmai";
+        $query = "SELECT km.maKhuyenMai, km.giamGia, km.ngayBatDau, km.ngayKetThuc, km.moTa, GROUP_CONCAT(kgt.maGoiTap) AS maGoiTap
+        FROM khuyenmai km
+        LEFT JOIN khuyenmai_goitap kgt ON km.maKhuyenMai = kgt.maKhuyenMai
+        GROUP BY km.maKhuyenMai";
         $result = $this->db->conn->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
@@ -36,7 +39,7 @@ class KhuyenMaiModel
         return $stmt->execute();
     }
 
-    // Thêm khuyến mãi
+    // Thêm khuyến mãi gói tập
     public function addKhuyenMaiGoiTap($maKhuyenMai, $maGoiTap)
     {
         $query = "INSERT INTO khuyenmai_goitap (maKhuyenMai, maGoiTap) VALUES (?, ?)";
@@ -46,11 +49,11 @@ class KhuyenMaiModel
     }
 
     // Sửa khuyến mãi
-    public function updateKhuyenMai($maKhuyenMai, $giamGia, $ngayBatDau, $ngayKetThuc)
+    public function updateKhuyenMai($maKhuyenMai, $giamGia, $ngayBatDau, $ngayKetThuc, $moTa, $maGoiTap)
     {
-        $query = "UPDATE khuyenmai SET giamGia = ?, ngayBatDau = ?, ngayKetThuc = ? WHERE maKhuyenMai = ?";
+        $query = "UPDATE khuyenmai SET giamGia = ?, ngayBatDau = ?, ngayKetThuc = ?, moTa = ? WHERE maKhuyenMai = ?";
         $stmt = $this->db->conn->prepare($query);
-        $stmt->bind_param("issi", $giamGia, $ngayBatDau, $ngayKetThuc, $maKhuyenMai);
+        $stmt->bind_param("ssssi", $giamGia, $ngayBatDau, $ngayKetThuc, $moTa, $maKhuyenMai);
         return $stmt->execute();
     }
 
@@ -74,7 +77,6 @@ class KhuyenMaiModel
 
         // Cam kết giao dịch
         $this->db->conn->commit();
-
         return true; // Trả về true nếu xóa thành công
     }
 }

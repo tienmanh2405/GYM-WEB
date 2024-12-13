@@ -1,29 +1,34 @@
 <?php
 require_once "../config/database.php";
 
-class Equipment {
+class Equipment
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $database = new Database();
         $this->conn = $database->connect();
     }
     //Đếm số lượng thiết bị hiện tại
-    public function getCurrentEquipment() {
+    public function getCurrentEquipment()
+    {
         $sql = "SELECT COUNT(*) as count FROM thietbi ";
         $result = $this->conn->query($sql);
         $row = $result->fetch_assoc();
         return $row['count'];
     }
     // hàm lấy danh sách thiết bị
-    public function getEquipment($page, $limit) {
+    public function getEquipment($page, $limit)
+    {
         $offset = ($page - 1) * $limit;
         $query = "SELECT * FROM thietbi LIMIT $limit OFFSET $offset";
         $result = $this->conn->query($query);
-        return $result->fetch_all(MYSQLI_ASSOC); 
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function addThietBi($tenThietBi, $ngayMua, $trangThai, $hinhAnh) {
+    public function addThietBi($tenThietBi, $ngayMua, $trangThai, $hinhAnh)
+    {
         // Kiểm tra nếu giá trị $tenThietBi và các tham số quan trọng khác rỗng
         if (empty($tenThietBi) || empty($ngayMua) || empty($trangThai) || empty($hinhAnh)) {
             return false; // Nếu có tham số rỗng, trả về false
@@ -50,76 +55,79 @@ class Equipment {
         }
     }
 
-// edit thiết bị
-public function editThietBi($tenThietBi, $ngayMua, $trangThai, $hinhAnh, $idThietBi) {
-    if ($hinhAnh) {
-        $query = "UPDATE thietbi SET tenThietBi = ?, ngayMua = ?, trangthai = ?, hinhAnh = ? WHERE maThietBi = ?";
+    // edit thiết bị
+    public function editThietBi($tenThietBi, $ngayMua, $trangThai, $hinhAnh, $idThietBi)
+    {
+        if ($hinhAnh) {
+            $query = "UPDATE thietbi SET tenThietBi = ?, ngayMua = ?, trangthai = ?, hinhAnh = ? WHERE maThietBi = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("ssssi", $tenThietBi, $ngayMua, $trangThai, $hinhAnh, $idThietBi);
+        } else {
+            $query = "UPDATE thietbi SET tenThietBi = ?, ngayMua = ?, trangthai = ? WHERE maThietBi = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("sssi", $tenThietBi, $ngayMua, $trangThai, $idThietBi);
+        }
+
+        return $stmt->execute();
+    }
+
+
+    // Xóa thiết bị
+    public function deleteThietBi($idThietBi)
+    {
+        // Kiểm tra nếu giá trị $idThietBi rỗng
+        if (empty($idThietBi)) {
+            return false; // Nếu $idThietBi rỗng, trả về false
+        }
+
+        // Câu truy vấn xóa thiết bị
+        $query = "DELETE FROM thietbi WHERE maThietBi = ?";
+
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssssi", $tenThietBi, $ngayMua, $trangThai, $hinhAnh, $idThietBi);
-    } else {
-        $query = "UPDATE thietbi SET tenThietBi = ?, ngayMua = ?, trangthai = ? WHERE maThietBi = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("sssi", $tenThietBi, $ngayMua, $trangThai, $idThietBi);
-    }
 
-    return $stmt->execute();
-}
+        // Kiểm tra nếu prepare() thành công
+        if (!$stmt) {
+            return false; // Trả về false nếu chuẩn bị câu lệnh thất bại
+        }
 
+        // Sử dụng bind_param và truyền đúng số lượng tham số
+        $stmt->bind_param("i", $idThietBi);
 
-// Xóa thiết bị
-public function deleteThietBi($idThietBi) {
-    // Kiểm tra nếu giá trị $idThietBi rỗng
-    if (empty($idThietBi)) {
-        return false; // Nếu $idThietBi rỗng, trả về false
+        // Thực thi câu lệnh
+        if ($stmt->execute()) {
+            return true; // Xóa thành công
+        } else {
+            return false; // Xóa thất bại, có thể thêm $stmt->error để lấy thông báo chi tiết
+        }
     }
-    
-    // Câu truy vấn xóa thiết bị
-    $query = "DELETE FROM thietbi WHERE maThietBi = ?";
-    
-    $stmt = $this->conn->prepare($query);
-    
-    // Kiểm tra nếu prepare() thành công
-    if (!$stmt) {
-        return false; // Trả về false nếu chuẩn bị câu lệnh thất bại
-    }
-    
-    // Sử dụng bind_param và truyền đúng số lượng tham số
-    $stmt->bind_param("i", $idThietBi);
-    
-    // Thực thi câu lệnh
-    if ($stmt->execute()) {
-        return true; // Xóa thành công
-    } else {
-        return false; // Xóa thất bại, có thể thêm $stmt->error để lấy thông báo chi tiết
-    }
-}
 
     // public function getGoiDangKyByUserID($userID) {
     //     // Truy vấn lấy thông tin gói đăng ký của thiết bị theo userID
     //     $query = "SELECT idDangKy, userID, maGoiTap, ngayHetHan, trangThai, ngayMua 
     //               FROM goidangky 
     //               WHERE userID = ?";
-    
+
     //     // Chuẩn bị câu truy vấn
     //     $stmt = $this->conn->prepare($query);
-        
+
     //     // Liên kết tham số (trong trường hợp userID là chuỗi hoặc số)
     //     $stmt->bind_param("i", $userID);  // "i" là kiểu dữ liệu của userID (int)
-    
+
     //     // Thực thi câu truy vấn
     //     $stmt->execute();
-    
+
     //     // Lấy kết quả truy vấn
     //     $result = $stmt->get_result();
-    
+
     //     // Trả về tất cả các kết quả dưới dạng mảng
     //     return $result->fetch_all(MYSQLI_ASSOC);
     // }
-    
+
     // Lấy tất cả thiết bị
-    public function getAllDevices() {
-        $query = "SELECT * FROM thietbi"; 
-        $result = mysqli_query($this->db, $query);
+    public function getAllDevices()
+    {
+        $query = "SELECT * FROM thietbi";
+        $result = mysqli_query($this->conn, $query);
         $devices = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
@@ -130,18 +138,20 @@ public function deleteThietBi($idThietBi) {
     }
 
     // Đếm số lượng thiết bị theo trạng thái
-    public function getDeviceCountByStatus() {
+    public function getDeviceCountByStatus()
+    {
         $statuses = ['Đang sử dụng', 'Hỏng', 'Bảo trì', 'Không sử dụng'];
         $counts = [];
-    
+
         foreach ($statuses as $status) {
             $query = "SELECT COUNT(*) as count FROM thietbi WHERE trangthai = '$status'";
-            $result = mysqli_query($this->db, $query);
+            $result = mysqli_query($this->conn, $query);
             $row = mysqli_fetch_assoc($result);
             $counts[$status] = $row['count'];
         }
-    
+
         return $counts;
     }
+
 }
 ?>

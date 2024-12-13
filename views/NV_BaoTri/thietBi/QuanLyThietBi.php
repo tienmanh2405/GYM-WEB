@@ -117,6 +117,17 @@
                             <?php endif; ?>
                         </tbody>
                     </table>
+                    <!-- Phân trang -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                <li class="page-item <?php echo ($i == $currentPage) ? 'active' : ''; ?>">
+                                    <a class="page-link"
+                                        href="<?php echo BASE_URL . 'NV_BaoTri/thietBi?page=' . $i; ?>"><?php echo $i; ?></a>
+                                </li>
+                            <?php endfor; ?>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

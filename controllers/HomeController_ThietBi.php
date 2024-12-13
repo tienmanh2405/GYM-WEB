@@ -23,9 +23,13 @@ class HomeController_ThietBi
     // Hiển thị danh sách thiết bị và thống kê số lượng thiết bị theo trạng thái
     public function showDevices()
     {
-        $data = $this->equipment->getAllDevices();
+        $limit = 4;
+        $totalDevices = $this->equipment->getCurrentEquipment(); 
+        $totalPages = ceil($totalDevices / $limit); 
+        $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        $currentPage = max(1, min($currentPage, $totalPages)); 
+        $data = $this->equipment->getEquipment($currentPage, $limit);
         $deviceCounts = $this->equipment->getDeviceCountByStatus();
-        $devices = $data;
         require_once(BASE_PATH . '/views/NV_BaoTri/thietBi/QuanLyThietBi.php');
     }
 

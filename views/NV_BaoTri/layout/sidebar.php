@@ -8,7 +8,6 @@
             <a href="/GYM-WEB/public" class="nav-item nav-link"><i class="fa fa-home me-2"></i>Trang chủ</a>
             <a href="/GYM-WEB/public/NV_BaoTri/thietBi" class="nav-item nav-link"><i class="fa fa-cog me-2"></i>Danh Sách Thiết Bị</a>
             <a href="/GYM-WEB/public/NV_BaoTri/phieuBaoTri" class="nav-item nav-link"><i class="fa fa-wrench me-2"></i>Cập Nhật Tình Trạng Thiết Bị</a>
-            <a href="/GYM-WEB/public/NV_BaoTri/quanlykhuyenmai" class="nav-item nav-link"><i class="fa fa-tags me-2"></i>Khuyến Mãi</a>
         </div>
     </nav>
 </div>
