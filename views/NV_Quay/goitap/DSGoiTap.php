@@ -50,7 +50,7 @@
       <img src="<?= htmlspecialchars('asset/image/' . ($goitap['anhGoiTap']) ?? 'https://i.imgur.com/ZTkt4I5.jpg') ?>" class="card-img-top custom-img" style="" alt="...">
       <div class="card-body ">
         <p class="card-title" style=""><?= htmlspecialchars($goitap['tenGoiTap'] ?? 'Tên Gói Tập Mặc Định') ?></p>
-        <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars($goitap['gia'] ?? 'Giá Mặc Định') ?> VNĐ</h6>
+        <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars(number_format($goitap['gia'] ?? 0, 0, '.', '')) ?> VNĐ</h6>
         <!-- <p class="card-text flex-grow-1"><?= htmlspecialchars($goitap['moTa'] ?? 'Mô tả không có sẵn') ?></p> -->
       </div>
     </div>
