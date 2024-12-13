@@ -56,7 +56,7 @@
                     <i class="fa fa-dollar-sign fa-3x text-primary"></i>
                     <div class="ms-3">
                         <p class="mb-2">Doanh thu hôm nay</p>
-                        <h6 class="mb-0"><?php echo number_format($todayRevenue, 2); ?> VNĐ</h6>
+                        <h6 class="mb-0"><?php echo number_format($todayRevenue, 0, '.', ''); ?> VNĐ</h6>
                     </div>
                 </div>
             </div>
