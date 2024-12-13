@@ -51,9 +51,7 @@ if (isset($_POST['login'])) {
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: #000;
-            /* Màu nền đen */
             color: #fff;
-            /* Màu chữ trắng */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -62,23 +60,20 @@ if (isset($_POST['login'])) {
 
         .login-container {
             background-color: #111;
-            /* Màu nền form */
             border: 2px solid #e60000;
-            /* Viền đỏ */
             border-radius: 8px;
             padding: 20px;
             width: 100%;
             max-width: 400px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(255, 0, 0, 0.5);
-            /* Đổ bóng đỏ */
+            box-sizing: border-box; /* Thêm dòng này */
         }
 
         .login-container h1 {
             margin-bottom: 20px;
             font-size: 24px;
             color: #e60000;
-            /* Màu tiêu đề đỏ */
         }
 
         .login-container input {
@@ -89,6 +84,7 @@ if (isset($_POST['login'])) {
             border-radius: 5px;
             background-color: #222;
             color: #fff;
+            box-sizing: border-box; /* Thêm dòng này */
         }
 
         .login-container button {
@@ -96,7 +92,6 @@ if (isset($_POST['login'])) {
             padding: 10px;
             margin-top: 10px;
             background-color: #e60000;
-            /* Nút đỏ */
             border: none;
             border-radius: 5px;
             color: #fff;
@@ -106,14 +101,12 @@ if (isset($_POST['login'])) {
 
         .login-container button:hover {
             background-color: #ff1a1a;
-            /* Hiệu ứng nút khi hover */
         }
 
         .login-container a {
             display: block;
             margin-top: 15px;
             color: #e60000;
-            /* Link đỏ */
             text-decoration: none;
         }
 
